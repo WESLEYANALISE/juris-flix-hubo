@@ -7,22 +7,22 @@
 
 @layer base {
   :root {
-    --background: 220 13% 8%;
+    --background: 220 15% 6%;
     --foreground: 210 20% 96%;
 
-    --card: 220 13% 11%;
+    --card: 220 15% 9%;
     --card-foreground: 210 20% 96%;
 
-    --popover: 220 13% 11%;
+    --popover: 220 15% 9%;
     --popover-foreground: 210 20% 96%;
 
     --primary: 0 72% 51%;
     --primary-foreground: 210 20% 96%;
 
-    --secondary: 220 13% 15%;
+    --secondary: 220 15% 12%;
     --secondary-foreground: 210 20% 96%;
 
-    --muted: 220 13% 15%;
+    --muted: 220 15% 12%;
     --muted-foreground: 215 25% 70%;
 
     --accent: 0 72% 56%;
@@ -31,19 +31,19 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 20% 96%;
 
-    --border: 220 13% 18%;
-    --input: 220 13% 15%;
+    --border: 220 15% 15%;
+    --input: 220 15% 12%;
     --ring: 0 72% 51%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 220 13% 8%;
+    --sidebar-background: 220 15% 6%;
     --sidebar-foreground: 210 20% 96%;
     --sidebar-primary: 0 72% 51%;
     --sidebar-primary-foreground: 210 20% 96%;
-    --sidebar-accent: 220 13% 15%;
+    --sidebar-accent: 220 15% 12%;
     --sidebar-accent-foreground: 210 20% 96%;
-    --sidebar-border: 220 13% 18%;
+    --sidebar-border: 220 15% 15%;
     --sidebar-ring: 0 72% 51%;
   }
 }
@@ -68,6 +68,12 @@
     * {
       -ms-overflow-style: none;
       scrollbar-width: none;
+    }
+    
+    /* Prevent horizontal overflow on mobile */
+    html, body {
+      max-width: 100vw;
+      overflow-x: hidden;
     }
   }
 }
@@ -146,15 +152,15 @@
 
 .glass-effect {
   backdrop-filter: blur(16px);
-  background: rgba(17, 24, 39, 0.8);
+  background: rgba(15, 20, 29, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .floating-effect {
   backdrop-filter: blur(20px);
-  background: rgba(17, 24, 39, 0.85);
+  background: rgba(15, 20, 29, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 /* Professional gradient for legal theme */
@@ -166,7 +172,7 @@
 }
 
 .legal-gradient {
-  background: linear-gradient(135deg, #1f2937, #374151, #4b5563);
+  background: linear-gradient(135deg, #0f141d, #1a202c, #2d3748);
 }
 
 /* Enhanced scrollbar for desktop */
@@ -176,7 +182,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: rgba(17, 24, 39, 0.5);
+    background: rgba(15, 20, 29, 0.5);
   }
 
   ::-webkit-scrollbar-thumb {
@@ -197,7 +203,7 @@ button, a, input, textarea, .card {
 /* Hover effects */
 .hover-lift:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 .hover-glow:hover {
@@ -215,7 +221,36 @@ button, a, input, textarea, .card {
 }
 
 .skeleton {
-  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background: linear-gradient(90deg, #2d3748 25%, #4a5568 50%, #2d3748 75%);
   background-size: 200px 100%;
   animation: skeleton-loading 1.5s infinite;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 640px) {
+  .text-responsive {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  
+  .padding-mobile {
+    padding: 0.75rem;
+  }
+  
+  .gap-mobile {
+    gap: 0.5rem;
+  }
+}
+
+/* Touch-friendly button sizes on mobile */
+@media (max-width: 768px) {
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .touch-target {
+    min-height: 48px;
+    min-width: 48px;
+  }
 }
