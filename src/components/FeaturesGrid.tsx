@@ -8,7 +8,7 @@ import {
   GraduationCap, 
   Video, 
   Brain, 
-  Desktop, 
+  Monitor, 
   CreditCard, 
   HelpCircle, 
   Scale, 
@@ -80,7 +80,7 @@ const features = [
     id: 'desktop',
     title: 'Desktop',
     description: 'Versão para computador',
-    icon: Desktop,
+    icon: Monitor,
     color: 'from-gray-500 to-gray-600'
   },
   {
