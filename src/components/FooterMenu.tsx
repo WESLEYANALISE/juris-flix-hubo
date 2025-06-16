@@ -24,7 +24,7 @@ const menuItems = [
   },
   {
     id: 'assistente',
-    title: 'IA Assistant',
+    title: 'IA Jurídica',
     icon: Bot,
     active: false
   },
@@ -46,9 +46,9 @@ export const FooterMenu = () => {
   const [activeItem, setActiveItem] = useState('home');
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 glass-effect border-t border-border/30">
-      <div className="max-w-md mx-auto">
-        <div className="flex justify-around items-center py-2">
+    <div className="fixed bottom-4 left-4 right-4 z-50">
+      <div className="max-w-md mx-auto floating-effect rounded-2xl">
+        <div className="flex justify-around items-center py-3 px-2">
           {menuItems.map((item, index) => {
             const Icon = item.icon;
             const isActive = activeItem === item.id;
@@ -56,39 +56,52 @@ export const FooterMenu = () => {
               <button
                 key={item.id}
                 onClick={() => setActiveItem(item.id)}
-                className={`relative flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-300 transform hover:scale-105 ${
+                className={`relative flex flex-col items-center py-3 px-4 rounded-xl transition-all duration-500 transform hover:scale-110 hover-lift group ${
                   isActive 
-                    ? 'text-red-500' 
-                    : 'text-muted-foreground hover:text-red-400'
+                    ? 'text-red-400 bg-red-500/10' 
+                    : 'text-muted-foreground hover:text-red-300 hover:bg-red-500/5'
                 }`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                style={{ 
+                  animationDelay: `${index * 0.1}s`,
+                  animation: 'slide-up 0.6s ease-out'
+                }}
               >
-                {/* Active indicator */}
-                <div className={`absolute -top-1 w-6 h-1 bg-red-500 rounded-full transition-all duration-300 ${
-                  isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+                {/* Active indicator with pulse effect */}
+                <div className={`absolute -top-1 w-8 h-1.5 bg-gradient-to-r from-red-500 to-red-600 rounded-full transition-all duration-500 ${
+                  isActive ? 'opacity-100 scale-100 animate-pulse-glow' : 'opacity-0 scale-0'
                 }`} />
                 
-                {/* Icon with background effect */}
-                <div className={`relative p-1 rounded-lg transition-all duration-300 ${
-                  isActive ? 'bg-red-500/10' : 'hover:bg-red-500/5'
+                {/* Icon with enhanced background effect */}
+                <div className={`relative p-2 rounded-xl transition-all duration-500 group-hover:animate-bounce-subtle ${
+                  isActive 
+                    ? 'bg-gradient-to-br from-red-500/20 to-red-600/20 shadow-lg' 
+                    : 'hover:bg-gradient-to-br hover:from-red-500/10 hover:to-red-600/10'
                 }`}>
-                  <Icon className={`h-6 w-6 mb-1 transition-all duration-300 ${
-                    isActive ? 'scale-110' : ''
+                  <Icon className={`h-7 w-7 mb-1 transition-all duration-500 ${
+                    isActive ? 'scale-115 drop-shadow-lg' : 'group-hover:scale-110'
                   }`} />
+                  
+                  {/* Glow effect for active icon */}
+                  {isActive && (
+                    <div className="absolute inset-0 bg-red-500/20 rounded-xl blur-md -z-10 animate-pulse" />
+                  )}
                 </div>
                 
-                <span className={`text-xs font-medium transition-all duration-300 ${
-                  isActive ? 'scale-105 font-semibold' : ''
+                <span className={`text-xs font-medium transition-all duration-500 mt-1 ${
+                  isActive ? 'scale-105 font-semibold text-red-300' : 'group-hover:scale-105'
                 }`}>
                   {item.title}
                 </span>
 
-                {/* Ripple effect on click */}
+                {/* Enhanced ripple effect on click */}
                 <div className="absolute inset-0 rounded-xl overflow-hidden">
-                  <div className={`absolute inset-0 bg-red-500/20 rounded-xl transform scale-0 transition-transform duration-200 ${
+                  <div className={`absolute inset-0 bg-gradient-to-r from-red-500/30 to-red-600/30 rounded-xl transform scale-0 transition-transform duration-300 ${
                     isActive ? 'animate-ping' : ''
                   }`} />
                 </div>
+
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 rounded-xl bg-red-500/0 group-hover:bg-red-500/5 transition-all duration-300" />
               </button>
             );
           })}

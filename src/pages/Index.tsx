@@ -5,7 +5,7 @@ import { FooterMenu } from '@/components/FooterMenu';
 import { StatsSection } from '@/components/StatsSection';
 import { Sidebar } from '@/components/Sidebar';
 import { Button } from '@/components/ui/button';
-import { Scale, Menu } from 'lucide-react';
+import { Scale, Menu, Award } from 'lucide-react';
 import { useState } from 'react';
 
 const Index = () => {
@@ -16,65 +16,105 @@ const Index = () => {
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Header */}
+      {/* Enhanced Header */}
       <header className="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-border/30">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setSidebarOpen(true)}
-                className="text-foreground hover:bg-secondary/50"
+                className="text-foreground hover:bg-red-500/10 hover:text-red-400 transition-all duration-300 hover:scale-110"
               >
                 <Menu className="h-5 w-5" />
               </Button>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-gradient-to-r from-red-600 to-red-700 rounded-lg flex items-center justify-center">
-                  <Scale className="h-5 w-5 text-white" />
+              <div className="flex items-center gap-3 animate-fade-in-up">
+                <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-300">
+                  <Scale className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-lg font-bold text-foreground">LegalStudy</h1>
-                  <p className="text-xs text-muted-foreground">Plataforma Jurídica</p>
+                  <h1 className="text-xl font-bold gradient-text">LegalStudy Pro</h1>
+                  <p className="text-xs text-muted-foreground flex items-center gap-1">
+                    <Award className="h-3 w-3" />
+                    Plataforma Jurídica Certificada
+                  </p>
                 </div>
               </div>
+            </div>
+            
+            {/* Professional badge */}
+            <div className="hidden md:flex items-center gap-2 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">
+              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+              <span className="text-xs font-medium text-red-400">Certificado OAB</span>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="pt-16 pb-20">
-        {/* Carousel Section - Menor */}
-        <section className="px-4 md:px-8 mb-6">
+      {/* Main Content with enhanced spacing */}
+      <main className="pt-20 pb-24">
+        {/* Carousel Section - Now smaller and more elegant */}
+        <section className="px-4 md:px-8 mb-8">
           <div className="max-w-7xl mx-auto">
             <FeaturesCarousel />
           </div>
         </section>
 
-        {/* Stats Section */}
+        {/* Stats Section with animations */}
         <StatsSection />
 
-        {/* Features Grid */}
+        {/* Features Grid with enhanced styling */}
         <FeaturesGrid />
 
-        {/* CTA Section - Mais minimalista */}
-        <section className="py-12 px-4 md:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">
-              Sua Carreira Jurídica Começa Aqui
-            </h2>
-            <p className="text-lg text-muted-foreground mb-6 max-w-xl mx-auto">
-              Acesse milhares de materiais jurídicos atualizados e prepare-se para o sucesso.
-            </p>
-            <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3">
-              Começar Gratuitamente
-            </Button>
+        {/* Enhanced CTA Section */}
+        <section className="py-16 px-4 md:px-8">
+          <div className="max-w-4xl mx-auto text-center animate-fade-in-up">
+            <div className="mb-8">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">
+                Sua Carreira Jurídica no Próximo Nível
+              </h2>
+              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+                Acesse milhares de materiais jurídicos atualizados, ferramentas de IA especializadas e prepare-se para o sucesso profissional.
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover-glow"
+              >
+                Começar Gratuitamente
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="border-red-500/30 text-red-400 hover:bg-red-500/10 hover:border-red-500/50 px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
+              >
+                Agendar Demonstração
+              </Button>
+            </div>
+            
+            <div className="mt-8 flex items-center justify-center gap-6 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span>Teste grátis por 7 dias</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <span>Sem compromisso</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                <span>Suporte especializado</span>
+              </div>
+            </div>
           </div>
         </section>
       </main>
 
-      {/* Footer Menu */}
+      {/* Enhanced Footer Menu */}
       <FooterMenu />
     </div>
   );
