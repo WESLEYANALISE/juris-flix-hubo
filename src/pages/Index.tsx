@@ -1,4 +1,3 @@
-
 import { FeaturesCarousel } from '@/components/FeaturesCarousel';
 import { FeaturesGrid } from '@/components/FeaturesGrid';
 import { FooterMenu } from '@/components/FooterMenu';
@@ -9,18 +8,17 @@ import { Button } from '@/components/ui/button';
 import { Scale, Menu, Award } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigation } from '@/context/NavigationContext';
-
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { isInFunction } = useNavigation();
+  const {
+    isInFunction
+  } = useNavigation();
 
   // If we're in a function, show the function component
   if (isInFunction) {
     return <AppFunction />;
   }
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
@@ -55,7 +53,7 @@ const Index = () => {
       </header>
 
       {/* Main Content with enhanced spacing - Mobile Optimized */}
-      <main className="pt-16 sm:pt-20 pb-20 sm:pb-24">
+      <main className="pt-16 sm:pt-20 pb-20 sm:pb-24 py-[84px]">
         {/* Carousel Section - Mobile Optimized */}
         <section className="px-3 sm:px-4 md:px-8 mb-6 sm:mb-8">
           <div className="max-w-7xl mx-auto">
@@ -111,8 +109,6 @@ const Index = () => {
 
       {/* Enhanced Footer Menu */}
       <FooterMenu />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
