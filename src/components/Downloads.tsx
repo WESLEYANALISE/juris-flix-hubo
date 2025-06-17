@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Download, BookOpen, ExternalLink } from 'lucide-react';
 import { useDownloads } from '@/hooks/useDownloads';
 
 export const Downloads = () => {
   const { downloads, loading, error } = useDownloads();
-  const [selectedArea, setSelectedArea] = useState<string>('all');
 
   if (loading) {
     return (
@@ -35,14 +35,15 @@ export const Downloads = () => {
     );
   }
 
+  // Extrair áreas únicas
   const areas = Array.from(new Set(downloads.map(d => d.area))).filter(Boolean);
-  const filteredDownloads = selectedArea === 'all' 
-    ? downloads 
-    : downloads.filter(d => d.area === selectedArea);
 
-  const getProfessions = (profissaoString: string) => {
-    return profissaoString ? profissaoString.split(',').map(p => p.trim()) : [];
-  };
+  // Extrair profissões únicas
+  const allProfessions = downloads
+    .map(d => d.profissao ? d.profissao.split(',').map(p => p.trim()) : [])
+    .flat()
+    .filter(Boolean);
+  const professions = Array.from(new Set(allProfessions));
 
   const getProfessionLogo = (profession: string) => {
     const download = downloads.find(d => 
@@ -50,6 +51,100 @@ export const Downloads = () => {
     );
     return download?.logo || null;
   };
+
+  const getDownloadsByArea = (area: string) => {
+    return downloads.filter(d => d.area === area);
+  };
+
+  const getDownloadsByProfession = (profession: string) => {
+    return downloads.filter(d => 
+      d.profissao && d.profissao.toLowerCase().includes(profession.toLowerCase())
+    );
+  };
+
+  const BookListItem = ({ item }: { item: any }) => (
+    <Card className="mb-4 hover:shadow-md transition-shadow">
+      <CardContent className="p-4">
+        <div className="flex gap-4">
+          {/* Imagem do livro */}
+          {item.imagem && (
+            <div className="w-20 h-28 flex-shrink-0">
+              <img
+                src={item.imagem}
+                alt={item.livro}
+                className="w-full h-full object-cover rounded"
+              />
+            </div>
+          )}
+          
+          {/* Conteúdo */}
+          <div className="flex-1">
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="font-semibold text-lg line-clamp-2">{item.livro}</h3>
+              <Badge variant="secondary" className="ml-2">
+                {item.area}
+              </Badge>
+            </div>
+            
+            {item.sobre && (
+              <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+                {item.sobre}
+              </p>
+            )}
+
+            {/* Profissões */}
+            {item.profissao && (
+              <div className="mb-3">
+                <p className="text-xs font-medium text-muted-foreground mb-1">
+                  Ideal para:
+                </p>
+                <div className="flex flex-wrap gap-1">
+                  {item.profissao.split(',').map((profession: string, idx: number) => {
+                    const trimmedProfession = profession.trim();
+                    const logo = getProfessionLogo(trimmedProfession);
+                    return (
+                      <div key={idx} className="flex items-center gap-1">
+                        {logo && (
+                          <img
+                            src={logo}
+                            alt={trimmedProfession}
+                            className="w-3 h-3 object-contain"
+                          />
+                        )}
+                        <Badge variant="outline" className="text-xs">
+                          {trimmedProfession}
+                        </Badge>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Botão de download */}
+            {item.download && (
+              <Button 
+                asChild 
+                size="sm"
+                className="w-full sm:w-auto"
+              >
+                <a 
+                  href={item.download} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2"
+                >
+                  <Download className="h-3 w-3" />
+                  Baixar Livro
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              </Button>
+            )}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -60,132 +155,97 @@ export const Downloads = () => {
             Downloads de Livros
           </h1>
           <p className="text-muted-foreground">
-            Baixe livros de estudos para concursos públicos organizados por área do direito
+            Baixe livros de estudos para concursos públicos organizados por área do direito e profissão
           </p>
         </div>
 
-        {/* Filtros por área */}
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-4">Filtrar por área:</h2>
-          <div className="flex flex-wrap gap-2">
-            <Button
-              variant={selectedArea === 'all' ? 'default' : 'outline'}
-              onClick={() => setSelectedArea('all')}
-              size="sm"
-            >
-              Todas as áreas
-            </Button>
-            {areas.map((area) => (
-              <Button
-                key={area}
-                variant={selectedArea === area ? 'default' : 'outline'}
-                onClick={() => setSelectedArea(area)}
-                size="sm"
-              >
-                {area}
-              </Button>
-            ))}
-          </div>
-        </div>
+        {/* Tabs */}
+        <Tabs defaultValue="areas" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="areas">Por Área</TabsTrigger>
+            <TabsTrigger value="profissoes">Por Profissão</TabsTrigger>
+          </TabsList>
 
-        {/* Grid de livros */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredDownloads.map((item, index) => (
-            <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <CardHeader className="p-0">
-                {item.imagem && (
-                  <div className="aspect-[3/4] overflow-hidden rounded-t-lg">
-                    <img
-                      src={item.imagem}
-                      alt={item.livro}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                )}
-              </CardHeader>
-              <CardContent className="p-4">
-                <div className="mb-2">
-                  <Badge variant="secondary" className="mb-2">
-                    {item.area}
-                  </Badge>
-                </div>
-                
-                <CardTitle className="text-lg mb-2 line-clamp-2">
-                  {item.livro}
-                </CardTitle>
-                
-                {item.sobre && (
-                  <CardDescription className="text-sm mb-4 line-clamp-3">
-                    {item.sobre}
-                  </CardDescription>
-                )}
-
-                {/* Profissões */}
-                {item.profissao && (
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-muted-foreground mb-2">
-                      Ideal para:
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {getProfessions(item.profissao).map((profession, idx) => {
-                        const logo = getProfessionLogo(profession);
-                        return (
-                          <div key={idx} className="flex items-center gap-1">
-                            {logo && (
-                              <img
-                                src={logo}
-                                alt={profession}
-                                className="w-4 h-4 object-contain"
-                              />
-                            )}
-                            <Badge variant="outline" className="text-xs">
-                              {profession}
-                            </Badge>
-                          </div>
-                        );
-                      })}
+          {/* Tab: Por Área */}
+          <TabsContent value="areas" className="mt-6">
+            {areas.length === 0 ? (
+              <div className="text-center py-12">
+                <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-muted-foreground mb-2">
+                  Nenhuma área encontrada
+                </h3>
+                <p className="text-muted-foreground">
+                  Não há áreas disponíveis no momento.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-8">
+                {areas.map((area) => {
+                  const areaBooks = getDownloadsByArea(area);
+                  return (
+                    <div key={area}>
+                      <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                        <Badge variant="default" className="text-sm">
+                          {areaBooks.length}
+                        </Badge>
+                        {area}
+                      </h2>
+                      <div className="space-y-3">
+                        {areaBooks.map((item, index) => (
+                          <BookListItem key={`${area}-${index}`} item={item} />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  );
+                })}
+              </div>
+            )}
+          </TabsContent>
 
-                {/* Botão de download */}
-                {item.download && (
-                  <Button 
-                    asChild 
-                    className="w-full"
-                    size="sm"
-                  >
-                    <a 
-                      href={item.download} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2"
-                    >
-                      <Download className="h-4 w-4" />
-                      Baixar Livro
-                      <ExternalLink className="h-3 w-3" />
-                    </a>
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {filteredDownloads.length === 0 && (
-          <div className="text-center py-12">
-            <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-muted-foreground mb-2">
-              Nenhum livro encontrado
-            </h3>
-            <p className="text-muted-foreground">
-              {selectedArea === 'all' 
-                ? 'Não há livros disponíveis no momento.' 
-                : `Não há livros disponíveis para a área "${selectedArea}".`
-              }
-            </p>
-          </div>
-        )}
+          {/* Tab: Por Profissão */}
+          <TabsContent value="profissoes" className="mt-6">
+            {professions.length === 0 ? (
+              <div className="text-center py-12">
+                <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-muted-foreground mb-2">
+                  Nenhuma profissão encontrada
+                </h3>
+                <p className="text-muted-foreground">
+                  Não há profissões disponíveis no momento.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-8">
+                {professions.map((profession) => {
+                  const professionBooks = getDownloadsByProfession(profession);
+                  const logo = getProfessionLogo(profession);
+                  return (
+                    <div key={profession}>
+                      <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                        <Badge variant="default" className="text-sm">
+                          {professionBooks.length}
+                        </Badge>
+                        {logo && (
+                          <img
+                            src={logo}
+                            alt={profession}
+                            className="w-5 h-5 object-contain"
+                          />
+                        )}
+                        {profession}
+                      </h2>
+                      <div className="space-y-3">
+                        {professionBooks.map((item, index) => (
+                          <BookListItem key={`${profession}-${index}`} item={item} />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
