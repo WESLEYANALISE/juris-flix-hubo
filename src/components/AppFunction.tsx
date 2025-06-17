@@ -25,6 +25,20 @@ export const AppFunction = () => {
     return null;
   }
 
+  if (!functionData) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-bold text-foreground mb-2">Função não encontrada</h2>
+          <p className="text-muted-foreground mb-4">A função "{currentFunction}" não foi encontrada na base de dados.</p>
+          <Button onClick={handleBack} variant="outline">
+            Voltar
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header with back button */}
@@ -41,9 +55,9 @@ export const AppFunction = () => {
             </Button>
             <div>
               <h1 className="text-lg sm:text-xl font-bold gradient-text">
-                {functionData?.funcao || currentFunction}
+                {functionData.funcao}
               </h1>
-              {functionData?.descricao && (
+              {functionData.descricao && (
                 <p className="text-xs sm:text-sm text-muted-foreground">
                   {functionData.descricao}
                 </p>
@@ -53,34 +67,31 @@ export const AppFunction = () => {
         </div>
       </header>
 
-      {/* Content */}
-      <main className="pt-16 sm:pt-20 pb-20 sm:pb-24 px-3 sm:px-4 md:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center py-12 sm:py-16">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 gradient-text">
-              {functionData?.funcao}
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              {functionData?.descricao || 'Funcionalidade em desenvolvimento'}
-            </p>
-            
-            {functionData?.link && (
-              <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-xl p-6 sm:p-8">
-                <p className="text-sm text-muted-foreground mb-4">
-                  Link da função:
-                </p>
-                <a 
-                  href={functionData.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-red-400 hover:text-red-300 underline break-all"
-                >
-                  {functionData.link}
-                </a>
-              </div>
-            )}
+      {/* WebView Content */}
+      <main className="pt-16 sm:pt-20 h-screen">
+        {functionData.link ? (
+          <iframe
+            src={functionData.link}
+            className="w-full h-full border-0"
+            title={functionData.funcao}
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"
+            loading="lazy"
+          />
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center p-8">
+              <h2 className="text-2xl font-bold mb-4 gradient-text">
+                {functionData.funcao}
+              </h2>
+              <p className="text-lg text-muted-foreground mb-8">
+                {functionData.descricao || 'Funcionalidade em desenvolvimento'}
+              </p>
+              <p className="text-sm text-red-400">
+                Link não disponível para esta função
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </main>
     </div>
   );
