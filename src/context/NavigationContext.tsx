@@ -4,7 +4,6 @@ import React, { createContext, useContext, useState } from 'react';
 interface NavigationContextType {
   currentFunction: string | null;
   setCurrentFunction: (func: string | null) => void;
-  clearCurrentFunction: () => void;
   isInFunction: boolean;
 }
 
@@ -13,14 +12,9 @@ const NavigationContext = createContext<NavigationContextType | undefined>(undef
 export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentFunction, setCurrentFunction] = useState<string | null>(null);
 
-  const clearCurrentFunction = () => {
-    setCurrentFunction(null);
-  };
-
   const value = {
     currentFunction,
     setCurrentFunction,
-    clearCurrentFunction,
     isInFunction: currentFunction !== null,
   };
 
