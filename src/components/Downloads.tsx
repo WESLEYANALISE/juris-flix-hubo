@@ -6,14 +6,17 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { Download, BookOpen, ExternalLink, Search } from 'lucide-react';
+import { BookOpen, Search, Filter, Grid, List } from 'lucide-react';
 import { useDownloads } from '@/hooks/useDownloads';
+import { BookCard } from '@/components/BookCard';
+import { motion } from 'framer-motion';
 
 export const Downloads = () => {
   const { downloads, loading, error } = useDownloads();
   const [selectedArea, setSelectedArea] = useState<string>('');
   const [selectedProfession, setProfession] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   // Cores únicas para cada área
   const areaColors = {
@@ -33,7 +36,22 @@ export const Downloads = () => {
     return areaColors[area as keyof typeof areaColors] || 'bg-gray-100 text-gray-800 border-gray-200';
   };
 
-  // Move all useMemo hooks to the top, before any conditional returns
+  const getAreaColorValue = (area: string) => {
+    const colorMap = {
+      'Direito Civil': '#3b82f6',
+      'Direito Penal': '#ef4444',
+      'DireAdministrativo': '#10b981',
+      'Direito Constitucional': '#8b5cf6',
+      'Direito Tributário': '#f59e0b',
+      'Direito do Trabalho': '#f97316',
+      'Direito Processual': '#6366f1',
+      'Direito Empresarial': '#ec4899',
+      'Direito Ambiental': '#059669',
+      'Direito Internacional': '#06b6d4',
+    };
+    return colorMap[area as keyof typeof colorMap] || '#6b7280';
+  };
+
   const areas = useMemo(() => {
     return Array.from(new Set(downloads.map(d => d.area))).filter(Boolean);
   }, [downloads]);
@@ -49,7 +67,6 @@ export const Downloads = () => {
   const getFilteredBooks = useMemo(() => {
     let filtered = downloads;
 
-    // Filtro por pesquisa global
     if (searchQuery) {
       filtered = filtered.filter(book =>
         book.livro?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -79,7 +96,6 @@ export const Downloads = () => {
     );
   };
 
-  // Now we can safely have conditional returns after all hooks are declared
   if (loading) {
     return (
       <div className="min-h-screen bg-background p-4">
@@ -105,129 +121,92 @@ export const Downloads = () => {
     );
   }
 
-  const CompactBookItem = ({ item, showAreaBadge = false }: { item: any, showAreaBadge?: boolean }) => (
-    <Card className="mb-3 hover:shadow-md transition-shadow border-l-4" style={{ borderLeftColor: showAreaBadge ? undefined : getAreaColor(item.area).includes('blue') ? '#3b82f6' : getAreaColor(item.area).includes('red') ? '#ef4444' : getAreaColor(item.area).includes('green') ? '#10b981' : getAreaColor(item.area).includes('purple') ? '#8b5cf6' : getAreaColor(item.area).includes('yellow') ? '#f59e0b' : getAreaColor(item.area).includes('orange') ? '#f97316' : getAreaColor(item.area).includes('indigo') ? '#6366f1' : getAreaColor(item.area).includes('pink') ? '#ec4899' : getAreaColor(item.area).includes('emerald') ? '#059669' : getAreaColor(item.area).includes('cyan') ? '#06b6d4' : '#6b7280' }}>
-      <CardContent className="p-4">
-        <div className="flex gap-3">
-          {/* Imagem do livro */}
-          {item.imagem && (
-            <div className="w-12 h-16 flex-shrink-0">
-              <img
-                src={item.imagem}
-                alt={item.livro}
-                className="w-full h-full object-cover rounded"
-              />
-            </div>
-          )}
-          
-          {/* Conteúdo */}
-          <div className="flex-1 min-w-0">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="font-semibold text-sm line-clamp-1 flex-1">{item.livro}</h3>
-              {showAreaBadge && (
-                <Badge className={`ml-2 text-xs ${getAreaColor(item.area)}`}>
-                  {item.area}
-                </Badge>
-              )}
-            </div>
-            
-            {item.sobre && (
-              <p className="text-xs text-muted-foreground mb-2 line-clamp-1">
-                {item.sobre}
-              </p>
-            )}
-
-            {/* Profissões com ênfase nos logos */}
-            {item.profissao && (
-              <div className="mb-2">
-                <div className="flex flex-wrap gap-1 items-center">
-                  {item.profissao.split(',').map((profession: string, idx: number) => {
-                    const trimmedProfession = profession.trim();
-                    const logo = getProfessionLogo(trimmedProfession);
-                    return (
-                      <div key={idx} className="flex items-center gap-1">
-                        {logo && (
-                          <div className="w-4 h-4 p-0.5 bg-white rounded-sm shadow-sm border">
-                            <img
-                              src={logo}
-                              alt={trimmedProfession}
-                              className="w-full h-full object-contain"
-                            />
-                          </div>
-                        )}
-                        <Badge variant="outline" className="text-xs py-0 px-1">
-                          {trimmedProfession}
-                        </Badge>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Botão de download */}
-            {item.download && (
-              <Button 
-                asChild 
-                size="sm"
-                className="h-7 text-xs"
-              >
-                <a 
-                  href={item.download} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1"
-                >
-                  <Download className="h-3 w-3" />
-                  Baixar
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              </Button>
-            )}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
         {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold gradient-text mb-2">
-            Downloads de Livros
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <h1 className="text-4xl font-bold gradient-text mb-3">
+            Biblioteca de Downloads
           </h1>
-          <p className="text-muted-foreground">
-            Baixe livros de estudos para concursos públicos organizados por área do direito e profissão
+          <p className="text-lg text-muted-foreground">
+            Descubra e baixe livros de estudos para concursos públicos organizados por área do direito e profissão
           </p>
-        </div>
+        </motion.div>
 
-        {/* Barra de Pesquisa Global */}
-        <div className="mb-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder="Pesquisar livros, áreas ou profissões..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
+        {/* Controles */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="mb-8 space-y-4"
+        >
+          {/* Barra de Pesquisa e Controles de Visualização */}
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Input
+                placeholder="Pesquisar livros, áreas ou profissões..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <Button
+                variant={viewMode === 'grid' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('grid')}
+              >
+                <Grid className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === 'list' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('list')}
+              >
+                <List className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
-        </div>
+
+          {/* Estatísticas */}
+          <div className="flex flex-wrap gap-4">
+            <Badge variant="secondary" className="text-sm">
+              {downloads.length} livros disponíveis
+            </Badge>
+            <Badge variant="secondary" className="text-sm">
+              {areas.length} áreas do direito
+            </Badge>
+            <Badge variant="secondary" className="text-sm">
+              {professions.length} profissões
+            </Badge>
+          </div>
+        </motion.div>
 
         {/* Tabs */}
         <Tabs defaultValue="areas" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="areas">Por Área</TabsTrigger>
-            <TabsTrigger value="profissoes">Por Profissão</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="areas" className="text-sm">
+              <Filter className="h-4 w-4 mr-2" />
+              Por Área
+            </TabsTrigger>
+            <TabsTrigger value="profissoes" className="text-sm">
+              <Filter className="h-4 w-4 mr-2" />
+              Por Profissão
+            </TabsTrigger>
           </TabsList>
 
           {/* Tab: Por Área */}
           <TabsContent value="areas" className="mt-6">
-            <div className="space-y-4">
+            <div className="space-y-6">
               {/* Seletor de Área */}
-              <div className="w-full max-w-xs">
+              <div className="w-full max-w-sm">
                 <Select value={selectedArea} onValueChange={setSelectedArea}>
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione uma área do direito" />
@@ -236,7 +215,10 @@ export const Downloads = () => {
                     {areas.map((area) => (
                       <SelectItem key={area} value={area}>
                         <div className="flex items-center gap-2">
-                          <div className={`w-3 h-3 rounded-full ${getAreaColor(area).split(' ')[0]}`}></div>
+                          <div 
+                            className="w-3 h-3 rounded-full" 
+                            style={{ backgroundColor: getAreaColorValue(area) }}
+                          ></div>
                           {area}
                         </div>
                       </SelectItem>
@@ -247,37 +229,59 @@ export const Downloads = () => {
 
               {/* Lista de Livros da Área Selecionada */}
               {selectedArea ? (
-                <div>
-                  <div className="flex items-center gap-2 mb-4">
-                    <Badge className={`${getAreaColor(selectedArea)} text-sm`}>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <div className="flex items-center gap-3 mb-6">
+                    <Badge className={`${getAreaColor(selectedArea)} text-base px-3 py-1`}>
                       {getBooksByArea(selectedArea).length} livros
                     </Badge>
-                    <h2 className="text-xl font-bold">{selectedArea}</h2>
+                    <h2 className="text-2xl font-bold">{selectedArea}</h2>
                   </div>
                   
                   {getBooksByArea(selectedArea).length === 0 ? (
-                    <div className="text-center py-8">
-                      <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <div className="text-center py-12">
+                      <BookOpen className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-xl font-semibold text-muted-foreground mb-2">
+                        Nenhum livro encontrado
+                      </h3>
                       <p className="text-muted-foreground">
-                        {searchQuery ? 'Nenhum livro encontrado para sua pesquisa.' : 'Nenhum livro disponível nesta área.'}
+                        {searchQuery ? 'Tente ajustar sua pesquisa.' : 'Nenhum livro disponível nesta área.'}
                       </p>
                     </div>
                   ) : (
-                    <div className="space-y-2">
+                    <div className={`grid gap-4 ${
+                      viewMode === 'grid' 
+                        ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
+                        : 'grid-cols-1'
+                    }`}>
                       {getBooksByArea(selectedArea).map((item, index) => (
-                        <CompactBookItem key={`${selectedArea}-${index}`} item={item} />
+                        <motion.div
+                          key={`${selectedArea}-${index}`}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                        >
+                          <BookCard 
+                            book={item} 
+                            areaColor={getAreaColorValue(item.area)}
+                            getProfessionLogo={getProfessionLogo}
+                          />
+                        </motion.div>
                       ))}
                     </div>
                   )}
-                </div>
+                </motion.div>
               ) : (
-                <div className="text-center py-12">
-                  <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-muted-foreground mb-2">
+                <div className="text-center py-16">
+                  <BookOpen className="h-20 w-20 text-muted-foreground mx-auto mb-6" />
+                  <h3 className="text-2xl font-bold text-muted-foreground mb-3">
                     Selecione uma área
                   </h3>
-                  <p className="text-muted-foreground">
-                    Escolha uma área do direito para ver os livros disponíveis.
+                  <p className="text-lg text-muted-foreground">
+                    Escolha uma área do direito para explorar os livros disponíveis.
                   </p>
                 </div>
               )}
@@ -286,9 +290,9 @@ export const Downloads = () => {
 
           {/* Tab: Por Profissão */}
           <TabsContent value="profissoes" className="mt-6">
-            <div className="space-y-4">
+            <div className="space-y-6">
               {/* Seletor de Profissão */}
-              <div className="w-full max-w-xs">
+              <div className="w-full max-w-sm">
                 <Select value={selectedProfession} onValueChange={setProfession}>
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione uma profissão" />
@@ -319,14 +323,18 @@ export const Downloads = () => {
 
               {/* Lista de Livros da Profissão Selecionada */}
               {selectedProfession ? (
-                <div>
-                  <div className="flex items-center gap-2 mb-4">
-                    <Badge variant="default" className="text-sm">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <div className="flex items-center gap-3 mb-6">
+                    <Badge variant="default" className="text-base px-3 py-1">
                       {getBooksByProfession(selectedProfession).length} livros
                     </Badge>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3">
                       {getProfessionLogo(selectedProfession) && (
-                        <div className="w-6 h-6 p-1 bg-white rounded-sm shadow-sm border">
+                        <div className="w-8 h-8 p-1 bg-white rounded-md shadow-sm border">
                           <img
                             src={getProfessionLogo(selectedProfession)}
                             alt={selectedProfession}
@@ -334,33 +342,52 @@ export const Downloads = () => {
                           />
                         </div>
                       )}
-                      <h2 className="text-xl font-bold">{selectedProfession}</h2>
+                      <h2 className="text-2xl font-bold">{selectedProfession}</h2>
                     </div>
                   </div>
                   
                   {getBooksByProfession(selectedProfession).length === 0 ? (
-                    <div className="text-center py-8">
-                      <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <div className="text-center py-12">
+                      <BookOpen className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-xl font-semibold text-muted-foreground mb-2">
+                        Nenhum livro encontrado
+                      </h3>
                       <p className="text-muted-foreground">
-                        {searchQuery ? 'Nenhum livro encontrado para sua pesquisa.' : 'Nenhum livro disponível para esta profissão.'}
+                        {searchQuery ? 'Tente ajustar sua pesquisa.' : 'Nenhum livro disponível para esta profissão.'}
                       </p>
                     </div>
                   ) : (
-                    <div className="space-y-2">
+                    <div className={`grid gap-4 ${
+                      viewMode === 'grid' 
+                        ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
+                        : 'grid-cols-1'
+                    }`}>
                       {getBooksByProfession(selectedProfession).map((item, index) => (
-                        <CompactBookItem key={`${selectedProfession}-${index}`} item={item} showAreaBadge />
+                        <motion.div
+                          key={`${selectedProfession}-${index}`}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                        >
+                          <BookCard 
+                            book={item} 
+                            areaColor={getAreaColorValue(item.area)}
+                            getProfessionLogo={getProfessionLogo}
+                            showAreaBadge
+                          />
+                        </motion.div>
                       ))}
                     </div>
                   )}
-                </div>
+                </motion.div>
               ) : (
-                <div className="text-center py-12">
-                  <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-muted-foreground mb-2">
+                <div className="text-center py-16">
+                  <BookOpen className="h-20 w-20 text-muted-foreground mx-auto mb-6" />
+                  <h3 className="text-2xl font-bold text-muted-foreground mb-3">
                     Selecione uma profissão
                   </h3>
-                  <p className="text-muted-foreground">
-                    Escolha uma profissão para ver os livros recomendados.
+                  <p className="text-lg text-muted-foreground">
+                    Escolha uma profissão para descobrir os livros recomendados.
                   </p>
                 </div>
               )}
