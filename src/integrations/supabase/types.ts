@@ -1194,6 +1194,42 @@ export type Database = {
         }
         Relationships: []
       }
+      DOWNLOADS: {
+        Row: {
+          area: string | null
+          download: string | null
+          imagem: string | null
+          link: string | null
+          livro: string | null
+          logo: string | null
+          "proficao do logo": string | null
+          profissao: string | null
+          sobre: string | null
+        }
+        Insert: {
+          area?: string | null
+          download?: string | null
+          imagem?: string | null
+          link?: string | null
+          livro?: string | null
+          logo?: string | null
+          "proficao do logo"?: string | null
+          profissao?: string | null
+          sobre?: string | null
+        }
+        Update: {
+          area?: string | null
+          download?: string | null
+          imagem?: string | null
+          link?: string | null
+          livro?: string | null
+          logo?: string | null
+          "proficao do logo"?: string | null
+          profissao?: string | null
+          sobre?: string | null
+        }
+        Relationships: []
+      }
       estatuto_da_advocacia_e_da_oab: {
         Row: {
           artigo: string | null
