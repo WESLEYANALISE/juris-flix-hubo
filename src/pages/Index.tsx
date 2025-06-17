@@ -1,26 +1,24 @@
-
 import { FeaturesCarousel } from '@/components/FeaturesCarousel';
 import { FeaturesGrid } from '@/components/FeaturesGrid';
 import { FooterMenu } from '@/components/FooterMenu';
-import { QuickAccessSection } from '@/components/QuickAccessSection';
+import { StatsSection } from '@/components/StatsSection';
 import { Sidebar } from '@/components/Sidebar';
 import { AppFunction } from '@/components/AppFunction';
 import { Button } from '@/components/ui/button';
-import { Scale, Menu, Award, Bell, User } from 'lucide-react';
+import { Scale, Menu, Award } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigation } from '@/context/NavigationContext';
-
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { isInFunction } = useNavigation();
+  const {
+    isInFunction
+  } = useNavigation();
 
   // If we're in a function, show the function component
   if (isInFunction) {
     return <AppFunction />;
   }
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
@@ -29,12 +27,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setSidebarOpen(true)}
-                className="text-foreground hover:bg-red-500/10 hover:text-red-400 transition-all duration-300 hover:scale-110 h-8 w-8 sm:h-10 sm:w-10"
-              >
+              <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(true)} className="text-foreground hover:bg-red-500/10 hover:text-red-400 transition-all duration-300 hover:scale-110 h-8 w-8 sm:h-10 sm:w-10">
                 <Menu className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
               <div className="flex items-center gap-2 sm:gap-3 animate-fade-in-up">
@@ -51,28 +44,10 @@ const Index = () => {
               </div>
             </div>
             
-            {/* Header Actions */}
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 sm:h-10 sm:w-10 text-foreground hover:bg-red-500/10 hover:text-red-400 transition-all duration-300"
-              >
-                <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 sm:h-10 sm:w-10 text-foreground hover:bg-red-500/10 hover:text-red-400 transition-all duration-300"
-              >
-                <User className="h-4 w-4 sm:h-5 sm:w-5" />
-              </Button>
+            {/* Professional badge - Hidden on mobile */}
+            <div className="hidden md:flex items-center gap-2 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">
               
-              {/* Professional badge - Hidden on mobile */}
-              <div className="hidden md:flex items-center gap-2 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20 ml-2">
-                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                <span className="text-xs font-medium text-red-400">Certificado OAB</span>
-              </div>
+              <span className="text-xs font-medium text-red-400">Certificado OAB</span>
             </div>
           </div>
         </div>
@@ -87,14 +62,14 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Quick Access Section */}
-        <QuickAccessSection />
+        {/* Stats Section with animations */}
+        <StatsSection />
 
         {/* Features Grid with enhanced styling */}
         <FeaturesGrid />
 
         {/* Enhanced CTA Section - Mobile Optimized */}
-        <section className="py-12 sm:py-16 px-4 md:px-8 bg-gradient-to-b from-card/10 to-background">
+        <section className="py-12 sm:py-16 px-4 md:px-8">
           <div className="max-w-4xl mx-auto text-center animate-fade-in-up">
             <div className="mb-6 sm:mb-8">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 gradient-text">
@@ -106,18 +81,11 @@ const Index = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
-              <Button 
-                size="lg" 
-                className="w-full sm:w-auto bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover-glow"
-              >
+              <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover-glow">
                 Começar Gratuitamente
               </Button>
               
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="w-full sm:w-auto border-red-500/30 text-red-400 hover:bg-red-500/10 hover:border-red-500/50 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg transition-all duration-300 hover:scale-105"
-              >
+              <Button variant="outline" size="lg" className="w-full sm:w-auto border-red-500/30 text-red-400 hover:bg-red-500/10 hover:border-red-500/50 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg transition-all duration-300 hover:scale-105">
                 Agendar Demonstração
               </Button>
             </div>
@@ -142,8 +110,6 @@ const Index = () => {
 
       {/* Enhanced Footer Menu */}
       <FooterMenu />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
