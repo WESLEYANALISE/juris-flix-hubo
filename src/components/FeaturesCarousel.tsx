@@ -75,7 +75,7 @@ export const FeaturesCarousel = () => {
 
       {/* Enhanced Dots Indicator */}
       <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2 rounded-sm">
-        {carouselData.map((_, index) => <button key={index} onClick={() => setCurrentSlide(index)} className={`h-2 rounded-full transition-all duration-300 border border-white/30 ${index === currentSlide ? 'bg-white w-6 shadow-lg' : 'bg-white/50 hover:bg-white/70 w-2'}`} />)}
+        {carouselData.map((_, index) => {})}
       </div>
 
       {/* Progress bar */}
