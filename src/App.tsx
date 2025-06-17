@@ -7,35 +7,25 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { NavigationProvider } from "@/context/NavigationContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import { useState } from "react";
 
-const App = () => {
-  const [queryClient] = useState(() => new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 1000 * 60 * 5, // 5 minutes
-        retry: 1,
-      },
-    },
-  }));
+const queryClient = new QueryClient();
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <NavigationProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </NavigationProvider>
-      </TooltipProvider>
-    </QueryClientProvider>
-  );
-};
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <NavigationProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </NavigationProvider>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
 
 export default App;

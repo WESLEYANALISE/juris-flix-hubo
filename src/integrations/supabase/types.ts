@@ -1198,7 +1198,6 @@ export type Database = {
         Row: {
           area: string | null
           download: string | null
-          id: number
           imagem: string | null
           link: string | null
           livro: string | null
@@ -1210,7 +1209,6 @@ export type Database = {
         Insert: {
           area?: string | null
           download?: string | null
-          id?: number
           imagem?: string | null
           link?: string | null
           livro?: string | null
@@ -1222,7 +1220,6 @@ export type Database = {
         Update: {
           area?: string | null
           download?: string | null
-          id?: number
           imagem?: string | null
           link?: string | null
           livro?: string | null
