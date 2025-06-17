@@ -1,314 +1,222 @@
 
-import { useState, useMemo } from 'react';
-import { Heart, ExternalLink, Star, Filter, Grid3X3, List } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
-import { useNavigation } from '@/context/NavigationContext';
+import { Card, CardContent } from '@/components/ui/card';
 import { useAppFunctions } from '@/hooks/useAppFunctions';
-import { useFavorites } from '@/hooks/useFavorites';
-import { SearchBar } from '@/components/SearchBar';
-import { FilterTabs } from '@/components/FilterTabs';
-import { FunctionCardSkeletonGrid } from '@/components/FunctionCardSkeleton';
-import { ErrorState } from '@/components/ErrorState';
+import { useNavigation } from '@/context/NavigationContext';
+import { 
+  ArrowRight, 
+  GitBranch,
+  Scale,
+  Bot,
+  Headphones,
+  Library,
+  Monitor,
+  Play,
+  Folder,
+  Newspaper,
+  Film,
+  Brain,
+  BookOpen,
+  FileText,
+  Search,
+  GraduationCap,
+  Calendar,
+  Clock,
+  Award,
+  Target,
+  Bookmark,
+  Download,
+  Upload,
+  Share,
+  Heart,
+  Star,
+  Zap,
+  Shield,
+  Globe,
+  Camera,
+  Music,
+  Video,
+  Image,
+  File,
+  Archive,
+  Code,
+  Database
+} from 'lucide-react';
 
-type ViewMode = 'grid' | 'list';
-type SortOption = 'name' | 'recent' | 'favorites';
+// Array expandido de ícones únicos
+const availableIcons = [
+  Scale, Bot, Library, Headphones, GitBranch, Monitor, Play, Folder, 
+  Newspaper, Film, Brain, BookOpen, FileText, Search, GraduationCap, 
+  Calendar, Clock, Award, Target, Bookmark, Download, Upload, Share, 
+  Heart, Star, Zap, Shield, Globe, Camera, Music, Video, Image, 
+  File, Archive, Code, Database
+];
 
-const getIconForFunction = (funcao: string) => {
+const getUniqueIconForFunction = (funcao: string, index: number) => {
   const name = funcao.toLowerCase();
-  if (name.includes('vade') || name.includes('mecum')) return '⚖️';
-  if (name.includes('assistente') && name.includes('ia')) return '🤖';
-  if (name.includes('biblioteca')) return '📚';
-  if (name.includes('audio') || name.includes('áudio')) return '🎧';
-  if (name.includes('mapa') && name.includes('mental')) return '🧠';
-  if (name.includes('desktop')) return '💻';
-  if (name.includes('video') || name.includes('vídeo')) return '📹';
-  if (name.includes('simulado')) return '🎯';
-  if (name.includes('noticia') || name.includes('notícia')) return '📰';
-  return '📄';
+  
+  // Mapeamento específico para funções principais
+  if (name.includes('vade') || name.includes('mecum')) return Scale;
+  if (name.includes('assistente') && name.includes('ia')) return Bot;
+  if (name.includes('biblioteca')) return Library;
+  if (name.includes('audio') || name.includes('áudio')) return Headphones;
+  if (name.includes('mapa') && name.includes('mental')) return Brain;
+  if (name.includes('plataforma') && name.includes('desktop')) return Monitor;
+  if (name.includes('flashcard') || name.includes('flash card')) return GitBranch;
+  if (name.includes('resumo') || name.includes('codigo') || name.includes('código')) return BookOpen;
+  if (name.includes('video') || name.includes('vídeo') || name.includes('aula')) return Play;
+  if (name.includes('petições') || name.includes('peticoes') || name.includes('petição')) return Folder;
+  if (name.includes('noticia') || name.includes('notícia') || name.includes('juridica')) return Newspaper;
+  if (name.includes('juriflix') || name.includes('filme') || name.includes('cinema')) return Film;
+  if (name.includes('simulado') || name.includes('prova')) return Award;
+  if (name.includes('calendario') || name.includes('agenda')) return Calendar;
+  if (name.includes('curso') || name.includes('aula')) return GraduationCap;
+  if (name.includes('pesquisa') || name.includes('busca')) return Search;
+  if (name.includes('documento') || name.includes('texto')) return FileText;
+  if (name.includes('download') || name.includes('baixar')) return Download;
+  if (name.includes('upload') || name.includes('enviar')) return Upload;
+  if (name.includes('compartilhar') || name.includes('share')) return Share;
+  if (name.includes('favorito') || name.includes('favoritar')) return Heart;
+  if (name.includes('avaliação') || name.includes('rating')) return Star;
+  if (name.includes('rápido') || name.includes('express')) return Zap;
+  if (name.includes('segurança') || name.includes('security')) return Shield;
+  if (name.includes('web') || name.includes('site')) return Globe;
+  if (name.includes('imagem') || name.includes('foto')) return Camera;
+  if (name.includes('música') || name.includes('music')) return Music;
+  if (name.includes('arquivo') || name.includes('file')) return Archive;
+  if (name.includes('código') || name.includes('programação')) return Code;
+  if (name.includes('banco') || name.includes('dados')) return Database;
+  
+  // Se não encontrar correspondência específica, usa um ícone único baseado no índice
+  return availableIcons[index % availableIcons.length] || Scale;
 };
 
-const getCategoryFromFunction = (funcao: string): string => {
-  const name = funcao.toLowerCase();
-  if (name.includes('vade') || name.includes('código') || name.includes('lei')) return 'Legislação';
-  if (name.includes('ia') || name.includes('assistente') || name.includes('bot')) return 'IA & Tecnologia';
-  if (name.includes('biblioteca') || name.includes('livro') || name.includes('obra')) return 'Biblioteca';
-  if (name.includes('audio') || name.includes('áudio') || name.includes('podcast')) return 'Áudio & Mídia';
-  if (name.includes('video') || name.includes('vídeo') || name.includes('aula')) return 'Vídeos';
-  if (name.includes('simulado') || name.includes('prova') || name.includes('teste')) return 'Simulados';
-  if (name.includes('mapa') || name.includes('mental') || name.includes('esquema')) return 'Mapas Mentais';
-  if (name.includes('petição') || name.includes('modelo') || name.includes('documento')) return 'Documentos';
-  if (name.includes('noticia') || name.includes('notícia') || name.includes('informação')) return 'Notícias';
-  return 'Outros';
+const getColorForFunction = (index: number) => {
+  const colors = [
+    'gradient-legal',     // Gold for legal content
+    'gradient-ai',        // Cyan for AI/tech
+    'gradient-study',     // Blue for study materials
+    'gradient-media',     // Purple for media content
+    'gradient-docs',      // Green for documents
+    'gradient-legal',     // Back to gold
+    'gradient-ai',        // Cyan
+    'gradient-study',     // Blue
+    'gradient-media',     // Purple
+    'gradient-docs',      // Green
+    'gradient-legal',     // Gold
+    'gradient-ai'         // Cyan
+  ];
+  return colors[index % colors.length];
 };
 
 export const FeaturesGrid = () => {
-  const { functions, loading, error, refetch } = useAppFunctions();
+  const { functions, loading } = useAppFunctions();
   const { setCurrentFunction } = useNavigation();
-  const { favorites, toggleFavorite, isFavorite } = useFavorites();
-  const { toast } = useToast();
-  
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('Todos');
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
-  const [sortBy, setSortBy] = useState<SortOption>('name');
-
-  // Get unique categories
-  const categories = useMemo(() => {
-    const cats = ['Todos', ...new Set(functions.map(func => getCategoryFromFunction(func.funcao)))];
-    return cats.sort();
-  }, [functions]);
-
-  // Filter and sort functions
-  const filteredFunctions = useMemo(() => {
-    let filtered = functions.filter(func => {
-      const matchesSearch = func.funcao.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = selectedCategory === 'Todos' || 
-                            getCategoryFromFunction(func.funcao) === selectedCategory;
-      return matchesSearch && matchesCategory;
-    });
-
-    // Sort functions
-    filtered.sort((a, b) => {
-      switch (sortBy) {
-        case 'name':
-          return a.funcao.localeCompare(b.funcao);
-        case 'favorites':
-          const aIsFav = isFavorite(a.id);
-          const bIsFav = isFavorite(b.id);
-          if (aIsFav && !bIsFav) return -1;
-          if (!aIsFav && bIsFav) return 1;
-          return a.funcao.localeCompare(b.funcao);
-        case 'recent':
-        default:
-          return 0;
-      }
-    });
-
-    return filtered;
-  }, [functions, searchQuery, selectedCategory, sortBy, isFavorite]);
 
   const handleFunctionClick = (funcao: string) => {
     setCurrentFunction(funcao);
-    toast({
-      title: "Navegando...",
-      description: `Abrindo ${funcao}`,
-    });
   };
 
-  const handleFavoriteToggle = (func: any, e: React.MouseEvent) => {
-    e.stopPropagation();
-    toggleFavorite(func);
-    
-    const action = isFavorite(func.id) ? 'removido dos' : 'adicionado aos';
-    toast({
-      title: "Favoritos atualizados",
-      description: `${func.funcao} foi ${action} favoritos`,
-    });
-  };
+  // Sort functions by id to maintain table order
+  const sortedFunctions = [...functions].sort((a, b) => a.id - b.id);
 
   if (loading) {
     return (
-      <section className="py-8 px-4 md:px-8">
+      <div className="py-12 sm:py-16 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-8">
-            <div className="h-8 w-64 bg-muted rounded-lg animate-pulse mb-4" />
-            <div className="h-4 w-96 bg-muted rounded-lg animate-pulse" />
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 gradient-text-legal">
+              Ferramentas Jurídicas Profissionais
+            </h2>
+            <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
+              Carregando funcionalidades...
+            </p>
           </div>
-          <FunctionCardSkeletonGrid count={9} />
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+            {[...Array(8)].map((_, i) => (
+              <Card key={i} className="animate-pulse neomorphism-legal">
+                <CardContent className="p-4 sm:p-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 bg-gray-600 rounded-xl animate-legal-shimmer"></div>
+                  <div className="h-4 bg-gray-600 rounded mb-2 animate-legal-shimmer"></div>
+                  <div className="h-3 bg-gray-600 rounded animate-legal-shimmer"></div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className="py-8 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto">
-          <ErrorState
-            title="Erro ao Carregar Funções"
-            description="Não foi possível carregar as funcionalidades do app. Verifique sua conexão e tente novamente."
-            onRetry={() => refetch()}
-            showGoHome={false}
-          />
-        </div>
-      </section>
+      </div>
     );
   }
 
   return (
-    <section className="py-8 px-4 md:px-8 bg-gradient-to-b from-background to-background/50">
+    <div className="py-12 sm:py-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8 animate-fade-in-legal">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4 gradient-text-legal">
-            Todas as Funcionalidades
+        <div className="text-center mb-8 sm:mb-12 animate-slide-up-legal">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 gradient-text-legal animate-legal-text-glow">
+            Ferramentas Jurídicas Profissionais
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Explore nossa coleção completa de ferramentas jurídicas especializadas
+          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
+            Acesse todas as funcionalidades desenvolvidas especialmente para profissionais e estudantes do Direito
           </p>
         </div>
 
-        {/* Search and Filters */}
-        <div className="mb-8 space-y-4 animate-slide-in-legal">
-          <SearchBar 
-            onSearch={setSearchQuery}
-            placeholder="Buscar por nome, categoria ou palavra-chave..."
-            className="max-w-2xl mx-auto"
-          />
-          
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-            <FilterTabs
-              categories={categories}
-              activeCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-              className="flex-1"
-            />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+          {sortedFunctions.map((func, index) => {
+            const Icon = getUniqueIconForFunction(func.funcao, index);
+            const colorClass = getColorForFunction(index);
             
-            <div className="flex items-center gap-2">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortOption)}
-                className="px-3 py-2 bg-background border border-border rounded-lg text-sm
-                         focus:outline-none focus:ring-2 focus:ring-primary/50"
-              >
-                <option value="name">Ordenar: A-Z</option>
-                <option value="favorites">Favoritos primeiro</option>
-              </select>
-              
-              <div className="flex rounded-lg border border-border overflow-hidden">
-                <Button
-                  variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('grid')}
-                  className="rounded-none"
-                >
-                  <Grid3X3 className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={viewMode === 'list' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('list')}
-                  className="rounded-none"
-                >
-                  <List className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Results Info */}
-        {searchQuery && (
-          <div className="mb-6 text-center">
-            <p className="text-sm text-muted-foreground">
-              {filteredFunctions.length} resultado{filteredFunctions.length !== 1 ? 's' : ''} 
-              {searchQuery && ` para "${searchQuery}"`}
-              {selectedCategory !== 'Todos' && ` em ${selectedCategory}`}
-            </p>
-          </div>
-        )}
-
-        {/* Functions Grid/List */}
-        {filteredFunctions.length === 0 ? (
-          <div className="text-center py-12">
-            <Filter className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-xl font-semibold mb-2">Nenhuma função encontrada</h3>
-            <p className="text-muted-foreground mb-4">
-              Tente ajustar os filtros ou termos de busca
-            </p>
-            <Button onClick={() => {
-              setSearchQuery('');
-              setSelectedCategory('Todos');
-            }}>
-              Limpar Filtros
-            </Button>
-          </div>
-        ) : (
-          <div className={`
-            ${viewMode === 'grid' 
-              ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6' 
-              : 'space-y-3'
-            }
-          `}>
-            {filteredFunctions.map((func, index) => (
-              <div
-                key={func.id}
-                className={`
-                  group cursor-pointer card-legal animate-bounce-in-legal
-                  ${viewMode === 'grid' 
-                    ? 'p-6 bg-card rounded-xl border border-border/50' 
-                    : 'flex items-center gap-4 p-4 bg-card rounded-lg border border-border/50'
-                  }
-                `}
+            return (
+              <Card 
+                key={func.id} 
+                className="card-legal group cursor-pointer border-border/30 bg-card/60 backdrop-blur-sm hover:bg-card/90 overflow-hidden animate-scale-glow hover:animate-legal-float"
                 style={{ animationDelay: `${index * 0.05}s` }}
                 onClick={() => handleFunctionClick(func.funcao)}
               >
-                <div className={`
-                  ${viewMode === 'grid' 
-                    ? 'flex items-center gap-4 mb-4' 
-                    : 'flex items-center gap-3 flex-1'
-                  }
-                `}>
-                  <div className="text-3xl">
-                    {getIconForFunction(func.funcao)}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className={`
-                      font-semibold text-foreground group-hover:text-primary transition-colors
-                      ${viewMode === 'grid' ? 'text-lg mb-1' : 'text-base'}
-                    `}>
-                      {func.funcao}
-                    </h3>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">
-                        {getCategoryFromFunction(func.funcao)}
-                      </span>
-                      {isFavorite(func.id) && (
-                        <Star className="h-3 w-3 text-yellow-500 fill-current" />
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {viewMode === 'grid' && (
-                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                    Acesse funcionalidades avançadas para {func.funcao.toLowerCase()}
-                  </p>
-                )}
-
-                <div className="flex items-center justify-between">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={(e) => handleFavoriteToggle(func, e)}
-                    className="hover:bg-background/50"
-                  >
-                    <Heart className={`h-4 w-4 ${
-                      isFavorite(func.id) 
-                        ? 'text-red-500 fill-current' 
-                        : 'text-muted-foreground'
-                    }`} />
-                  </Button>
+                <CardContent className="p-4 sm:p-6 text-center relative">
+                  {/* Enhanced background gradient effect with animation */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-legal-glow" />
                   
-                  <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+                  <div className={`w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-xl ${colorClass} flex items-center justify-center group-hover:scale-110 transition-all duration-500 card-depth-2 group-hover:card-depth-3 relative animate-legal-shimmer group-hover:animate-legal-icon-glow`}>
+                    <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-white drop-shadow-lg group-hover:animate-legal-icon-float" />
+                    
+                    {/* Enhanced hover arrow with legal styling and animation */}
+                    <div className="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100 card-depth-1 animate-legal-bounce">
+                      <ArrowRight className="h-2 w-2 sm:h-3 sm:w-3 text-gray-800 animate-legal-arrow-float" />
+                    </div>
+                    
+                    {/* Legal sparkle effect */}
+                    <div className="absolute top-1 right-1 w-2 h-2 bg-white/80 rounded-full opacity-0 group-hover:opacity-100 animate-legal-sparkle transition-opacity duration-500" />
+                  </div>
+                  
+                  <h3 className="font-semibold text-sm sm:text-base lg:text-lg mb-2 text-foreground group-hover:text-primary transition-colors duration-500 line-clamp-2 group-hover:animate-legal-text-glow group-hover:scale-105">
+                    {func.funcao}
+                  </h3>
+                  
+                  <p className="text-xs sm:text-sm text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-500 line-clamp-2-fade">
+                    {func.descricao || 'Funcionalidade especializada para estudos jurídicos'}
+                  </p>
 
-        {/* Stats */}
-        {filteredFunctions.length > 0 && (
-          <div className="mt-12 text-center">
-            <div className="flex justify-center gap-8 text-sm text-muted-foreground">
-              <span>{functions.length} funções totais</span>
-              <span>{favorites.length} favoritos</span>
-              <span>{categories.length - 1} categorias</span>
-            </div>
+                  {/* Enhanced interactive border effect with animation */}
+                  <div className="absolute inset-0 rounded-lg border border-primary/0 group-hover:border-primary/30 transition-all duration-500 animate-legal-border" />
+                  
+                  {/* Professional glow effect on hover with animation */}
+                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none hover-glow-legal animate-legal-hover-glow" />
+                  
+                  {/* Justice-themed corner accent */}
+                  <div className="absolute top-2 right-2 w-1 h-6 bg-gradient-to-b from-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-legal-accent" />
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+
+        {sortedFunctions.length === 0 && !loading && (
+          <div className="text-center py-12 animate-fade-in-legal">
+            <p className="text-muted-foreground text-lg">
+              Nenhuma função encontrada. Verifique a configuração da base de dados.
+            </p>
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 };
