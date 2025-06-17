@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -36,13 +35,20 @@ export const PlataformaDesktop = () => {
     const scriptURL = 'https://sheetdb.io/api/v1/29eaz3rsm73qu';
 
     try {
+      console.log('Enviando dados para SheetDB:', data);
+      
       const response = await fetch(scriptURL, {
         method: 'POST',
-        body: JSON.stringify({ data: data }),
+        body: JSON.stringify([data]), // SheetDB espera um array de objetos
         headers: { 'Content-Type': 'application/json' }
       });
 
+      console.log('Resposta da API:', response.status, response.statusText);
+
       if (response.ok) {
+        const result = await response.json();
+        console.log('Dados enviados com sucesso:', result);
+        
         setIsSuccess(true);
         form.reset();
         
@@ -51,7 +57,9 @@ export const PlataformaDesktop = () => {
           description: "Seus dados foram enviados para nossa equipe.",
         });
       } else {
-        throw new Error('Erro na resposta do servidor');
+        const errorText = await response.text();
+        console.error('Erro na resposta:', response.status, errorText);
+        throw new Error(`Erro ${response.status}: ${errorText}`);
       }
 
     } catch (error) {
