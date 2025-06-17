@@ -7,53 +7,55 @@
 
 @layer base {
   :root {
-    /* Dark Gray Legal Theme - Main Colors */
-    --background: 220 15% 4%;          /* Very dark gray (#0a0b0f) */
-    --foreground: 210 20% 92%;         /* Light gray text */
+    /* Dark Gray Legal Theme - Main Colors - Softened for better readability */
+    --background: 220 15% 10%;          /* Lighter dark gray (#1a1b20) */
+    --foreground: 210 20% 90%;          /* Slightly softer light gray text */
 
-    --card: 220 15% 8%;                /* Dark gray cards (#1a1d23) */
-    --card-foreground: 210 20% 92%;
+    --card: 220 15% 14%;                /* Lighter dark gray cards (#232429) */
+    --card-foreground: 210 20% 90%;
 
-    --popover: 220 15% 8%;
-    --popover-foreground: 210 20% 92%;
+    --popover: 220 15% 14%;
+    --popover-foreground: 210 20% 90%;
 
     /* Golden/Amber accents for legal profession */
     --primary: 45 90% 55%;             /* Professional gold (#d4af37) */
-    --primary-foreground: 220 15% 4%;
+    --primary-foreground: 220 15% 10%;
 
-    --secondary: 220 15% 12%;          /* Darker gray secondary */
-    --secondary-foreground: 210 20% 92%;
+    --secondary: 220 15% 18%;          /* Lighter gray secondary */
+    --secondary-foreground: 210 20% 88%;
 
-    --muted: 220 15% 10%;
-    --muted-foreground: 215 25% 65%;
+    --muted: 220 15% 16%;
+    --muted-foreground: 215 25% 70%;
 
     --accent: 45 85% 60%;              /* Lighter gold accent */
-    --accent-foreground: 220 15% 4%;
+    --accent-foreground: 220 15% 10%;
     --accent-legal: 45 90% 55%;        /* Legal accent color */
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 20% 96%;
 
-    --border: 220 15% 18%;             /* Subtle borders */
-    --input: 220 15% 12%;
+    --border: 220 15% 22%;             /* Lighter borders for better visibility */
+    --input: 220 15% 18%;
     --ring: 45 90% 55%;                /* Gold focus ring */
 
     --radius: 0.75rem;
 
-    /* Professional sidebar colors */
-    --sidebar-background: 220 15% 6%;
-    --sidebar-foreground: 210 20% 92%;
+    /* Professional sidebar colors - softened */
+    --sidebar-background: 220 15% 12%;
+    --sidebar-foreground: 210 20% 88%;
     --sidebar-primary: 45 90% 55%;
-    --sidebar-primary-foreground: 220 15% 4%;
-    --sidebar-accent: 220 15% 12%;
-    --sidebar-accent-foreground: 210 20% 92%;
-    --sidebar-border: 220 15% 18%;
+    --sidebar-primary-foreground: 220 15% 10%;
+    --sidebar-accent: 220 15% 18%;
+    --sidebar-accent-foreground: 210 20% 88%;
+    --sidebar-border: 220 15% 22%;
     --sidebar-ring: 45 90% 55%;
 
     /* Additional legal theme colors */
-    --background-deep: 220 20% 2%;     /* Deeper background */
+    --background-deep: 220 20% 8%;     /* Lighter deeper background */
   }
 }
+
+/* ... keep existing code (base styles, scrollbar, mobile optimizations, etc) */
 
 @layer base {
   * {
@@ -76,7 +78,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: rgba(16, 20, 29, 0.3);
+    background: rgba(26, 29, 35, 0.3);
   }
 
   ::-webkit-scrollbar-thumb {
@@ -106,47 +108,49 @@
   }
 }
 
-/* Professional depth effects */
+/* Professional depth effects - adjusted for lighter background */
 .card-depth-1 {
   box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.4),
-    0 1px 2px rgba(0, 0, 0, 0.3);
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
 .card-depth-2 {
   box-shadow: 
-    0 4px 6px rgba(0, 0, 0, 0.4),
-    0 2px 4px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 4px 6px rgba(0, 0, 0, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .card-depth-3 {
   box-shadow: 
-    0 10px 15px rgba(0, 0, 0, 0.5),
-    0 4px 6px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-/* Professional glass effect for legal theme */
-.glass-effect-legal {
-  backdrop-filter: blur(24px);
-  background: rgba(26, 29, 35, 0.85);
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-/* Enhanced floating effect */
-.floating-effect-legal {
-  backdrop-filter: blur(32px);
-  background: rgba(26, 29, 35, 0.95);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.6),
-    0 8px 16px rgba(0, 0, 0, 0.4),
+    0 10px 15px rgba(0, 0, 0, 0.25),
+    0 4px 6px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
+
+/* Professional glass effect for legal theme - adjusted */
+.glass-effect-legal {
+  backdrop-filter: blur(24px);
+  background: rgba(35, 36, 41, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Enhanced floating effect - adjusted */
+.floating-effect-legal {
+  backdrop-filter: blur(32px);
+  background: rgba(35, 36, 41, 0.95);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ... keep existing code (gradient text styles, category gradients, hover effects, animations, button enhancements, mobile optimizations, touch-friendly elements, card hover effects, neumorphism, glassmorphism, safe area enhancements, line clamp utilities, focus states, section spacing) */
 
 /* Professional gradient for legal theme */
 .gradient-text-legal {
@@ -188,8 +192,8 @@
 .hover-lift-legal:hover {
   transform: translateY(-3px);
   box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.4),
-    0 8px 16px rgba(0, 0, 0, 0.3),
+    0 20px 40px rgba(0, 0, 0, 0.2),
+    0 8px 16px rgba(0, 0, 0, 0.15),
     0 0 0 1px rgba(212, 175, 55, 0.2);
 }
 
@@ -469,7 +473,7 @@
   background: linear-gradient(135deg, #d4af37, #f59e0b);
   border: 1px solid rgba(212, 175, 55, 0.3);
   box-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -477,7 +481,7 @@
 .btn-legal-primary:hover {
   background: linear-gradient(135deg, #f59e0b, #d4af37);
   box-shadow: 
-    0 8px 16px rgba(0, 0, 0, 0.4),
+    0 8px 16px rgba(0, 0, 0, 0.2),
     0 0 20px rgba(212, 175, 55, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
   transform: translateY(-1px);
@@ -516,41 +520,41 @@
   }
 }
 
-/* Professional card hover effects */
+/* Professional card hover effects - adjusted shadows */
 .card-legal {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .card-legal:hover {
   transform: translateY(-4px) scale(1.02);
   box-shadow: 
-    0 25px 50px rgba(0, 0, 0, 0.4),
+    0 25px 50px rgba(0, 0, 0, 0.2),
     0 0 0 1px rgba(212, 175, 55, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   border-color: rgba(212, 175, 55, 0.3);
 }
 
-/* Neumorphism effect for interactive elements */
+/* Neumorphism effect for interactive elements - adjusted */
 .neomorphism-legal {
-  background: linear-gradient(145deg, #1a1d23, #0f1117);
+  background: linear-gradient(145deg, #232429, #1a1b20);
   box-shadow: 
-    8px 8px 16px rgba(0, 0, 0, 0.5),
-    -8px -8px 16px rgba(42, 48, 58, 0.1);
+    8px 8px 16px rgba(0, 0, 0, 0.3),
+    -8px -8px 16px rgba(60, 65, 75, 0.1);
 }
 
 .neomorphism-legal:hover {
   box-shadow: 
-    inset 8px 8px 16px rgba(0, 0, 0, 0.3),
-    inset -8px -8px 16px rgba(42, 48, 58, 0.1);
+    inset 8px 8px 16px rgba(0, 0, 0, 0.2),
+    inset -8px -8px 16px rgba(60, 65, 75, 0.1);
 }
 
-/* Glassmorphism for overlays */
+/* Glassmorphism for overlays - adjusted */
 .glassmorphism-legal {
-  background: rgba(26, 29, 35, 0.6);
+  background: rgba(35, 36, 41, 0.6);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
 /* Safe area enhancements */
