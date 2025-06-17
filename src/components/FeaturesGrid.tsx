@@ -21,38 +21,35 @@ import {
 const getIconForFunction = (funcao: string) => {
   const name = funcao.toLowerCase();
   
-  // Enhanced icon mapping for legal-specific functions
-  if (name.includes('vade') || name.includes('mecum')) return Scale; // Justice scale for Vade Mecum
+  if (name.includes('vade') || name.includes('mecum')) return Scale;
   if (name.includes('assistente') && name.includes('ia')) return Bot;
   if (name.includes('biblioteca')) return Library;
   if (name.includes('audio') || name.includes('áudio')) return Headphones;
-  if (name.includes('mapa') && name.includes('mental')) return Brain; // Brain for mind maps
+  if (name.includes('mapa') && name.includes('mental')) return Brain;
   if (name.includes('plataforma') && name.includes('desktop')) return Monitor;
-  
-  // Enhanced fallback icon logic with more legal-specific options
   if (name.includes('flashcard') || name.includes('flash card')) return GitBranch;
   if (name.includes('resumo') || name.includes('codigo') || name.includes('código')) return BookOpen;
   if (name.includes('video') || name.includes('vídeo') || name.includes('aula')) return Play;
   if (name.includes('petições') || name.includes('peticoes') || name.includes('petição')) return Folder;
   if (name.includes('noticia') || name.includes('notícia') || name.includes('juridica')) return Newspaper;
   if (name.includes('juriflix') || name.includes('filme') || name.includes('cinema')) return Film;
-  return Scale; // Default to justice scale for legal theme
+  return Scale;
 };
 
 const getColorForFunction = (index: number) => {
   const colors = [
-    'gradient-legal',     // Gold for legal content
-    'gradient-ai',        // Cyan for AI/tech
-    'gradient-study',     // Blue for study materials
-    'gradient-media',     // Purple for media content
-    'gradient-docs',      // Green for documents
-    'gradient-legal',     // Back to gold
-    'gradient-ai',        // Cyan
-    'gradient-study',     // Blue
-    'gradient-media',     // Purple
-    'gradient-docs',      // Green
-    'gradient-legal',     // Gold
-    'gradient-ai'         // Cyan
+    'from-amber-500 to-yellow-600',
+    'from-cyan-500 to-blue-500',
+    'from-purple-500 to-purple-600',
+    'from-emerald-500 to-green-600',
+    'from-rose-500 to-pink-600',
+    'from-indigo-500 to-blue-600',
+    'from-orange-500 to-red-500',
+    'from-teal-500 to-green-500',
+    'from-violet-500 to-purple-600',
+    'from-lime-500 to-green-500',
+    'from-pink-500 to-rose-600',
+    'from-sky-500 to-blue-500'
   ];
   return colors[index % colors.length];
 };
@@ -65,7 +62,6 @@ export const FeaturesGrid = () => {
     setCurrentFunction(funcao);
   };
 
-  // Sort functions by id to maintain table order
   const sortedFunctions = [...functions].sort((a, b) => a.id - b.id);
 
   if (loading) {
@@ -73,7 +69,7 @@ export const FeaturesGrid = () => {
       <div className="py-12 sm:py-16 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 gradient-text-legal">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent">
               Ferramentas Jurídicas Profissionais
             </h2>
             <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
@@ -82,11 +78,11 @@ export const FeaturesGrid = () => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
             {[...Array(8)].map((_, i) => (
-              <Card key={i} className="animate-pulse neomorphism-legal">
+              <Card key={i} className="animate-pulse">
                 <CardContent className="p-4 sm:p-6">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 bg-gray-600 rounded-xl animate-legal-shimmer"></div>
-                  <div className="h-4 bg-gray-600 rounded mb-2 animate-legal-shimmer"></div>
-                  <div className="h-3 bg-gray-600 rounded animate-legal-shimmer"></div>
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 bg-gray-300 rounded-xl"></div>
+                  <div className="h-4 bg-gray-300 rounded mb-2"></div>
+                  <div className="h-3 bg-gray-300 rounded"></div>
                 </CardContent>
               </Card>
             ))}
@@ -99,8 +95,8 @@ export const FeaturesGrid = () => {
   return (
     <div className="py-12 sm:py-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-8 sm:mb-12 animate-slide-up-legal">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 gradient-text-legal animate-legal-text-glow">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent">
             Ferramentas Jurídicas Profissionais
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
@@ -116,42 +112,32 @@ export const FeaturesGrid = () => {
             return (
               <Card 
                 key={func.id} 
-                className="card-legal group cursor-pointer border-border/30 bg-card/60 backdrop-blur-sm hover:bg-card/90 overflow-hidden animate-scale-glow hover:animate-legal-float"
-                style={{ animationDelay: `${index * 0.05}s` }}
+                className="group cursor-pointer border-border/30 bg-card/60 backdrop-blur-sm hover:bg-card/90 hover:border-border/60 transition-all duration-300 hover:shadow-lg hover:scale-105"
                 onClick={() => handleFunctionClick(func.funcao)}
               >
                 <CardContent className="p-4 sm:p-6 text-center relative">
-                  {/* Enhanced background gradient effect with animation */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-legal-glow" />
-                  
-                  <div className={`w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-xl ${colorClass} flex items-center justify-center group-hover:scale-110 transition-all duration-500 card-depth-2 group-hover:card-depth-3 relative animate-legal-shimmer group-hover:animate-legal-icon-glow`}>
-                    <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-white drop-shadow-lg group-hover:animate-legal-icon-float" />
+                  <div className={`w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-xl bg-gradient-to-br ${colorClass} flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-lg relative`}>
+                    <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-white drop-shadow-lg" />
                     
-                    {/* Enhanced hover arrow with legal styling and animation */}
-                    <div className="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100 card-depth-1 animate-legal-bounce">
-                      <ArrowRight className="h-2 w-2 sm:h-3 sm:w-3 text-gray-800 animate-legal-arrow-float" />
+                    {/* Enhanced hover arrow */}
+                    <div className="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-0 group-hover:scale-100 shadow-md">
+                      <ArrowRight className="h-2 w-2 sm:h-3 sm:w-3 text-gray-800" />
                     </div>
-                    
-                    {/* Legal sparkle effect */}
-                    <div className="absolute top-1 right-1 w-2 h-2 bg-white/80 rounded-full opacity-0 group-hover:opacity-100 animate-legal-sparkle transition-opacity duration-500" />
                   </div>
                   
-                  <h3 className="font-semibold text-sm sm:text-base lg:text-lg mb-2 text-foreground group-hover:text-primary transition-colors duration-500 line-clamp-2 group-hover:animate-legal-text-glow group-hover:scale-105">
+                  <h3 className="font-semibold text-sm sm:text-base lg:text-lg mb-2 text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-2">
                     {func.funcao}
                   </h3>
                   
-                  <p className="text-xs sm:text-sm text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-500 line-clamp-2-fade">
+                  <p className="text-xs sm:text-sm text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-300 line-clamp-2">
                     {func.descricao || 'Funcionalidade especializada para estudos jurídicos'}
                   </p>
 
-                  {/* Enhanced interactive border effect with animation */}
-                  <div className="absolute inset-0 rounded-lg border border-primary/0 group-hover:border-primary/30 transition-all duration-500 animate-legal-border" />
+                  {/* Interactive border effect */}
+                  <div className="absolute inset-0 rounded-lg border border-primary/0 group-hover:border-primary/30 transition-all duration-300" />
                   
-                  {/* Professional glow effect on hover with animation */}
-                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none hover-glow-legal animate-legal-hover-glow" />
-                  
-                  {/* Justice-themed corner accent */}
-                  <div className="absolute top-2 right-2 w-1 h-6 bg-gradient-to-b from-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-legal-accent" />
+                  {/* Glow effect on hover */}
+                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-gradient-to-br from-primary/5 to-transparent" />
                 </CardContent>
               </Card>
             );
@@ -159,7 +145,7 @@ export const FeaturesGrid = () => {
         </div>
 
         {sortedFunctions.length === 0 && !loading && (
-          <div className="text-center py-12 animate-fade-in-legal">
+          <div className="text-center py-12">
             <p className="text-muted-foreground text-lg">
               Nenhuma função encontrada. Verifique a configuração da base de dados.
             </p>
