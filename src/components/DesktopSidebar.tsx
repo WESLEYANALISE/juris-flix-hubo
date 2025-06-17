@@ -57,7 +57,7 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
           {!collapsed && (
             <div className="flex items-center gap-3 animate-slide-in-legal">
               <div className="w-10 h-10 gradient-legal rounded-xl flex items-center justify-center card-depth-2 animate-legal-shimmer hover:animate-legal-glow">
-                <Scale className="h-6 w-6 text-white animate-legal-icon-float" />
+                <Scale className="h-6 w-6 text-amber-400 animate-legal-icon-float" />
               </div>
               <div>
                 <h2 className="text-lg font-bold gradient-text-legal animate-legal-text-glow">LegalStudy Pro</h2>
@@ -72,7 +72,7 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
             onClick={onToggle}
             className="hover:bg-secondary/80 h-8 w-8 hover-glow-legal transition-all duration-500 animate-legal-float hover:animate-legal-bounce"
           >
-            {collapsed ? <ChevronRight className="h-4 w-4 animate-legal-icon-float" /> : <ChevronLeft className="h-4 w-4 animate-legal-icon-float" />}
+            {collapsed ? <ChevronRight className="h-4 w-4 text-amber-400 animate-legal-icon-float" /> : <ChevronLeft className="h-4 w-4 text-amber-400 animate-legal-icon-float" />}
           </Button>
         </div>
       </div>
@@ -102,10 +102,10 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
                       style={{ animationDelay: `${(sectionIndex * section.items.length + itemIndex) * 0.05}s` }}
                     >
                       <div className="relative">
-                        <Icon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors duration-500 group-hover:animate-legal-icon-glow" />
+                        <Icon className="h-5 w-5 text-amber-400 group-hover:text-amber-300 transition-colors duration-500 group-hover:animate-legal-icon-glow" />
                         
                         {/* Legal sparkle effect on icon */}
-                        <div className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-primary/60 rounded-full opacity-0 group-hover:opacity-100 animate-legal-sparkle transition-opacity duration-500" />
+                        <div className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-amber-400/60 rounded-full opacity-0 group-hover:opacity-100 animate-legal-sparkle transition-opacity duration-500" />
                       </div>
                       
                       {!collapsed && (
