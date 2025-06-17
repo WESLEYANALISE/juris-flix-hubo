@@ -1,4 +1,3 @@
-
 import { 
   Scale, 
   Bot, 
@@ -10,7 +9,11 @@ import { useState } from 'react';
 import { useNavigation } from '@/context/NavigationContext';
 import { useAppFunctions } from '@/hooks/useAppFunctions';
 
-export const FooterMenu = () => {
+interface FooterMenuProps {
+  isVisible?: boolean;
+}
+
+export const FooterMenu = ({ isVisible = true }: FooterMenuProps) => {
   const [activeItem, setActiveItem] = useState('home');
   const { setCurrentFunction } = useNavigation();
   const { functions } = useAppFunctions();
@@ -61,7 +64,9 @@ export const FooterMenu = () => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 safe-area-pb-legal">
+    <div className={`fixed bottom-0 left-0 right-0 z-50 safe-area-pb-legal transition-all duration-300 ${
+      isVisible ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
+    }`}>
       <div className="mx-3 mb-3 sm:mx-4 sm:mb-4">
         <div className="max-w-md mx-auto bg-card/95 backdrop-blur-xl rounded-2xl border border-border/50 shadow-2xl">
           <div className="flex justify-around items-center py-3 px-2">

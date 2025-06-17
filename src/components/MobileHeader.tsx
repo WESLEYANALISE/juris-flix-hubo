@@ -1,12 +1,15 @@
-
 import { Scale, Search, Bell, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { MobileSidebar } from './MobileSidebar';
 
-export const MobileHeader = () => {
-  const [hasNotifications, setHasNotifications] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+interface MobileHeaderProps {
+  sidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
+}
+
+export const MobileHeader = ({ sidebarOpen, setSidebarOpen }: MobileHeaderProps) => {
+  const [hasNotifications] = useState(true);
 
   return (
     <>

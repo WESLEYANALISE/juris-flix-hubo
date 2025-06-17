@@ -1,4 +1,3 @@
-
 import { X, Home, Scale, Headphones, Library, Bot, User, Settings, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
@@ -106,17 +105,24 @@ export const MobileSidebar = ({ isOpen, onClose }: MobileSidebarProps) => {
 
         {/* Content */}
         <div className="flex flex-col h-[calc(100%-88px)]">
-          {/* Main Menu */}
+          {/* Main Menu with staggered animations */}
           <div className="flex-1 p-6">
             <div className="space-y-2">
               <h3 className="text-sm font-semibold text-muted-foreground mb-4">Principal</h3>
-              {mainMenuItems.map((item) => {
+              {mainMenuItems.map((item, index) => {
                 const Icon = item.icon;
                 return (
                   <button
                     key={item.id}
                     onClick={() => handleItemClick(item)}
-                    className="w-full flex items-center gap-3 p-3 rounded-xl text-left transition-all duration-300 hover:bg-primary/10 hover:text-primary group"
+                    className={`w-full flex items-center gap-3 p-3 rounded-xl text-left transition-all duration-300 hover:bg-primary/10 hover:text-primary group transform ${
+                      isOpen 
+                        ? 'translate-y-0 opacity-100' 
+                        : 'translate-y-4 opacity-0'
+                    }`}
+                    style={{
+                      transitionDelay: isOpen ? `${index * 100}ms` : '0ms'
+                    }}
                   >
                     <div className="p-2 rounded-lg bg-muted/50 group-hover:bg-primary/15 transition-all duration-300">
                       <Icon className="h-5 w-5" />
@@ -128,17 +134,24 @@ export const MobileSidebar = ({ isOpen, onClose }: MobileSidebarProps) => {
             </div>
           </div>
 
-          {/* Secondary Menu */}
+          {/* Secondary Menu with staggered animations */}
           <div className="p-6 border-t border-border/20">
             <div className="space-y-2">
               <h3 className="text-sm font-semibold text-muted-foreground mb-4">Conta</h3>
-              {secondaryMenuItems.map((item) => {
+              {secondaryMenuItems.map((item, index) => {
                 const Icon = item.icon;
                 return (
                   <button
                     key={item.id}
                     onClick={onClose}
-                    className="w-full flex items-center gap-3 p-3 rounded-xl text-left transition-all duration-300 hover:bg-primary/10 hover:text-primary group"
+                    className={`w-full flex items-center gap-3 p-3 rounded-xl text-left transition-all duration-300 hover:bg-primary/10 hover:text-primary group transform ${
+                      isOpen 
+                        ? 'translate-y-0 opacity-100' 
+                        : 'translate-y-4 opacity-0'
+                    }`}
+                    style={{
+                      transitionDelay: isOpen ? `${(mainMenuItems.length + index) * 100}ms` : '0ms'
+                    }}
                   >
                     <div className="p-2 rounded-lg bg-muted/50 group-hover:bg-primary/15 transition-all duration-300">
                       <Icon className="h-5 w-5" />
