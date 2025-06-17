@@ -23,18 +23,19 @@ const menuSections = [
   {
     title: 'Ferramentas Jurídicas',
     items: [
-      { icon: Scale, title: 'Vade Mecum Digital', function: 'Vade Mecum' }, // Justice scale for Vade Mecum
+      { icon: Scale, title: 'Vade Mecum Digital', function: 'Vade Mecum' },
       { icon: Bot, title: 'Assistente IA Jurídica', function: 'IA Jurídica' },
       { icon: Library, title: 'Biblioteca Jurídica', function: 'Biblioteca' },
-      { icon: Brain, title: 'Mapas Mentais', function: 'Mapas Mentais' }, // Brain for mind maps
+      { icon: Brain, title: 'Mapas Mentais', function: 'Mapas Mentais' },
     ]
   },
   {
     title: 'Estudos e Preparação',
     items: [
-      { icon: Brain, title: 'Flashcards', function: 'Flashcards' }, // Brain for memory training
+      { icon: Brain, title: 'Flashcards', function: 'Flashcards' },
       { icon: Headphones, title: 'Áudio-aulas', function: 'Áudio-aulas' },
-      { icon: Monitor, title: 'Plataforma Desktop', function: 'Plataforma Desktop' },
+      { icon: Library, title: 'Downloads', function: 'Downloads' },
+      { icon: Scale, title: 'Notícias Jurídicas', function: 'Notícias Jurídicas' },
     ]
   }
 ];
