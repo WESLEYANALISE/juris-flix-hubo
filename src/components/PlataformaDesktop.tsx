@@ -33,24 +33,26 @@ export const PlataformaDesktop = () => {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxMxE9XfJem-CLb3POvTX6oGozyJ_ic3kpbQbGTAp5OhtW1HDD rYX4HPI7QJDQb1gZZ/exec';
+    const scriptURL = 'https://sheetdb.io/api/v1/29eaz3rsm73qu';
 
     try {
       const response = await fetch(scriptURL, {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: JSON.stringify({ data: data }),
         headers: { 'Content-Type': 'application/json' }
       });
 
-      const result = await response.json();
-
-      setIsSuccess(true);
-      form.reset();
-      
-      toast({
-        title: "Cadastro realizado com sucesso!",
-        description: "Seus dados foram enviados para nossa equipe.",
-      });
+      if (response.ok) {
+        setIsSuccess(true);
+        form.reset();
+        
+        toast({
+          title: "Cadastro realizado com sucesso!",
+          description: "Seus dados foram enviados para nossa equipe.",
+        });
+      } else {
+        throw new Error('Erro na resposta do servidor');
+      }
 
     } catch (error) {
       console.error('Erro ao enviar:', error);
