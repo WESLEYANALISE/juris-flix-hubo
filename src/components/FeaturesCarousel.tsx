@@ -81,9 +81,7 @@ export const FeaturesCarousel = () => {
       
 
       {/* Enhanced Dots Indicator with legal styling */}
-      <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-3 p-2 rounded-xl glass-effect-legal border border-white/20">
-        {carouselData.map((_, index) => <button key={index} onClick={() => setCurrentSlide(index)} className={`w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full transition-all duration-300 ${currentSlide === index ? 'bg-accent-legal scale-125 shadow-lg shadow-accent-legal/50' : 'bg-white/60 hover:bg-white/80 hover:scale-110'}`} />)}
-      </div>
+      
 
       {/* Enhanced Progress bar with legal styling */}
       <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-background-deep/50">
