@@ -20,7 +20,7 @@ const Index = () => {
   }
   return <div className="min-h-screen bg-background">
       {/* Sidebar */}
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} className="py-[13px]" />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Enhanced Header - Mobile Optimized */}
       <header className="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-border/30">
