@@ -2,27 +2,54 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { useAppFunctions } from '@/hooks/useAppFunctions';
 import { useNavigation } from '@/context/NavigationContext';
-import { Book, Bot, Library, Headphones, Play, ArrowRight } from 'lucide-react';
+import { 
+  Book, 
+  Bot, 
+  Library, 
+  Headphones, 
+  Play, 
+  ArrowRight, 
+  Scale,
+  FileText,
+  Calculator,
+  Users,
+  Briefcase,
+  Search,
+  BookOpen,
+  Gavel
+} from 'lucide-react';
 
 const getIconForFunction = (funcao: string) => {
   const name = funcao.toLowerCase();
   if (name.includes('vade') || name.includes('mecum')) return Book;
   if (name.includes('audio') || name.includes('áudio')) return Headphones;
   if (name.includes('biblioteca')) return Library;
-  if (name.includes('ia') || name.includes('juridica')) return Bot;
+  if (name.includes('ia') || name.includes('juridica') || name.includes('inteligência')) return Bot;
+  if (name.includes('calculadora')) return Calculator;
+  if (name.includes('simulado') || name.includes('questões')) return FileText;
+  if (name.includes('petições') || name.includes('peticoes')) return Briefcase;
+  if (name.includes('jurisprudência') || name.includes('jurisprudencia')) return Scale;
+  if (name.includes('dicionário') || name.includes('dicionario')) return BookOpen;
+  if (name.includes('tribunal') || name.includes('juiz')) return Gavel;
+  if (name.includes('pesquisa')) return Search;
+  if (name.includes('comunidade')) return Users;
   return Play;
 };
 
 const getColorForFunction = (index: number) => {
   const colors = [
+    'from-red-600 to-red-700',
     'from-blue-600 to-blue-700',
     'from-emerald-600 to-emerald-700',
     'from-purple-600 to-purple-700',
     'from-amber-600 to-amber-700',
     'from-pink-600 to-pink-700',
     'from-indigo-600 to-indigo-700',
-    'from-red-600 to-red-700',
     'from-teal-600 to-teal-700',
+    'from-orange-600 to-orange-700',
+    'from-cyan-600 to-cyan-700',
+    'from-lime-600 to-lime-700',
+    'from-rose-600 to-rose-700'
   ];
   return colors[index % colors.length];
 };
@@ -34,6 +61,9 @@ export const FeaturesGrid = () => {
   const handleFunctionClick = (funcao: string) => {
     setCurrentFunction(funcao);
   };
+
+  // Sort functions by id to maintain table order
+  const sortedFunctions = [...functions].sort((a, b) => a.id - b.id);
 
   if (loading) {
     return (
@@ -76,7 +106,7 @@ export const FeaturesGrid = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {functions.map((func, index) => {
+          {sortedFunctions.map((func, index) => {
             const Icon = getIconForFunction(func.funcao);
             const colorClass = getColorForFunction(index);
             
@@ -119,7 +149,7 @@ export const FeaturesGrid = () => {
           })}
         </div>
 
-        {functions.length === 0 && !loading && (
+        {sortedFunctions.length === 0 && !loading && (
           <div className="text-center py-12">
             <p className="text-muted-foreground text-lg">
               Nenhuma função encontrada. Verifique a configuração da base de dados.
