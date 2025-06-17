@@ -33,6 +33,53 @@ export const Downloads = () => {
     return areaColors[area as keyof typeof areaColors] || 'bg-gray-100 text-gray-800 border-gray-200';
   };
 
+  // Move all useMemo hooks to the top, before any conditional returns
+  const areas = useMemo(() => {
+    return Array.from(new Set(downloads.map(d => d.area))).filter(Boolean);
+  }, [downloads]);
+
+  const professions = useMemo(() => {
+    const allProfessions = downloads
+      .map(d => d.profissao ? d.profissao.split(',').map(p => p.trim()) : [])
+      .flat()
+      .filter(Boolean);
+    return Array.from(new Set(allProfessions));
+  }, [downloads]);
+
+  const getFilteredBooks = useMemo(() => {
+    let filtered = downloads;
+
+    // Filtro por pesquisa global
+    if (searchQuery) {
+      filtered = filtered.filter(book =>
+        book.livro?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.area?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.profissao?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.sobre?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    return filtered;
+  }, [downloads, searchQuery]);
+
+  const getProfessionLogo = (profession: string) => {
+    const download = downloads.find(d => 
+      d['proficao do logo'] && d['proficao do logo'].toLowerCase() === profession.toLowerCase()
+    );
+    return download?.logo || null;
+  };
+
+  const getBooksByArea = (area: string) => {
+    return getFilteredBooks.filter(d => d.area === area);
+  };
+
+  const getBooksByProfession = (profession: string) => {
+    return getFilteredBooks.filter(d => 
+      d.profissao && d.profissao.toLowerCase().includes(profession.toLowerCase())
+    );
+  };
+
+  // Now we can safely have conditional returns after all hooks are declared
   if (loading) {
     return (
       <div className="min-h-screen bg-background p-4">
@@ -57,48 +104,6 @@ export const Downloads = () => {
       </div>
     );
   }
-
-  // Extrair áreas e profissões únicas
-  const areas = Array.from(new Set(downloads.map(d => d.area))).filter(Boolean);
-  const allProfessions = downloads
-    .map(d => d.profissao ? d.profissao.split(',').map(p => p.trim()) : [])
-    .flat()
-    .filter(Boolean);
-  const professions = Array.from(new Set(allProfessions));
-
-  const getProfessionLogo = (profession: string) => {
-    const download = downloads.find(d => 
-      d['proficao do logo'] && d['proficao do logo'].toLowerCase() === profession.toLowerCase()
-    );
-    return download?.logo || null;
-  };
-
-  // Função de busca e filtros
-  const getFilteredBooks = useMemo(() => {
-    let filtered = downloads;
-
-    // Filtro por pesquisa global
-    if (searchQuery) {
-      filtered = filtered.filter(book =>
-        book.livro?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        book.area?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        book.profissao?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        book.sobre?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    return filtered;
-  }, [downloads, searchQuery]);
-
-  const getBooksByArea = (area: string) => {
-    return getFilteredBooks.filter(d => d.area === area);
-  };
-
-  const getBooksByProfession = (profession: string) => {
-    return getFilteredBooks.filter(d => 
-      d.profissao && d.profissao.toLowerCase().includes(profession.toLowerCase())
-    );
-  };
 
   const CompactBookItem = ({ item, showAreaBadge = false }: { item: any, showAreaBadge?: boolean }) => (
     <Card className="mb-3 hover:shadow-md transition-shadow border-l-4" style={{ borderLeftColor: showAreaBadge ? undefined : getAreaColor(item.area).includes('blue') ? '#3b82f6' : getAreaColor(item.area).includes('red') ? '#ef4444' : getAreaColor(item.area).includes('green') ? '#10b981' : getAreaColor(item.area).includes('purple') ? '#8b5cf6' : getAreaColor(item.area).includes('yellow') ? '#f59e0b' : getAreaColor(item.area).includes('orange') ? '#f97316' : getAreaColor(item.area).includes('indigo') ? '#6366f1' : getAreaColor(item.area).includes('pink') ? '#ec4899' : getAreaColor(item.area).includes('emerald') ? '#059669' : getAreaColor(item.area).includes('cyan') ? '#06b6d4' : '#6b7280' }}>
