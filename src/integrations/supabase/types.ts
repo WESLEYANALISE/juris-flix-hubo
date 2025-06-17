@@ -1897,6 +1897,24 @@ export type Database = {
         }
         Relationships: []
       }
+      "NOTICIAS JURIDICAS": {
+        Row: {
+          link: string | null
+          logo: string | null
+          portal: string | null
+        }
+        Insert: {
+          link?: string | null
+          logo?: string | null
+          portal?: string | null
+        }
+        Update: {
+          link?: string | null
+          logo?: string | null
+          portal?: string | null
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           content: string
