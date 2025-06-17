@@ -32,25 +32,25 @@ export const FooterMenu = () => {
     {
       id: 'vade-mecum',
       title: 'Vade Mecum',
-      icon: Scale,
+      icon: Scale, // Balance scale for justice
       function: findFunction('vade')?.funcao || 'Vade Mecum'
     },
     {
       id: 'audio-aulas',
       title: 'Áudio-aulas',
-      icon: Headphones,
+      icon: Headphones, // Headphones for audio content
       function: findFunction('audio')?.funcao || findFunction('áudio')?.funcao || 'Áudio-aulas'
     },
     {
       id: 'biblioteca',
       title: 'Biblioteca',
-      icon: Library,
+      icon: Library, // Library icon for legal library
       function: findFunction('biblioteca')?.funcao || 'Biblioteca'
     },
     {
       id: 'ia-juridica',
       title: 'IA Jurídica',
-      icon: Bot,
+      icon: Bot, // Bot icon for AI assistant
       function: findFunction('ia')?.funcao || findFunction('juridica')?.funcao || 'IA Jurídica'
     }
   ];
@@ -72,60 +72,65 @@ export const FooterMenu = () => {
                 <button
                   key={item.id}
                   onClick={() => handleItemClick(item)}
-                  className={`relative flex flex-col items-center py-2 px-2 sm:py-2.5 sm:px-3 rounded-xl transition-all duration-500 transform active:scale-90 touch-manipulation group ${
+                  className={`relative flex flex-col items-center py-2 px-2 sm:py-2.5 sm:px-3 rounded-xl transition-all duration-500 transform active:scale-90 touch-manipulation group animate-bounce-in-legal ${
                     isActive 
-                      ? 'text-white shadow-md card-depth-2' 
-                      : 'text-muted-foreground hover:text-primary hover:bg-primary/8 active:bg-primary/12'
+                      ? 'text-primary bg-primary/15 shadow-md card-depth-2 animate-legal-glow' 
+                      : 'text-muted-foreground hover:text-primary hover:bg-primary/8 active:bg-primary/12 hover:animate-legal-float'
                   }`}
                   style={{ 
                     animationDelay: `${index * 0.1}s`,
                     transform: isActive ? 'translateY(-2px)' : 'translateY(0)'
                   }}
                 >
-                  {/* Enhanced active indicator */}
-                  <div className={`absolute -top-1 w-8 h-1.5 bg-primary rounded-full transition-all duration-500 ${
-                    isActive ? 'opacity-100 scale-100 shadow-lg' : 'opacity-0 scale-0'
+                  {/* Enhanced active indicator with legal styling */}
+                  <div className={`absolute -top-1 w-8 h-1.5 bg-gradient-to-r from-primary via-accent-legal to-primary rounded-full transition-all duration-500 ${
+                    isActive ? 'opacity-100 scale-100 animate-legal-pulse shadow-lg shadow-primary/50' : 'opacity-0 scale-0'
                   }`} />
                   
-                  {/* Enhanced icon container with black and white styling */}
+                  {/* Enhanced icon container with legal effects */}
                   <div className={`relative p-1.5 sm:p-2 rounded-lg transition-all duration-500 transform ${
                     isActive 
-                      ? 'bg-primary shadow-lg scale-110 card-depth-2' 
-                      : 'group-hover:bg-primary/10 group-hover:scale-105 group-hover:shadow-md'
+                      ? 'bg-gradient-to-br from-primary/25 to-primary/35 shadow-lg scale-110 card-depth-2 animate-legal-shimmer' 
+                      : 'group-hover:bg-gradient-to-br group-hover:from-primary/15 group-hover:to-primary/25 group-hover:scale-105 group-hover:shadow-md'
                   }`}>
                     <Icon className={`h-5 w-5 sm:h-6 sm:w-6 transition-all duration-500 ${
-                      isActive ? 'text-white drop-shadow-lg' : 'group-hover:drop-shadow-md'
+                      isActive ? 'drop-shadow-lg animate-legal-icon-glow' : 'group-hover:drop-shadow-md'
                     }`} />
                     
                     {/* Enhanced glow effect for active state */}
                     {isActive && (
-                      <div className="absolute inset-0 bg-primary rounded-lg blur-sm -z-10 opacity-50" />
+                      <div className="absolute inset-0 bg-primary/30 rounded-lg blur-sm -z-10 animate-legal-pulse" />
+                    )}
+                    
+                    {/* Legal profession sparkle effect */}
+                    {isActive && (
+                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-accent-legal rounded-full animate-legal-sparkle" />
                     )}
                   </div>
                   
-                  {/* Enhanced label */}
+                  {/* Enhanced label with legal typography */}
                   <span className={`text-xs font-medium transition-all duration-500 mt-0.5 sm:mt-1 leading-tight ${
-                    isActive ? 'font-bold text-white transform scale-105' : 'group-hover:font-semibold'
+                    isActive ? 'font-bold text-primary transform scale-105 animate-legal-text-glow' : 'group-hover:font-semibold'
                   }`}>
                     {item.title}
                   </span>
 
                   {/* Professional ripple effect */}
                   <div className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none">
-                    <div className={`absolute inset-0 bg-primary/20 rounded-xl transform scale-0 transition-transform duration-300 ${
-                      isActive ? '' : 'group-active:scale-100'
+                    <div className={`absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/30 rounded-xl transform scale-0 transition-transform duration-300 ${
+                      isActive ? '' : 'group-active:scale-100 group-active:animate-legal-ripple'
                     }`} />
                   </div>
 
                   {/* Enhanced background glow on hover */}
-                  <div className="absolute inset-0 rounded-xl bg-primary/0 group-hover:bg-primary/5 transition-all duration-500 pointer-events-none" />
+                  <div className="absolute inset-0 rounded-xl bg-primary/0 group-hover:bg-primary/5 transition-all duration-500 pointer-events-none animate-legal-hover-glow" />
                 </button>
               );
             })}
           </div>
           
-          {/* Enhanced bottom safe area with subtle gradient */}
-          <div className="h-1 sm:h-0 bg-gradient-to-r from-primary/10 via-accent-legal/5 to-primary/10" />
+          {/* Enhanced bottom safe area with legal accent */}
+          <div className="h-1 sm:h-0 bg-gradient-to-r from-primary/20 via-accent-legal/10 to-primary/20" />
         </div>
       </div>
     </div>
