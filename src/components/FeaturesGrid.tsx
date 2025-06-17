@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from '@/components/ui/card';
 import { useAppFunctions } from '@/hooks/useAppFunctions';
 import { useNavigation } from '@/context/NavigationContext';
@@ -36,24 +37,6 @@ const getIconForFunction = (funcao: string) => {
   if (name.includes('noticia') || name.includes('notícia') || name.includes('juridica')) return Newspaper;
   if (name.includes('juriflix') || name.includes('filme') || name.includes('cinema')) return Film;
   return Scale; // Default to justice scale for legal theme
-};
-
-const getColorForFunction = (index: number) => {
-  const colors = [
-    'gradient-legal',     // Gold for legal content
-    'gradient-ai',        // Cyan for AI/tech
-    'gradient-study',     // Blue for study materials
-    'gradient-media',     // Purple for media content
-    'gradient-docs',      // Green for documents
-    'gradient-legal',     // Back to gold
-    'gradient-ai',        // Cyan
-    'gradient-study',     // Blue
-    'gradient-media',     // Purple
-    'gradient-docs',      // Green
-    'gradient-legal',     // Gold
-    'gradient-ai'         // Cyan
-  ];
-  return colors[index % colors.length];
 };
 
 export const FeaturesGrid = () => {
@@ -110,7 +93,6 @@ export const FeaturesGrid = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {sortedFunctions.map((func, index) => {
             const Icon = getIconForFunction(func.funcao);
-            const colorClass = getColorForFunction(index);
             
             return (
               <Card 
@@ -123,12 +105,12 @@ export const FeaturesGrid = () => {
                   {/* Enhanced background gradient effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
-                  <div className={`w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-xl ${colorClass} flex items-center justify-center group-hover:scale-110 transition-all duration-500 card-depth-2 group-hover:card-depth-3 relative`}>
-                    <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-white drop-shadow-lg" />
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-xl bg-card border-2 border-border hover:border-primary/50 flex items-center justify-center group-hover:scale-110 transition-all duration-500 card-depth-2 group-hover:card-depth-3 relative">
+                    <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-foreground group-hover:text-primary transition-colors duration-500" />
                     
-                    {/* Enhanced hover arrow without blinking dots */}
-                    <div className="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100 card-depth-1">
-                      <ArrowRight className="h-2 w-2 sm:h-3 sm:w-3 text-gray-800" />
+                    {/* Enhanced hover arrow */}
+                    <div className="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-primary/10 border border-primary/30 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100 card-depth-1">
+                      <ArrowRight className="h-2 w-2 sm:h-3 sm:w-3 text-primary" />
                     </div>
                   </div>
                   

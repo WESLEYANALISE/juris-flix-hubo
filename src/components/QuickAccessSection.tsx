@@ -1,3 +1,4 @@
+
 import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
@@ -23,20 +24,6 @@ import { QuickAccessEditor } from './QuickAccessEditor';
 // Get first 7 most common functions for quick access (leaving space for edit button)
 const getMostUsedFunctions = (functions: any[]) => {
   return functions.slice(0, 7);
-};
-
-const getColorForIndex = (index: number) => {
-  const colors = [
-    'gradient-legal',     // Gold for legal content
-    'gradient-ai',        // Cyan for AI/tech
-    'gradient-study',     // Blue for study materials
-    'gradient-media',     // Purple for media content
-    'gradient-docs',      // Green for documents
-    'gradient-legal',     // Back to gold
-    'gradient-ai',        // Cyan
-    'gradient-study'      // Blue
-  ];
-  return colors[index % colors.length];
 };
 
 const getIconForFunction = (funcao: string) => {
@@ -133,7 +120,6 @@ export const QuickAccessSection = () => {
             >
               {/* Regular function buttons */}
               {quickAccessFunctions.map((func, index) => {
-                const colorClass = getColorForIndex(index);
                 const Icon = getIconForFunction(func.funcao);
                 
                 return (
@@ -144,19 +130,13 @@ export const QuickAccessSection = () => {
                     onClick={() => handleQuickAccess(func.funcao)}
                   >
                     <div className="flex flex-col items-center gap-2">
-                      {/* Enhanced circular button without blinking dots */}
-                      <div className={`
-                        w-14 h-14 sm:w-16 sm:h-16 rounded-full ${colorClass}
-                        flex items-center justify-center card-depth-2 hover-lift-legal
-                        group-hover:scale-110 transition-all duration-500 
-                        border border-white/20 group-hover:border-white/50
-                        relative overflow-hidden
-                      `}>
-                        <div className="absolute inset-0 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      {/* Circular button with black and white styling */}
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-card border-2 border-border hover:border-primary/50 flex items-center justify-center card-depth-2 hover-lift-legal group-hover:scale-110 transition-all duration-500 relative overflow-hidden">
+                        <div className="absolute inset-0 bg-primary/5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         
-                        <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-white drop-shadow-lg relative z-10" />
+                        <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-foreground group-hover:text-primary relative z-10 transition-colors duration-500" />
                         
-                        <div className="absolute inset-0 rounded-full border-2 border-white/0 group-hover:border-white/40 transition-all duration-500" />
+                        <div className="absolute inset-0 rounded-full border-2 border-transparent group-hover:border-primary/20 transition-all duration-500" />
                       </div>
                       
                       <span className="text-xs font-medium text-center text-foreground group-hover:text-primary transition-all duration-500 max-w-[4rem] sm:max-w-[5rem] line-clamp-2-fade group-hover:scale-105">
@@ -174,8 +154,8 @@ export const QuickAccessSection = () => {
                 onClick={handleEditClick}
               >
                 <div className="flex flex-col items-center gap-2">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-muted/80 to-muted border-2 border-dashed border-primary/50 flex items-center justify-center hover:border-primary transition-all duration-500 group-hover:scale-110">
-                    <Edit className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-card border-2 border-dashed border-muted-foreground/50 hover:border-primary flex items-center justify-center transition-all duration-500 group-hover:scale-110">
+                    <Edit className="h-6 w-6 sm:h-7 sm:w-7 text-muted-foreground group-hover:text-primary transition-colors duration-500" />
                   </div>
                   
                   <span className="text-xs font-medium text-center text-muted-foreground group-hover:text-primary transition-all duration-500 max-w-[4rem] sm:max-w-[5rem]">

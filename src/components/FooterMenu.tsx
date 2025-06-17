@@ -27,36 +27,31 @@ export const FooterMenu = () => {
       id: 'home',
       title: 'Início',
       icon: Home,
-      function: null,
-      gradient: 'from-blue-500 to-blue-600'
+      function: null
     },
     {
       id: 'vade-mecum',
       title: 'Vade Mecum',
       icon: Scale,
-      function: findFunction('vade')?.funcao || 'Vade Mecum',
-      gradient: 'from-amber-500 to-amber-600'
+      function: findFunction('vade')?.funcao || 'Vade Mecum'
     },
     {
       id: 'audio-aulas',
       title: 'Áudio-aulas',
       icon: Headphones,
-      function: findFunction('audio')?.funcao || findFunction('áudio')?.funcao || 'Áudio-aulas',
-      gradient: 'from-purple-500 to-purple-600'
+      function: findFunction('audio')?.funcao || findFunction('áudio')?.funcao || 'Áudio-aulas'
     },
     {
       id: 'biblioteca',
       title: 'Biblioteca',
       icon: Library,
-      function: findFunction('biblioteca')?.funcao || 'Biblioteca',
-      gradient: 'from-green-500 to-green-600'
+      function: findFunction('biblioteca')?.funcao || 'Biblioteca'
     },
     {
       id: 'ia-juridica',
       title: 'IA Jurídica',
       icon: Bot,
-      function: findFunction('ia')?.funcao || findFunction('juridica')?.funcao || 'IA Jurídica',
-      gradient: 'from-cyan-500 to-cyan-600'
+      function: findFunction('ia')?.funcao || findFunction('juridica')?.funcao || 'IA Jurídica'
     }
   ];
 
@@ -88,15 +83,15 @@ export const FooterMenu = () => {
                   }}
                 >
                   {/* Enhanced active indicator */}
-                  <div className={`absolute -top-1 w-8 h-1.5 bg-gradient-to-r ${item.gradient} rounded-full transition-all duration-500 ${
+                  <div className={`absolute -top-1 w-8 h-1.5 bg-primary rounded-full transition-all duration-500 ${
                     isActive ? 'opacity-100 scale-100 shadow-lg' : 'opacity-0 scale-0'
                   }`} />
                   
-                  {/* Enhanced icon container with specific gradients */}
+                  {/* Enhanced icon container with black and white styling */}
                   <div className={`relative p-1.5 sm:p-2 rounded-lg transition-all duration-500 transform ${
                     isActive 
-                      ? `bg-gradient-to-br ${item.gradient} shadow-lg scale-110 card-depth-2` 
-                      : 'group-hover:bg-gradient-to-br group-hover:from-primary/15 group-hover:to-primary/25 group-hover:scale-105 group-hover:shadow-md'
+                      ? 'bg-primary shadow-lg scale-110 card-depth-2' 
+                      : 'group-hover:bg-primary/10 group-hover:scale-105 group-hover:shadow-md'
                   }`}>
                     <Icon className={`h-5 w-5 sm:h-6 sm:w-6 transition-all duration-500 ${
                       isActive ? 'text-white drop-shadow-lg' : 'group-hover:drop-shadow-md'
@@ -104,7 +99,7 @@ export const FooterMenu = () => {
                     
                     {/* Enhanced glow effect for active state */}
                     {isActive && (
-                      <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} rounded-lg blur-sm -z-10 opacity-50`} />
+                      <div className="absolute inset-0 bg-primary rounded-lg blur-sm -z-10 opacity-50" />
                     )}
                   </div>
                   
@@ -117,7 +112,7 @@ export const FooterMenu = () => {
 
                   {/* Professional ripple effect */}
                   <div className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none">
-                    <div className={`absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/30 rounded-xl transform scale-0 transition-transform duration-300 ${
+                    <div className={`absolute inset-0 bg-primary/20 rounded-xl transform scale-0 transition-transform duration-300 ${
                       isActive ? '' : 'group-active:scale-100'
                     }`} />
                   </div>
