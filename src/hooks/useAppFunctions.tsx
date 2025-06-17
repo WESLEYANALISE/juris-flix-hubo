@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
 export interface AppFunction {
@@ -14,25 +14,31 @@ export const useAppFunctions = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchFunctions = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('APP')
-          .select('id, funcao, descricao, link')
-          .order('id');
+  const fetchFunctions = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const { data, error } = await supabase
+        .from('APP')
+        .select('id, funcao, descricao, link')
+        .order('id');
 
-        if (error) throw error;
-        setFunctions(data || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Erro ao carregar funções');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFunctions();
+      if (error) throw error;
+      setFunctions(data || []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao carregar funções');
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return { functions, loading, error };
+  const refetch = useCallback(() => {
+    fetchFunctions();
+  }, [fetchFunctions]);
+
+  useEffect(() => {
+    fetchFunctions();
+  }, [fetchFunctions]);
+
+  return { functions, loading, error, refetch };
 };
