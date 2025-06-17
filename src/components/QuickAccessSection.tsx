@@ -16,8 +16,42 @@ import {
   Folder,
   Newspaper,
   Film,
-  Brain
+  Brain,
+  BookOpen,
+  FileText,
+  Search,
+  GraduationCap,
+  Calendar,
+  Clock,
+  Award,
+  Target,
+  Bookmark,
+  Download,
+  Upload,
+  Share,
+  Heart,
+  Star,
+  Zap,
+  Shield,
+  Globe,
+  Camera,
+  Music,
+  Video,
+  Image,
+  File,
+  Archive,
+  Code,
+  Database
 } from 'lucide-react';
+
+// Array expandido de ícones únicos
+const availableIcons = [
+  Scale, Bot, Library, Headphones, GitBranch, Monitor, Play, Folder, 
+  Newspaper, Film, Brain, BookOpen, FileText, Search, GraduationCap, 
+  Calendar, Clock, Award, Target, Bookmark, Download, Upload, Share, 
+  Heart, Star, Zap, Shield, Globe, Camera, Music, Video, Image, 
+  File, Archive, Code, Database
+];
 
 // Get first 8 most common functions for quick access
 const getMostUsedFunctions = (functions: any[]) => {
@@ -38,25 +72,43 @@ const getColorForIndex = (index: number) => {
   return colors[index % colors.length];
 };
 
-const getIconForFunction = (funcao: string) => {
+const getUniqueIconForFunction = (funcao: string, index: number) => {
   const name = funcao.toLowerCase();
   
-  // Enhanced icon mapping for legal-specific functions
-  if (name.includes('vade') || name.includes('mecum')) return Scale; // Justice scale for Vade Mecum
+  // Mapeamento específico para funções principais
+  if (name.includes('vade') || name.includes('mecum')) return Scale;
   if (name.includes('assistente') && name.includes('ia')) return Bot;
   if (name.includes('biblioteca')) return Library;
   if (name.includes('audio') || name.includes('áudio')) return Headphones;
-  if (name.includes('mapa') && name.includes('mental')) return Brain; // Brain for mind maps
+  if (name.includes('mapa') && name.includes('mental')) return Brain;
   if (name.includes('plataforma') && name.includes('desktop')) return Monitor;
-  
-  // Fallback icons
   if (name.includes('flashcard') || name.includes('flash card')) return GitBranch;
-  if (name.includes('resumo')) return Scale; // Use scale for legal summaries
+  if (name.includes('resumo') || name.includes('codigo') || name.includes('código')) return BookOpen;
   if (name.includes('video') || name.includes('vídeo') || name.includes('aula')) return Play;
   if (name.includes('petições') || name.includes('peticoes') || name.includes('petição')) return Folder;
   if (name.includes('noticia') || name.includes('notícia') || name.includes('juridica')) return Newspaper;
   if (name.includes('juriflix') || name.includes('filme') || name.includes('cinema')) return Film;
-  return Scale; // Default to justice scale for legal theme
+  if (name.includes('simulado') || name.includes('prova')) return Award;
+  if (name.includes('calendario') || name.includes('agenda')) return Calendar;
+  if (name.includes('curso') || name.includes('aula')) return GraduationCap;
+  if (name.includes('pesquisa') || name.includes('busca')) return Search;
+  if (name.includes('documento') || name.includes('texto')) return FileText;
+  if (name.includes('download') || name.includes('baixar')) return Download;
+  if (name.includes('upload') || name.includes('enviar')) return Upload;
+  if (name.includes('compartilhar') || name.includes('share')) return Share;
+  if (name.includes('favorito') || name.includes('favoritar')) return Heart;
+  if (name.includes('avaliação') || name.includes('rating')) return Star;
+  if (name.includes('rápido') || name.includes('express')) return Zap;
+  if (name.includes('segurança') || name.includes('security')) return Shield;
+  if (name.includes('web') || name.includes('site')) return Globe;
+  if (name.includes('imagem') || name.includes('foto')) return Camera;
+  if (name.includes('música') || name.includes('music')) return Music;
+  if (name.includes('arquivo') || name.includes('file')) return Archive;
+  if (name.includes('código') || name.includes('programação')) return Code;
+  if (name.includes('banco') || name.includes('dados')) return Database;
+  
+  // Se não encontrar correspondência específica, usa um ícone único baseado no índice
+  return availableIcons[index % availableIcons.length] || Scale;
 };
 
 export const QuickAccessSection = () => {
@@ -126,7 +178,7 @@ export const QuickAccessSection = () => {
           >
             {quickAccessFunctions.map((func, index) => {
               const colorClass = getColorForIndex(index);
-              const Icon = getIconForFunction(func.funcao);
+              const Icon = getUniqueIconForFunction(func.funcao, index);
               
               return (
                 <div
