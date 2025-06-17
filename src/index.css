@@ -29,6 +29,7 @@
 
     --accent: 45 85% 60%;              /* Lighter gold accent */
     --accent-foreground: 220 15% 4%;
+    --accent-legal: 45 90% 55%;        /* Legal accent color */
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 20% 96%;
@@ -48,6 +49,9 @@
     --sidebar-accent-foreground: 210 20% 92%;
     --sidebar-border: 220 15% 18%;
     --sidebar-ring: 45 90% 55%;
+
+    /* Additional legal theme colors */
+    --background-deep: 220 20% 2%;     /* Deeper background */
   }
 }
 
@@ -152,6 +156,13 @@
   background-clip: text;
 }
 
+.gradient-text-legal-light {
+  background: linear-gradient(135deg, #f4d03f, #fff8dc, #f4d03f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* Category-specific gradients */
 .gradient-study {
   background: linear-gradient(135deg, #1e3a8a, #3b82f6, #1e40af);
@@ -189,7 +200,7 @@
   border-color: rgba(212, 175, 55, 0.4);
 }
 
-/* Enhanced animations for professional feel */
+/* Enhanced Legal Animations */
 @keyframes slide-up-legal {
   from {
     opacity: 0;
@@ -198,6 +209,43 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-legal {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-legal {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce-in-legal {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }
 
@@ -223,8 +271,159 @@
   }
 }
 
+@keyframes legal-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
+  }
+}
+
+@keyframes legal-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes legal-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes legal-bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes legal-sparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes legal-icon-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.6));
+  }
+}
+
+@keyframes legal-text-glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+  }
+}
+
+@keyframes legal-icon-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-1px) rotate(2deg);
+  }
+}
+
+@keyframes legal-arrow-float {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes legal-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes legal-border {
+  0% {
+    border-color: rgba(212, 175, 55, 0);
+  }
+  100% {
+    border-color: rgba(212, 175, 55, 0.3);
+  }
+}
+
+@keyframes legal-hover-glow {
+  0% {
+    box-shadow: 0 0 0 rgba(212, 175, 55, 0);
+  }
+  100% {
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+  }
+}
+
+@keyframes legal-accent {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    height: 1.5rem;
+    opacity: 1;
+  }
+}
+
+@keyframes legal-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Animation Classes */
 .animate-slide-up-legal {
   animation: slide-up-legal 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slide-in-legal {
+  animation: slide-in-legal 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-fade-in-legal {
+  animation: fade-in-legal 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-bounce-in-legal {
+  animation: bounce-in-legal 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .animate-scale-glow {
@@ -233,6 +432,64 @@
 
 .animate-legal-pulse {
   animation: legal-pulse 2s infinite;
+}
+
+.animate-legal-glow {
+  animation: legal-glow 3s infinite;
+}
+
+.animate-legal-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background-size: 200% 100%;
+  animation: legal-shimmer 2s infinite;
+}
+
+.animate-legal-float {
+  animation: legal-float 3s ease-in-out infinite;
+}
+
+.animate-legal-bounce {
+  animation: legal-bounce 0.6s ease-in-out;
+}
+
+.animate-legal-sparkle {
+  animation: legal-sparkle 1.5s ease-in-out infinite;
+}
+
+.animate-legal-icon-glow {
+  animation: legal-icon-glow 2s ease-in-out infinite;
+}
+
+.animate-legal-text-glow {
+  animation: legal-text-glow 2s ease-in-out infinite;
+}
+
+.animate-legal-icon-float {
+  animation: legal-icon-float 3s ease-in-out infinite;
+}
+
+.animate-legal-arrow-float {
+  animation: legal-arrow-float 1s ease-in-out infinite;
+}
+
+.animate-legal-ripple {
+  animation: legal-ripple 0.6s linear;
+}
+
+.animate-legal-border {
+  animation: legal-border 0.3s ease-out;
+}
+
+.animate-legal-hover-glow {
+  animation: legal-hover-glow 0.3s ease-out;
+}
+
+.animate-legal-accent {
+  animation: legal-accent 0.3s ease-out;
+}
+
+.animate-legal-ring {
+  animation: legal-ring 1.5s ease-in-out infinite;
 }
 
 /* Professional button enhancements */
