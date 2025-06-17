@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -35,11 +36,19 @@ export const PlataformaDesktop = () => {
     const scriptURL = 'https://sheetdb.io/api/v1/29eaz3rsm73qu';
 
     try {
-      console.log('Enviando dados para SheetDB:', data);
+      console.log('Dados originais do formulário:', data);
+      
+      // Formato específico para SheetDB com colunas nomeadas
+      const sheetData = {
+        Nome: data.nome,
+        email: data.email
+      };
+      
+      console.log('Dados formatados para SheetDB:', sheetData);
       
       const response = await fetch(scriptURL, {
         method: 'POST',
-        body: JSON.stringify([data]), // SheetDB espera um array de objetos
+        body: JSON.stringify([sheetData]), // Array com o objeto formatado
         headers: { 'Content-Type': 'application/json' }
       });
 
