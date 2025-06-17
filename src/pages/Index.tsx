@@ -4,12 +4,20 @@ import { FeaturesGrid } from '@/components/FeaturesGrid';
 import { FooterMenu } from '@/components/FooterMenu';
 import { StatsSection } from '@/components/StatsSection';
 import { Sidebar } from '@/components/Sidebar';
+import { AppFunction } from '@/components/AppFunction';
 import { Button } from '@/components/ui/button';
 import { Scale, Menu, Award } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigation } from '@/context/NavigationContext';
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { isInFunction } = useNavigation();
+
+  // If we're in a function, show the function component
+  if (isInFunction) {
+    return <AppFunction />;
+  }
 
   return (
     <div className="min-h-screen bg-background">
