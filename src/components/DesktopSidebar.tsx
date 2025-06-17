@@ -1,7 +1,7 @@
 
 import { 
-  Scale, Book, Bot, Library, GraduationCap, Video, Brain, 
-  FileText, Globe, ChevronLeft, ChevronRight, Home, Star 
+  Book, Bot, Library, Headphones, GitBranch, Monitor, 
+  ChevronLeft, ChevronRight, Home, Star 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
@@ -23,26 +23,18 @@ const menuSections = [
   {
     title: 'Ferramentas Jurídicas',
     items: [
-      { icon: Scale, title: 'Vade Mecum Digital', function: 'Vade Mecum' },
+      { icon: Book, title: 'Vade Mecum Digital', function: 'Vade Mecum' },
       { icon: Bot, title: 'Assistente IA Jurídica', function: 'IA Jurídica' },
       { icon: Library, title: 'Biblioteca Jurídica', function: 'Biblioteca' },
-      { icon: Book, title: 'Resumos Jurídicos', function: 'Resumos' },
+      { icon: GitBranch, title: 'Mapas Mentais', function: 'Mapas Mentais' },
     ]
   },
   {
     title: 'Estudos e Preparação',
     items: [
-      { icon: Brain, title: 'Flashcards', function: 'Flashcards' },
-      { icon: Brain, title: 'Mapas Mentais', function: 'Mapas Mentais' },
-      { icon: Video, title: 'Videoaulas', function: 'Videoaulas' },
-      { icon: GraduationCap, title: 'Simulados OAB', function: 'Simulados' },
-    ]
-  },
-  {
-    title: 'Recursos Profissionais',
-    items: [
-      { icon: FileText, title: 'Modelos de Petições', function: 'Petições' },
-      { icon: Globe, title: 'Notícias Jurídicas', function: 'Notícias' },
+      { icon: GitBranch, title: 'Flashcards', function: 'Flashcards' },
+      { icon: Headphones, title: 'Áudio-aulas', function: 'Áudio-aulas' },
+      { icon: Monitor, title: 'Plataforma Desktop', function: 'Plataforma Desktop' },
     ]
   }
 ];
@@ -55,19 +47,19 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
   };
 
   return (
-    <div className={`fixed left-0 top-0 h-full bg-card/80 backdrop-blur-xl border-r border-border/30 z-40 transition-all duration-300 ${
+    <div className={`fixed left-0 top-0 h-full glass-effect-legal border-r border-border/30 z-40 transition-all duration-300 ${
       collapsed ? 'w-16' : 'w-72'
     }`}>
-      {/* Header */}
+      {/* Enhanced header with legal branding */}
       <div className="p-4 border-b border-border/30">
         <div className="flex items-center justify-between">
           {!collapsed && (
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center">
-                <Scale className="h-6 w-6 text-white" />
+              <div className="w-10 h-10 gradient-legal rounded-xl flex items-center justify-center card-depth-2">
+                <Book className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h2 className="text-lg font-bold gradient-text">LegalStudy Pro</h2>
+                <h2 className="text-lg font-bold gradient-text-legal">LegalStudy Pro</h2>
                 <p className="text-xs text-muted-foreground">Plataforma Jurídica</p>
               </div>
             </div>
@@ -77,20 +69,20 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
             variant="ghost" 
             size="icon" 
             onClick={onToggle}
-            className="hover:bg-secondary/80 h-8 w-8"
+            className="hover:bg-secondary/80 h-8 w-8 hover-glow-legal"
           >
             {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
           </Button>
         </div>
       </div>
 
-      {/* Menu Content */}
+      {/* Enhanced menu content with professional styling */}
       <ScrollArea className="flex-1 px-3 py-4">
         <div className="space-y-6">
           {menuSections.map((section) => (
             <div key={section.title}>
               {!collapsed && (
-                <h3 className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider px-3">
+                <h3 className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider px-3 gradient-text-legal">
                   {section.title}
                 </h3>
               )}
@@ -103,13 +95,13 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
                       key={item.title}
                       variant="ghost"
                       onClick={() => handleItemClick(item.function)}
-                      className={`w-full justify-start gap-3 h-10 hover:bg-secondary/80 group ${
+                      className={`w-full justify-start gap-3 h-10 hover:bg-secondary/80 hover-glow-legal group transition-all duration-300 ${
                         collapsed ? 'px-0 justify-center' : 'px-3'
                       }`}
                     >
-                      <Icon className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
+                      <Icon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
                       {!collapsed && (
-                        <span className="text-sm font-medium group-hover:text-primary">
+                        <span className="text-sm font-medium group-hover:text-primary transition-colors duration-300">
                           {item.title}
                         </span>
                       )}
