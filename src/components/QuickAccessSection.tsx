@@ -1,5 +1,4 @@
-
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
 import { useAppFunctions } from '@/hooks/useAppFunctions';
@@ -16,12 +15,14 @@ import {
   Folder,
   Newspaper,
   Film,
-  Brain
+  Brain,
+  Edit
 } from 'lucide-react';
+import { QuickAccessEditor } from './QuickAccessEditor';
 
-// Get first 8 most common functions for quick access
+// Get first 7 most common functions for quick access (leaving space for edit button)
 const getMostUsedFunctions = (functions: any[]) => {
-  return functions.slice(0, 8); // First 8 functions from table
+  return functions.slice(0, 7);
 };
 
 const getColorForIndex = (index: number) => {
@@ -62,10 +63,15 @@ const getIconForFunction = (funcao: string) => {
 export const QuickAccessSection = () => {
   const { setCurrentFunction } = useNavigation();
   const { functions, loading } = useAppFunctions();
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleQuickAccess = (funcao: string) => {
     setCurrentFunction(funcao);
+  };
+
+  const handleEditClick = () => {
+    setIsEditorOpen(true);
   };
 
   const scrollLeft = () => {
@@ -87,86 +93,106 @@ export const QuickAccessSection = () => {
   }
 
   return (
-    <section className="py-6 sm:py-8 px-4 md:px-8 bg-gradient-to-b from-background/50 to-background animate-slide-up-legal">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-4 sm:mb-6 animate-fade-in-legal">
-          <h2 className="text-lg sm:text-xl font-bold mb-2 gradient-text-legal animate-legal-text-glow">
-            Acesso Rápido
-          </h2>
-          <p className="text-muted-foreground text-sm max-w-lg mx-auto">
-            Funcionalidades mais utilizadas por profissionais do Direito
-          </p>
-        </div>
+    <>
+      <section className="py-6 sm:py-8 px-4 md:px-8 bg-gradient-to-b from-background/50 to-background animate-slide-up-legal">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-4 sm:mb-6 animate-fade-in-legal">
+            <h2 className="text-lg sm:text-xl font-bold mb-2 gradient-text-legal animate-legal-text-glow">
+              Acesso Rápido
+            </h2>
+            <p className="text-muted-foreground text-sm max-w-lg mx-auto">
+              Funcionalidades mais utilizadas por profissionais do Direito
+            </p>
+          </div>
 
-        <div className="relative">
-          {/* Enhanced navigation buttons with legal styling and animations */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={scrollLeft}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 glass-effect-legal hover:bg-background border border-border/50 shadow-lg h-8 w-8 hidden sm:flex hover-glow-legal animate-legal-float"
-          >
-            <ChevronLeft className="h-4 w-4 animate-legal-icon-float" />
-          </Button>
-          
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={scrollRight}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 glass-effect-legal hover:bg-background border border-border/50 shadow-lg h-8 w-8 hidden sm:flex hover-glow-legal animate-legal-float"
-          >
-            <ChevronRight className="h-4 w-4 animate-legal-icon-float" />
-          </Button>
+          <div className="relative">
+            {/* Enhanced navigation buttons with legal styling and animations */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={scrollLeft}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 glass-effect-legal hover:bg-background border border-border/50 shadow-lg h-8 w-8 hidden sm:flex hover-glow-legal animate-legal-float"
+            >
+              <ChevronLeft className="h-4 w-4 animate-legal-icon-float" />
+            </Button>
+            
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={scrollRight}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 glass-effect-legal hover:bg-background border border-border/50 shadow-lg h-8 w-8 hidden sm:flex hover-glow-legal animate-legal-float"
+            >
+              <ChevronRight className="h-4 w-4 animate-legal-icon-float" />
+            </Button>
 
-          {/* Enhanced carousel container with legal animations */}
-          <div 
-            ref={scrollRef}
-            className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-hide py-2 px-2 sm:px-8"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {quickAccessFunctions.map((func, index) => {
-              const colorClass = getColorForIndex(index);
-              const Icon = getIconForFunction(func.funcao);
-              
-              return (
-                <div
-                  key={func.id}
-                  className="flex-shrink-0 group cursor-pointer animate-bounce-in-legal"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                  onClick={() => handleQuickAccess(func.funcao)}
-                >
-                  <div className="flex flex-col items-center gap-2">
-                    {/* Enhanced circular button with legal styling and animations */}
-                    <div className={`
-                      w-14 h-14 sm:w-16 sm:h-16 rounded-full ${colorClass}
-                      flex items-center justify-center card-depth-2 hover-lift-legal
-                      group-hover:scale-110 transition-all duration-500 
-                      border border-white/20 group-hover:border-white/50
-                      relative overflow-hidden animate-legal-shimmer
-                    `}>
-                      {/* Enhanced background glow effect */}
-                      <div className="absolute inset-0 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-legal-glow" />
+            {/* Enhanced carousel container with legal animations */}
+            <div 
+              ref={scrollRef}
+              className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-hide py-2 px-2 sm:px-8"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {/* Regular function buttons */}
+              {quickAccessFunctions.map((func, index) => {
+                const colorClass = getColorForIndex(index);
+                const Icon = getIconForFunction(func.funcao);
+                
+                return (
+                  <div
+                    key={func.id}
+                    className="flex-shrink-0 group cursor-pointer animate-bounce-in-legal"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                    onClick={() => handleQuickAccess(func.funcao)}
+                  >
+                    <div className="flex flex-col items-center gap-2">
+                      {/* Enhanced circular button without blinking dots */}
+                      <div className={`
+                        w-14 h-14 sm:w-16 sm:h-16 rounded-full ${colorClass}
+                        flex items-center justify-center card-depth-2 hover-lift-legal
+                        group-hover:scale-110 transition-all duration-500 
+                        border border-white/20 group-hover:border-white/50
+                        relative overflow-hidden
+                      `}>
+                        <div className="absolute inset-0 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        
+                        <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-white drop-shadow-lg relative z-10" />
+                        
+                        <div className="absolute inset-0 rounded-full border-2 border-white/0 group-hover:border-white/40 transition-all duration-500" />
+                      </div>
                       
-                      <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-white drop-shadow-lg relative z-10 group-hover:animate-legal-icon-glow" />
-                      
-                      {/* Professional glow ring with animation */}
-                      <div className="absolute inset-0 rounded-full border-2 border-white/0 group-hover:border-white/40 transition-all duration-500 animate-legal-ring" />
-                      
-                      {/* Legal sparkle effect */}
-                      <div className="absolute top-1 right-1 w-2 h-2 bg-white/60 rounded-full opacity-0 group-hover:opacity-100 animate-legal-sparkle transition-opacity duration-500" />
+                      <span className="text-xs font-medium text-center text-foreground group-hover:text-primary transition-all duration-500 max-w-[4rem] sm:max-w-[5rem] line-clamp-2-fade group-hover:scale-105">
+                        {func.funcao.split(' ').slice(0, 2).join(' ')}
+                      </span>
                     </div>
-                    
-                    {/* Enhanced label with legal typography and animations */}
-                    <span className="text-xs font-medium text-center text-foreground group-hover:text-primary transition-all duration-500 max-w-[4rem] sm:max-w-[5rem] line-clamp-2-fade group-hover:animate-legal-text-glow group-hover:scale-105">
-                      {func.funcao.split(' ').slice(0, 2).join(' ')}
-                    </span>
                   </div>
+                );
+              })}
+
+              {/* Edit button as the last item */}
+              <div
+                className="flex-shrink-0 group cursor-pointer animate-bounce-in-legal"
+                style={{ animationDelay: `${quickAccessFunctions.length * 0.1}s` }}
+                onClick={handleEditClick}
+              >
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-muted/80 to-muted border-2 border-dashed border-primary/50 flex items-center justify-center hover:border-primary transition-all duration-500 group-hover:scale-110">
+                    <Edit className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
+                  </div>
+                  
+                  <span className="text-xs font-medium text-center text-muted-foreground group-hover:text-primary transition-all duration-500 max-w-[4rem] sm:max-w-[5rem]">
+                    Editar
+                  </span>
                 </div>
-              );
-            })}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Quick Access Editor Modal */}
+      <QuickAccessEditor 
+        isOpen={isEditorOpen} 
+        onClose={() => setIsEditorOpen(false)} 
+      />
+    </>
   );
 };

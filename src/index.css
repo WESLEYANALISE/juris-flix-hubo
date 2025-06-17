@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,51 +6,51 @@
 
 @layer base {
   :root {
-    /* Dark Gray Legal Theme - Main Colors */
-    --background: 220 15% 4%;          /* Very dark gray (#0a0b0f) */
+    /* Lighter Dark Gray Legal Theme - Main Colors */
+    --background: 220 15% 8%;          /* Lighter dark gray (#1a1d23) */
     --foreground: 210 20% 92%;         /* Light gray text */
 
-    --card: 220 15% 8%;                /* Dark gray cards (#1a1d23) */
+    --card: 220 15% 12%;               /* Lighter dark gray cards (#262a32) */
     --card-foreground: 210 20% 92%;
 
-    --popover: 220 15% 8%;
+    --popover: 220 15% 12%;
     --popover-foreground: 210 20% 92%;
 
     /* Golden/Amber accents for legal profession */
     --primary: 45 90% 55%;             /* Professional gold (#d4af37) */
-    --primary-foreground: 220 15% 4%;
+    --primary-foreground: 220 15% 8%;
 
-    --secondary: 220 15% 12%;          /* Darker gray secondary */
+    --secondary: 220 15% 16%;          /* Lighter gray secondary */
     --secondary-foreground: 210 20% 92%;
 
-    --muted: 220 15% 10%;
+    --muted: 220 15% 14%;
     --muted-foreground: 215 25% 65%;
 
     --accent: 45 85% 60%;              /* Lighter gold accent */
-    --accent-foreground: 220 15% 4%;
+    --accent-foreground: 220 15% 8%;
     --accent-legal: 45 90% 55%;        /* Legal accent color */
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 20% 96%;
 
-    --border: 220 15% 18%;             /* Subtle borders */
-    --input: 220 15% 12%;
+    --border: 220 15% 22%;             /* Lighter borders */
+    --input: 220 15% 16%;
     --ring: 45 90% 55%;                /* Gold focus ring */
 
     --radius: 0.75rem;
 
     /* Professional sidebar colors */
-    --sidebar-background: 220 15% 6%;
+    --sidebar-background: 220 15% 10%;
     --sidebar-foreground: 210 20% 92%;
     --sidebar-primary: 45 90% 55%;
-    --sidebar-primary-foreground: 220 15% 4%;
-    --sidebar-accent: 220 15% 12%;
+    --sidebar-primary-foreground: 220 15% 8%;
+    --sidebar-accent: 220 15% 16%;
     --sidebar-accent-foreground: 210 20% 92%;
-    --sidebar-border: 220 15% 18%;
+    --sidebar-border: 220 15% 22%;
     --sidebar-ring: 45 90% 55%;
 
     /* Additional legal theme colors */
-    --background-deep: 220 20% 2%;     /* Deeper background */
+    --background-deep: 220 20% 6%;     /* Deeper background for contrast */
   }
 }
 
