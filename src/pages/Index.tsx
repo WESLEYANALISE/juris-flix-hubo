@@ -2,7 +2,6 @@
 import { FeaturesCarousel } from '@/components/FeaturesCarousel';
 import { FeaturesGrid } from '@/components/FeaturesGrid';
 import { QuickAccessSection } from '@/components/QuickAccessSection';
-import { NoticiasJuridicas } from '@/components/NoticiasJuridicas';
 import { AppFunction } from '@/components/AppFunction';
 import { MobileLayout } from '@/components/MobileLayout';
 import { DesktopLayout } from '@/components/DesktopLayout';
@@ -34,9 +33,6 @@ const Index = () => {
 
       {/* Features Grid */}
       <FeaturesGrid />
-
-      {/* Notícias Jurídicas Section */}
-      <NoticiasJuridicas />
 
       {/* Enhanced CTA Section - Only for desktop */}
       {!isMobileOrTablet && (
