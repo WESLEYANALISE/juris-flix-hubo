@@ -3,13 +3,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useAppFunctions } from '@/hooks/useAppFunctions';
 import { useNavigation } from '@/context/NavigationContext';
 import { 
-  Book, 
-  Bot, 
-  Library, 
-  Headphones, 
-  Play, 
   ArrowRight, 
+  Brain,
   Scale,
+  Book,
+  Play,
+  Folder,
+  Newspaper,
+  Film,
   FileText,
   Calculator,
   Users,
@@ -30,24 +31,28 @@ import {
 
 const getIconForFunction = (funcao: string) => {
   const name = funcao.toLowerCase();
-  if (name.includes('vade') || name.includes('mecum')) return Book;
-  if (name.includes('audio') || name.includes('áudio')) return Headphones;
-  if (name.includes('biblioteca')) return Library;
-  if (name.includes('ia') || name.includes('juridica') || name.includes('inteligência')) return Bot;
+  if (name.includes('flashcard') || name.includes('flash card')) return Brain;
+  if (name.includes('mapa') && name.includes('mental')) return Brain;
+  if (name.includes('vade') || name.includes('mecum')) return Scale;
+  if (name.includes('resumo')) return Book;
+  if (name.includes('video') || name.includes('vídeo') || name.includes('aula')) return Play;
+  if (name.includes('petições') || name.includes('peticoes') || name.includes('petição')) return Folder;
+  if (name.includes('noticia') || name.includes('notícia') || name.includes('juridica')) return Newspaper;
+  if (name.includes('juriflix') || name.includes('filme') || name.includes('cinema')) return Film;
+  
+  // Fallback icons
   if (name.includes('calculadora')) return Calculator;
   if (name.includes('simulado') || name.includes('questões') || name.includes('questoes')) return Target;
-  if (name.includes('petições') || name.includes('peticoes')) return Briefcase;
   if (name.includes('jurisprudência') || name.includes('jurisprudencia')) return Scale;
   if (name.includes('dicionário') || name.includes('dicionario')) return BookOpen;
   if (name.includes('tribunal') || name.includes('juiz')) return Gavel;
   if (name.includes('pesquisa')) return Search;
   if (name.includes('comunidade')) return Users;
-  if (name.includes('curso') || name.includes('aula')) return GraduationCap;
+  if (name.includes('curso')) return GraduationCap;
   if (name.includes('certificado') || name.includes('diploma')) return Award;
   if (name.includes('cronômetro') || name.includes('tempo')) return Clock;
   if (name.includes('redação') || name.includes('redacao')) return PenTool;
   if (name.includes('podcast') || name.includes('som')) return Volume2;
-  if (name.includes('video') || name.includes('vídeo')) return Video;
   if (name.includes('portal') || name.includes('site')) return Globe;
   if (name.includes('quiz') || name.includes('teste')) return Zap;
   return Play;

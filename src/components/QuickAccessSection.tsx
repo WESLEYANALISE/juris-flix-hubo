@@ -6,7 +6,13 @@ import { useAppFunctions } from '@/hooks/useAppFunctions';
 import { 
   ChevronLeft,
   ChevronRight,
-  Play
+  Brain,
+  Scale,
+  Book,
+  Play,
+  Folder,
+  Newspaper,
+  Film
 } from 'lucide-react';
 
 // Get first 8 most common functions for quick access
@@ -26,6 +32,19 @@ const getColorForIndex = (index: number) => {
     'from-teal-500 to-teal-600'
   ];
   return colors[index % colors.length];
+};
+
+const getIconForFunction = (funcao: string) => {
+  const name = funcao.toLowerCase();
+  if (name.includes('flashcard') || name.includes('flash card')) return Brain;
+  if (name.includes('mapa') && name.includes('mental')) return Brain;
+  if (name.includes('vade') || name.includes('mecum')) return Scale;
+  if (name.includes('resumo')) return Book;
+  if (name.includes('video') || name.includes('vídeo') || name.includes('aula')) return Play;
+  if (name.includes('petições') || name.includes('peticoes') || name.includes('petição')) return Folder;
+  if (name.includes('noticia') || name.includes('notícia') || name.includes('juridica')) return Newspaper;
+  if (name.includes('juriflix') || name.includes('filme') || name.includes('cinema')) return Film;
+  return Play; // default icon
 };
 
 export const QuickAccessSection = () => {
@@ -95,6 +114,7 @@ export const QuickAccessSection = () => {
           >
             {quickAccessFunctions.map((func, index) => {
               const colorClass = getColorForIndex(index);
+              const Icon = getIconForFunction(func.funcao);
               
               return (
                 <div
@@ -114,7 +134,7 @@ export const QuickAccessSection = () => {
                       {/* Background glow effect */}
                       <div className="absolute inset-0 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       
-                      <Play className="h-6 w-6 sm:h-7 sm:w-7 text-white drop-shadow-sm relative z-10" />
+                      <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-white drop-shadow-sm relative z-10" />
                     </div>
                     
                     {/* Label */}
