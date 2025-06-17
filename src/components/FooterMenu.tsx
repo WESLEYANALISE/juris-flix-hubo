@@ -1,3 +1,4 @@
+
 import { 
   Scale, 
   Bot, 
@@ -67,9 +68,9 @@ export const FooterMenu = ({ isVisible = true }: FooterMenuProps) => {
     <div className={`fixed bottom-0 left-0 right-0 z-50 safe-area-pb-legal transition-all duration-300 ${
       isVisible ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
     }`}>
-      <div className="mx-3 mb-3 sm:mx-4 sm:mb-4">
-        <div className="max-w-md mx-auto bg-card/95 backdrop-blur-xl rounded-2xl border border-border/50 shadow-2xl">
-          <div className="flex justify-around items-center py-3 px-2">
+      <div className="mx-2 mb-2 sm:mx-3 sm:mb-3">
+        <div className="max-w-sm mx-auto bg-card/95 backdrop-blur-xl rounded-xl border border-border/50 shadow-2xl">
+          <div className="flex justify-around items-center py-2 px-1">
             {menuItems.map((item, index) => {
               const Icon = item.icon;
               const isActive = activeItem === item.id;
@@ -77,28 +78,23 @@ export const FooterMenu = ({ isVisible = true }: FooterMenuProps) => {
                 <button
                   key={item.id}
                   onClick={() => handleItemClick(item)}
-                  className={`relative flex flex-col items-center py-2.5 px-3 rounded-xl transition-all duration-300 transform active:scale-95 group ${
+                  className={`relative flex flex-col items-center py-2 px-2 rounded-lg transition-all duration-300 transform active:scale-95 group ${
                     isActive 
                       ? 'text-primary bg-primary/10 shadow-md' 
                       : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
                   }`}
                 >
-                  {/* Active indicator */}
-                  <div className={`absolute -top-1 w-6 h-1 bg-primary rounded-full transition-all duration-300 ${
-                    isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
-                  }`} />
-                  
                   {/* Icon container */}
-                  <div className={`relative p-2 rounded-lg transition-all duration-300 ${
+                  <div className={`relative p-1.5 rounded-md transition-all duration-300 ${
                     isActive 
-                      ? 'bg-primary/15 scale-110' 
+                      ? 'bg-primary/15 scale-105' 
                       : 'group-hover:bg-primary/10 group-hover:scale-105'
                   }`}>
-                    <Icon className="h-5 w-5 transition-all duration-300" />
+                    <Icon className="h-4 w-4 transition-all duration-300" />
                   </div>
                   
                   {/* Label */}
-                  <span className={`text-xs font-medium transition-all duration-300 mt-1 ${
+                  <span className={`text-xs font-medium transition-all duration-300 mt-0.5 ${
                     isActive ? 'font-semibold text-primary' : 'group-hover:font-medium'
                   }`}>
                     {item.title}

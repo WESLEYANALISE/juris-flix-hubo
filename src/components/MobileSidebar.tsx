@@ -5,12 +5,12 @@ import { X, Home, Scale, Headphones, Library, Bot, User, Settings, HelpCircle,
          Bookmark, Download, Upload, Share, Heart, Star, Zap, Shield,
          Globe, Camera, Music, Video, Image, File, Archive, Code,
          Database, Server, Wifi, Lock, Key, Eye, EyeOff, Trash,
-         Edit, Copy, Clipboard, Printer, Scanner, Phone, Mail,
+         Edit, Copy, Clipboard, Printer, ScanLine, Phone, Mail,
          MessageCircle, Bell, Flag, Tag, Hash, AtSign, Percent,
-         Dollar, Euro, Pound, CreditCard, ShoppingCart, Package,
+         DollarSign, Euro, PoundSterling, CreditCard, ShoppingCart, Package,
          Truck, Map, MapPin, Navigation, Compass, Route, Car,
-         Plane, Ship, Train, Bus, Bike, Walking, Clock3, Timer,
-         Stopwatch, AlarmClock, Calendar as CalendarIcon, CalendarDays } from 'lucide-react';
+         Plane, Ship, Train, Bus, Bike, Footprints, Clock3, Timer,
+         Watch, AlarmClock, Calendar as CalendarIcon, CalendarDays } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
 import { useAppFunctions } from '@/hooks/useAppFunctions';
@@ -27,11 +27,11 @@ const availableIcons = [
   Calendar, Clock, Award, Target, Bookmark, Download, Upload, Share, 
   Heart, Star, Zap, Shield, Globe, Camera, Music, Video, Image, 
   File, Archive, Code, Database, Server, Wifi, Lock, Key, Eye, 
-  EyeOff, Trash, Edit, Copy, Clipboard, Printer, Scanner, Phone, 
+  EyeOff, Trash, Edit, Copy, Clipboard, Printer, ScanLine, Phone, 
   Mail, MessageCircle, Bell, Flag, Tag, Hash, AtSign, Percent, 
-  Dollar, Euro, Pound, CreditCard, ShoppingCart, Package, Truck, 
+  DollarSign, Euro, PoundSterling, CreditCard, ShoppingCart, Package, Truck, 
   Map, MapPin, Navigation, Compass, Route, Car, Plane, Ship, Train, 
-  Bus, Bike, Walking, Clock3, Timer, Stopwatch, AlarmClock, CalendarIcon, CalendarDays
+  Bus, Bike, Footprints, Clock3, Timer, Watch, AlarmClock, CalendarIcon, CalendarDays
 ];
 
 const getUniqueIconForFunction = (funcao: string, index: number) => {

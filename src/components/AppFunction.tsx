@@ -1,76 +1,140 @@
-import { ArrowLeft } from 'lucide-react';
+
+import { useEffect, useState } from 'react';
+import { ArrowLeft, ExternalLink, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
-import { useAppFunctions } from '@/hooks/useAppFunctions';
-import { useEffect, useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import { ErrorState } from '@/components/ErrorState';
+
 export const AppFunction = () => {
-  const {
-    currentFunction,
-    setCurrentFunction
-  } = useNavigation();
-  const {
-    functions,
-    loading
-  } = useAppFunctions();
-  const [functionData, setFunctionData] = useState<any>(null);
+  const { currentFunction, clearCurrentFunction } = useNavigation();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+
   useEffect(() => {
-    if (currentFunction && functions.length > 0) {
-      const func = functions.find(f => f.funcao === currentFunction);
-      setFunctionData(func);
+    if (currentFunction) {
+      setIsLoading(true);
+      setHasError(false);
+      
+      // Simulate loading time
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+        // Simulate random errors for demo
+        if (Math.random() > 0.8) {
+          setHasError(true);
+          toast({
+            variant: "destructive",
+            title: "Erro de Conexão",
+            description: "Não foi possível carregar a funcionalidade. Tente novamente.",
+          });
+        }
+      }, 1500);
+
+      return () => clearTimeout(timer);
     }
-  }, [currentFunction, functions]);
-  const handleBack = () => {
-    setCurrentFunction(null);
+  }, [currentFunction, toast]);
+
+  const handleGoBack = () => {
+    clearCurrentFunction();
   };
-  if (!currentFunction || loading) {
+
+  const handleRetry = () => {
+    setIsLoading(true);
+    setHasError(false);
+    
+    setTimeout(() => {
+      setIsLoading(false);
+      setHasError(false);
+      toast({
+        title: "Conectado",
+        description: "Funcionalidade carregada com sucesso!",
+      });
+    }, 1000);
+  };
+
+  if (!currentFunction) {
     return null;
   }
-  if (!functionData) {
-    return <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-bold text-foreground mb-2">Função não encontrada</h2>
-          <p className="text-muted-foreground mb-4">A função "{currentFunction}" não foi encontrada na base de dados.</p>
-          <Button onClick={handleBack} variant="outline">
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="sticky top-0 z-50 border-b border-border/50 bg-background/95 backdrop-blur-md">
+        <div className="flex items-center gap-4 px-4 py-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleGoBack}
+            className="hover:bg-background/80"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
             Voltar
           </Button>
-        </div>
-      </div>;
-  }
-  return <div className="min-h-screen bg-background">
-      {/* Header with back button */}
-      <header className="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-border/30">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8 sm:py-4 py-[10px]">
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Button variant="ghost" size="icon" onClick={handleBack} className="text-foreground hover:bg-red-500/10 hover:text-red-400 transition-all duration-300 hover:scale-110 h-8 w-8 sm:h-10 sm:w-10">
-              <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-            </Button>
-            <div>
-              <h1 className="text-lg sm:text-xl font-bold gradient-text">
-                {functionData.funcao}
-              </h1>
-              {functionData.descricao && <p className="text-xs sm:text-sm text-muted-foreground">
-                  {functionData.descricao}
-                </p>}
-            </div>
+          
+          <div className="flex-1">
+            <h1 className="font-semibold text-lg gradient-text-legal">
+              {currentFunction}
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Funcionalidade especializada em Direito
+            </p>
           </div>
+          
+          <Button
+            variant="outline"
+            size="sm"
+            className="hidden sm:flex"
+          >
+            <ExternalLink className="h-4 w-4 mr-2" />
+            Abrir em Nova Aba
+          </Button>
         </div>
       </header>
 
-      {/* WebView Content */}
-      <main className="pt-16 sm:pt-20 h-screen">
-        {functionData.link ? <iframe src={functionData.link} className="w-full h-full border-0" title={functionData.funcao} sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation" loading="lazy" /> : <div className="flex items-center justify-center h-full">
-            <div className="text-center p-8">
-              <h2 className="text-2xl font-bold mb-4 gradient-text">
-                {functionData.funcao}
-              </h2>
-              <p className="text-lg text-muted-foreground mb-8">
-                {functionData.descricao || 'Funcionalidade em desenvolvimento'}
-              </p>
-              <p className="text-sm text-red-400">
-                Link não disponível para esta função
-              </p>
+      {/* Content */}
+      <main className="flex-1">
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center min-h-[500px] p-8">
+            <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+            <h2 className="text-xl font-semibold mb-2">Carregando...</h2>
+            <p className="text-muted-foreground text-center max-w-md">
+              Conectando com {currentFunction}. Isso pode levar alguns segundos.
+            </p>
+          </div>
+        ) : hasError ? (
+          <ErrorState
+            title="Falha na Conexão"
+            description={`Não foi possível conectar com ${currentFunction}. Verifique sua conexão com a internet e tente novamente.`}
+            onRetry={handleRetry}
+            onGoHome={handleGoBack}
+          />
+        ) : (
+          <div className="p-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-card rounded-xl border border-border/50 p-8 text-center">
+                <div className="text-6xl mb-4">🚀</div>
+                <h2 className="text-2xl font-bold mb-4 gradient-text-legal">
+                  {currentFunction} Carregado!
+                </h2>
+                <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                  A funcionalidade foi carregada com sucesso. Em uma implementação real, 
+                  aqui seria exibido o conteúdo específico da ferramenta jurídica.
+                </p>
+                
+                <div className="flex gap-4 justify-center">
+                  <Button onClick={handleGoBack}>
+                    Voltar ao Menu
+                  </Button>
+                  <Button variant="outline">
+                    Abrir Tutorial
+                  </Button>
+                </div>
+              </div>
             </div>
-          </div>}
+          </div>
+        )}
       </main>
-    </div>;
+    </div>
+  );
 };
