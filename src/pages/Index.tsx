@@ -55,7 +55,7 @@ const Index = () => {
       {/* Main Content with enhanced spacing - Mobile Optimized */}
       <main className="pt-16 sm:pt-20 pb-20 sm:pb-24 py-[84px]">
         {/* Carousel Section - Mobile Optimized */}
-        <section className="px-3 sm:px-4 md:px-8 mb-6 sm:mb-8">
+        <section className="px-3 sm:px-4 md:px-8 mb-6 sm:mb-8 py-[20px]">
           <div className="max-w-7xl mx-auto">
             <FeaturesCarousel />
           </div>
