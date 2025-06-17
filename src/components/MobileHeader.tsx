@@ -1,3 +1,4 @@
+
 import { Scale, Search, Bell, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
@@ -19,7 +20,7 @@ export const MobileHeader = ({ sidebarOpen, setSidebarOpen }: MobileHeaderProps)
             {/* Logo and Title */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-lg">
-                <Scale className="h-6 w-6 text-white" />
+                <Scale className="h-6 w-6 text-amber-400" />
               </div>
               <div>
                 <h1 className="text-lg font-bold gradient-text">LegalStudy Pro</h1>
@@ -34,7 +35,7 @@ export const MobileHeader = ({ sidebarOpen, setSidebarOpen }: MobileHeaderProps)
                 size="icon" 
                 className="h-10 w-10 rounded-full hover:bg-primary/10"
               >
-                <Search className="h-5 w-5" />
+                <Search className="h-5 w-5 text-amber-400" />
               </Button>
               
               <Button 
@@ -42,7 +43,7 @@ export const MobileHeader = ({ sidebarOpen, setSidebarOpen }: MobileHeaderProps)
                 size="icon" 
                 className="h-10 w-10 rounded-full hover:bg-primary/10 relative"
               >
-                <Bell className="h-5 w-5" />
+                <Bell className="h-5 w-5 text-amber-400" />
                 {hasNotifications && (
                   <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse" />
                 )}
@@ -54,7 +55,7 @@ export const MobileHeader = ({ sidebarOpen, setSidebarOpen }: MobileHeaderProps)
                 className="h-10 w-10 rounded-full hover:bg-primary/10 transition-all duration-300"
                 onClick={() => setSidebarOpen(true)}
               >
-                <Menu className={`h-5 w-5 transition-transform duration-300 ${sidebarOpen ? 'rotate-90' : 'rotate-0'}`} />
+                <Menu className={`h-5 w-5 text-amber-400 transition-transform duration-300 ${sidebarOpen ? 'rotate-90' : 'rotate-0'}`} />
               </Button>
             </div>
           </div>
