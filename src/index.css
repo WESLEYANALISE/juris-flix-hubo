@@ -7,47 +7,51 @@
 
 @layer base {
   :root {
-    /* Lighter Dark Gray Legal Theme - Main Colors */
-    --background: 220 15% 8%;          /* Lighter dark gray (#171a21) */
+    /* Dark Gray Legal Theme - Main Colors */
+    --background: 220 15% 4%;          /* Very dark gray (#0a0b0f) */
     --foreground: 210 20% 92%;         /* Light gray text */
 
-    --card: 220 15% 12%;               /* Lighter dark gray cards (#1f2329) */
+    --card: 220 15% 8%;                /* Dark gray cards (#1a1d23) */
     --card-foreground: 210 20% 92%;
 
-    --popover: 220 15% 12%;
+    --popover: 220 15% 8%;
     --popover-foreground: 210 20% 92%;
 
     /* Golden/Amber accents for legal profession */
     --primary: 45 90% 55%;             /* Professional gold (#d4af37) */
-    --primary-foreground: 220 15% 8%;
+    --primary-foreground: 220 15% 4%;
 
-    --secondary: 220 15% 16%;          /* Lighter gray secondary */
+    --secondary: 220 15% 12%;          /* Darker gray secondary */
     --secondary-foreground: 210 20% 92%;
 
-    --muted: 220 15% 14%;
+    --muted: 220 15% 10%;
     --muted-foreground: 215 25% 65%;
 
     --accent: 45 85% 60%;              /* Lighter gold accent */
-    --accent-foreground: 220 15% 8%;
+    --accent-foreground: 220 15% 4%;
+    --accent-legal: 45 90% 55%;        /* Legal accent color */
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 20% 96%;
 
-    --border: 220 15% 20%;             /* Lighter borders */
-    --input: 220 15% 16%;
+    --border: 220 15% 18%;             /* Subtle borders */
+    --input: 220 15% 12%;
     --ring: 45 90% 55%;                /* Gold focus ring */
 
     --radius: 0.75rem;
 
     /* Professional sidebar colors */
-    --sidebar-background: 220 15% 10%;
+    --sidebar-background: 220 15% 6%;
     --sidebar-foreground: 210 20% 92%;
     --sidebar-primary: 45 90% 55%;
-    --sidebar-primary-foreground: 220 15% 8%;
-    --sidebar-accent: 220 15% 16%;
+    --sidebar-primary-foreground: 220 15% 4%;
+    --sidebar-accent: 220 15% 12%;
     --sidebar-accent-foreground: 210 20% 92%;
-    --sidebar-border: 220 15% 20%;
+    --sidebar-border: 220 15% 18%;
     --sidebar-ring: 45 90% 55%;
+
+    /* Additional legal theme colors */
+    --background-deep: 220 20% 2%;     /* Deeper background */
   }
 }
 
@@ -72,7 +76,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: rgba(23, 26, 33, 0.3);
+    background: rgba(16, 20, 29, 0.3);
   }
 
   ::-webkit-scrollbar-thumb {
@@ -123,11 +127,84 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-/* Enhanced animations */
-@keyframes slide-up {
+/* Professional glass effect for legal theme */
+.glass-effect-legal {
+  backdrop-filter: blur(24px);
+  background: rgba(26, 29, 35, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Enhanced floating effect */
+.floating-effect-legal {
+  backdrop-filter: blur(32px);
+  background: rgba(26, 29, 35, 0.95);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.6),
+    0 8px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Professional gradient for legal theme */
+.gradient-text-legal {
+  background: linear-gradient(135deg, #d4af37, #f4d03f, #d4af37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-legal-light {
+  background: linear-gradient(135deg, #f4d03f, #fff8dc, #f4d03f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Category-specific gradients */
+.gradient-study {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6, #1e40af);
+}
+
+.gradient-ai {
+  background: linear-gradient(135deg, #0891b2, #06b6d4, #0e7490);
+}
+
+.gradient-legal {
+  background: linear-gradient(135deg, #d4af37, #f59e0b, #d97706);
+}
+
+.gradient-media {
+  background: linear-gradient(135deg, #7c3aed, #a855f7, #6d28d9);
+}
+
+.gradient-docs {
+  background: linear-gradient(135deg, #059669, #10b981, #047857);
+}
+
+/* Professional hover effects */
+.hover-lift-legal:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 8px 16px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(212, 175, 55, 0.2);
+}
+
+.hover-glow-legal:hover {
+  box-shadow: 
+    0 0 30px rgba(212, 175, 55, 0.3),
+    0 0 60px rgba(212, 175, 55, 0.1);
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+/* Enhanced Legal Animations */
+@keyframes slide-up-legal {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -135,10 +212,10 @@
   }
 }
 
-@keyframes slide-in {
+@keyframes slide-in-legal {
   from {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(-30px);
   }
   to {
     opacity: 1;
@@ -146,7 +223,7 @@
   }
 }
 
-@keyframes fade-in {
+@keyframes fade-in-legal {
   from {
     opacity: 0;
     transform: scale(0.95);
@@ -157,33 +234,309 @@
   }
 }
 
-/* Animation classes */
-.animate-slide-up {
-  animation: slide-up 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+@keyframes bounce-in-legal {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
-.animate-slide-in {
-  animation: slide-in 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+@keyframes scale-glow {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+    box-shadow: 0 0 0 rgba(212, 175, 55, 0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+  }
 }
 
-.animate-fade-in {
-  animation: fade-in 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+@keyframes legal-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+  }
 }
 
-/* Safe area enhancements */
-.safe-area-pb {
-  padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+@keyframes legal-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
+  }
 }
 
-.safe-area-pt {
-  padding-top: max(env(safe-area-inset-top), 1rem);
+@keyframes legal-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes legal-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes legal-bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes legal-sparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes legal-icon-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.6));
+  }
+}
+
+@keyframes legal-text-glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+  }
+}
+
+@keyframes legal-icon-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-1px) rotate(2deg);
+  }
+}
+
+@keyframes legal-arrow-float {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes legal-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes legal-border {
+  0% {
+    border-color: rgba(212, 175, 55, 0);
+  }
+  100% {
+    border-color: rgba(212, 175, 55, 0.3);
+  }
+}
+
+@keyframes legal-hover-glow {
+  0% {
+    box-shadow: 0 0 0 rgba(212, 175, 55, 0);
+  }
+  100% {
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+  }
+}
+
+@keyframes legal-accent {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    height: 1.5rem;
+    opacity: 1;
+  }
+}
+
+@keyframes legal-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Animation Classes */
+.animate-slide-up-legal {
+  animation: slide-up-legal 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slide-in-legal {
+  animation: slide-in-legal 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-fade-in-legal {
+  animation: fade-in-legal 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-bounce-in-legal {
+  animation: bounce-in-legal 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-scale-glow {
+  animation: scale-glow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-legal-pulse {
+  animation: legal-pulse 2s infinite;
+}
+
+.animate-legal-glow {
+  animation: legal-glow 3s infinite;
+}
+
+.animate-legal-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background-size: 200% 100%;
+  animation: legal-shimmer 2s infinite;
+}
+
+.animate-legal-float {
+  animation: legal-float 3s ease-in-out infinite;
+}
+
+.animate-legal-bounce {
+  animation: legal-bounce 0.6s ease-in-out;
+}
+
+.animate-legal-sparkle {
+  animation: legal-sparkle 1.5s ease-in-out infinite;
+}
+
+.animate-legal-icon-glow {
+  animation: legal-icon-glow 2s ease-in-out infinite;
+}
+
+.animate-legal-text-glow {
+  animation: legal-text-glow 2s ease-in-out infinite;
+}
+
+.animate-legal-icon-float {
+  animation: legal-icon-float 3s ease-in-out infinite;
+}
+
+.animate-legal-arrow-float {
+  animation: legal-arrow-float 1s ease-in-out infinite;
+}
+
+.animate-legal-ripple {
+  animation: legal-ripple 0.6s linear;
+}
+
+.animate-legal-border {
+  animation: legal-border 0.3s ease-out;
+}
+
+.animate-legal-hover-glow {
+  animation: legal-hover-glow 0.3s ease-out;
+}
+
+.animate-legal-accent {
+  animation: legal-accent 0.3s ease-out;
+}
+
+.animate-legal-ring {
+  animation: legal-ring 1.5s ease-in-out infinite;
+}
+
+/* Professional button enhancements */
+.btn-legal-primary {
+  background: linear-gradient(135deg, #d4af37, #f59e0b);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-legal-primary:hover {
+  background: linear-gradient(135deg, #f59e0b, #d4af37);
+  box-shadow: 
+    0 8px 16px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Enhanced mobile optimizations */
+@media (max-width: 640px) {
+  .text-responsive {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  
+  .padding-mobile-legal {
+    padding: 1rem;
+  }
+  
+  .gap-mobile-legal {
+    gap: 0.75rem;
+  }
 }
 
 /* Touch-friendly elements */
 @media (max-width: 768px) {
   button {
-    min-height: 44px;
-    min-width: 44px;
+    min-height: 48px;
+    min-width: 48px;
+  }
+  
+  .touch-target-legal {
+    min-height: 52px;
+    min-width: 52px;
   }
 
   * {
@@ -192,20 +545,90 @@
 }
 
 /* Professional card hover effects */
-.card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.card-legal {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.card-hover:hover {
-  transform: translateY(-2px);
+.card-legal:hover {
+  transform: translateY(-4px) scale(1.02);
   box-shadow: 
-    0 8px 25px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(212, 175, 55, 0.1);
+    0 25px 50px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(212, 175, 55, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+/* Neumorphism effect for interactive elements */
+.neomorphism-legal {
+  background: linear-gradient(145deg, #1a1d23, #0f1117);
+  box-shadow: 
+    8px 8px 16px rgba(0, 0, 0, 0.5),
+    -8px -8px 16px rgba(42, 48, 58, 0.1);
+}
+
+.neomorphism-legal:hover {
+  box-shadow: 
+    inset 8px 8px 16px rgba(0, 0, 0, 0.3),
+    inset -8px -8px 16px rgba(42, 48, 58, 0.1);
+}
+
+/* Glassmorphism for overlays */
+.glassmorphism-legal {
+  background: rgba(26, 29, 35, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Safe area enhancements */
+.safe-area-pb-legal {
+  padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+}
+
+.safe-area-pt-legal {
+  padding-top: max(env(safe-area-inset-top), 1rem);
+}
+
+/* Line clamp utilities with fade effect */
+.line-clamp-2-fade {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  position: relative;
+}
+
+.line-clamp-2-fade::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.2em;
+  background: linear-gradient(to right, transparent, var(--card));
 }
 
 /* Enhanced focus states for accessibility */
-.focus-ring:focus-visible {
+.focus-legal:focus-visible {
   outline: 2px solid rgb(212 175 55);
   outline-offset: 2px;
   box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
+}
+
+/* Professional section spacing */
+.section-padding-legal {
+  padding: 3rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .section-padding-legal {
+    padding: 5rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding-legal {
+    padding: 7rem 3rem;
+  }
 }
