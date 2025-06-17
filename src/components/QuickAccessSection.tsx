@@ -199,7 +199,7 @@ export const QuickAccessSection = () => {
                       {/* Enhanced background glow effect */}
                       <div className="absolute inset-0 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-legal-glow" />
                       
-                      <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-white drop-shadow-lg relative z-10 group-hover:animate-legal-icon-glow" />
+                      <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-amber-400 drop-shadow-lg relative z-10 group-hover:animate-legal-icon-glow" />
                       
                       {/* Professional glow ring with animation */}
                       <div className="absolute inset-0 rounded-full border-2 border-white/0 group-hover:border-white/40 transition-all duration-500 animate-legal-ring" />

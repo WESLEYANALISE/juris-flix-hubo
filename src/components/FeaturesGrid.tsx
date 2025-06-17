@@ -176,7 +176,7 @@ export const FeaturesGrid = () => {
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-legal-glow" />
                   
                   <div className={`w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-xl ${colorClass} flex items-center justify-center group-hover:scale-110 transition-all duration-500 card-depth-2 group-hover:card-depth-3 relative animate-legal-shimmer group-hover:animate-legal-icon-glow`}>
-                    <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-white drop-shadow-lg group-hover:animate-legal-icon-float" />
+                    <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-amber-400 drop-shadow-lg group-hover:animate-legal-icon-float" />
                     
                     {/* Enhanced hover arrow with legal styling and animation */}
                     <div className="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100 card-depth-1 animate-legal-bounce">
