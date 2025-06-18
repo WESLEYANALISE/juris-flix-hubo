@@ -17,9 +17,9 @@ export const VideoAreasGrid = () => {
 
   const { playlist, loading: playlistLoading } = useYouTube(selectedPlaylistUrl);
 
-  // Agrupar vídeos por área com primeira thumbnail real
+  // Agrupar vídeos por área com primeira thumbnail
   const videoAreas = useMemo(() => {
-    const areas: { [key: string]: { videos: typeof videos; firstVideo: any; thumbnail?: string } } = {};
+    const areas: { [key: string]: { videos: typeof videos; firstVideo: any } } = {};
     
     videos.forEach(video => {
       if (!areas[video.area]) {
@@ -43,20 +43,6 @@ export const VideoAreasGrid = () => {
     });
     return filtered;
   }, [videoAreas, searchTerm]);
-
-  const extractPlaylistId = (url: string): string | null => {
-    const regex = /[?&]list=([^&#]*)/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
-  };
-
-  const getPlaylistThumbnail = (playlistUrl: string) => {
-    const playlistId = extractPlaylistId(playlistUrl);
-    if (playlistId) {
-      return `https://img.youtube.com/vi/playlist/${playlistId}/maxresdefault.jpg`;
-    }
-    return null;
-  };
 
   const handleAreaSelect = (area: string) => {
     setSelectedArea(area);
@@ -155,62 +141,54 @@ export const VideoAreasGrid = () => {
       </div>
 
       {!selectedArea ? (
-        // Grid de áreas com thumbnails reais das primeiras playlists
+        // Grid de áreas com visual de videoaulas
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {Object.entries(filteredAreas).map(([area, data]) => {
-            const firstVideoThumbnail = getPlaylistThumbnail(data.firstVideo.link);
-            
-            return (
-              <Card 
-                key={area} 
-                className="group hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden border-2 hover:border-accent-legal/30"
-                onClick={() => handleAreaSelect(area)}
-              >
-                <div className="relative aspect-video overflow-hidden">
-                  {firstVideoThumbnail ? (
-                    <img 
-                      src={firstVideoThumbnail}
-                      alt={area}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        // Fallback para thumbnail padrão se não carregar
-                        e.currentTarget.src = `https://img.youtube.com/vi/${extractPlaylistId(data.firstVideo.link)}/0.jpg`;
-                      }}
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-red-900/40 via-amber-900/20 to-orange-900/40" />
-                  )}
-                  
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300" />
-                  
-                  {/* Play button */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center text-white transform group-hover:scale-110 transition-transform duration-300">
-                      <PlayCircle className="h-16 w-16 mx-auto text-white drop-shadow-lg mb-2" />
-                      <div className="bg-black/70 px-3 py-1 rounded-full text-sm font-medium">
-                        {data.videos.length} playlist{data.videos.length !== 1 ? 's' : ''}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Badge de área */}
-                  <div className="absolute top-3 left-3 bg-red-600/90 text-white px-2 py-1 rounded-full text-xs font-medium">
-                    VÍDEOS
+          {Object.entries(filteredAreas).map(([area, data]) => (
+            <Card 
+              key={area} 
+              className="group hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden border-2 hover:border-accent-legal/30 bg-gradient-to-br from-slate-900 to-slate-800"
+              onClick={() => handleAreaSelect(area)}
+            >
+              <div className="relative aspect-video bg-gradient-to-br from-red-900/40 via-amber-900/20 to-orange-900/40 overflow-hidden">
+                {/* Fundo com padrão de videoaula */}
+                <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-300" />
+                
+                {/* Overlay decorativo */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-red-600/20 via-transparent to-amber-600/20" />
+                
+                {/* Ícones flutuantes */}
+                <div className="absolute top-3 left-3 flex gap-2">
+                  <div className="bg-red-600/80 text-white px-2 py-1 rounded-full text-xs font-medium">
+                    VÍDEO
                   </div>
                 </div>
                 
-                <CardContent className="p-4">
-                  <h3 className="font-semibold text-lg mb-2 group-hover:text-accent-legal transition-colors text-center">
-                    📹 {area}
-                  </h3>
-                  <p className="text-sm text-muted-foreground text-center">
-                    Videoaulas completas desta área
-                  </p>
-                </CardContent>
-              </Card>
-            );
-          })}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center text-white transform group-hover:scale-110 transition-transform duration-300">
+                    <div className="relative mb-4">
+                      <Video className="h-16 w-16 mx-auto text-amber-400 drop-shadow-lg" />
+                      <PlayCircle className="h-8 w-8 absolute -bottom-2 -right-2 text-red-500 animate-pulse" />
+                    </div>
+                    <div className="bg-black/70 px-4 py-2 rounded-full text-sm font-medium">
+                      {data.videos.length} playlist{data.videos.length !== 1 ? 's' : ''}
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Overlay de hover com efeito */}
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 via-red-500/0 to-orange-500/0 group-hover:from-amber-500/10 group-hover:via-red-500/5 group-hover:to-orange-500/10 transition-all duration-500" />
+              </div>
+              
+              <CardContent className="p-4 bg-gradient-to-b from-slate-800 to-slate-900">
+                <h3 className="font-semibold text-lg mb-2 group-hover:text-amber-400 transition-colors text-center">
+                  📹 {area}
+                </h3>
+                <p className="text-sm text-muted-foreground text-center">
+                  Videoaulas completas desta área
+                </p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       ) : (
         // Grid de vídeos da área selecionada
@@ -219,49 +197,35 @@ export const VideoAreasGrid = () => {
             .filter(video => 
               !searchTerm || video.nome.toLowerCase().includes(searchTerm.toLowerCase())
             )
-            .map((video) => {
-              const thumbnail = getPlaylistThumbnail(video.link);
+            .map((video) => (
+            <Card 
+              key={video.id} 
+              className="group hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden"
+              onClick={() => handleVideoSelect(video)}
+            >
+              <div className="relative aspect-video bg-gradient-to-br from-accent-legal/20 to-primary/20">
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Play className="h-16 w-16 text-white group-hover:scale-110 transition-transform duration-300 drop-shadow-lg" />
+                </div>
+                
+                {/* Badge de playlist */}
+                <div className="absolute top-3 left-3 bg-black/80 text-white px-2 py-1 rounded-full text-xs flex items-center gap-1">
+                  <Clock className="h-3 w-3" />
+                  Playlist
+                </div>
+
+                {/* Overlay de hover */}
+                <div className="absolute inset-0 bg-accent-legal/0 group-hover:bg-accent-legal/10 transition-colors duration-300" />
+              </div>
               
-              return (
-                <Card 
-                  key={video.id} 
-                  className="group hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden"
-                  onClick={() => handleVideoSelect(video)}
-                >
-                  <div className="relative aspect-video overflow-hidden">
-                    {thumbnail ? (
-                      <img 
-                        src={thumbnail}
-                        alt={video.nome}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        onError={(e) => {
-                          e.currentTarget.src = `https://img.youtube.com/vi/${extractPlaylistId(video.link)}/0.jpg`;
-                        }}
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-accent-legal/20 to-primary/20" />
-                    )}
-                    
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Play className="h-16 w-16 text-white group-hover:scale-110 transition-transform duration-300 drop-shadow-lg" />
-                    </div>
-                    
-                    {/* Badge de playlist */}
-                    <div className="absolute top-3 left-3 bg-black/80 text-white px-2 py-1 rounded-full text-xs flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      Playlist
-                    </div>
-                  </div>
-                  
-                  <CardContent className="p-4">
-                    <h3 className="font-semibold text-lg mb-2 line-clamp-2 group-hover:text-accent-legal transition-colors">
-                      {video.nome}
-                    </h3>
-                  </CardContent>
-                </Card>
-              );
-            })}
+              <CardContent className="p-4">
+                <h3 className="font-semibold text-lg mb-2 line-clamp-2 group-hover:text-accent-legal transition-colors">
+                  {video.nome}
+                </h3>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       )}
 
