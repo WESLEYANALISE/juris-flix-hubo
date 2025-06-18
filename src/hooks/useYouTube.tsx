@@ -4,8 +4,9 @@ import { useState, useEffect, useCallback } from 'react';
 const YOUTUBE_API_KEY = 'AIzaSyBW9q3wYmx-cvCv5RLz3ex9SCVB5KcftaE';
 const YOUTUBE_BASE_URL = 'https://www.googleapis.com/youtube/v3';
 
-// Cache para otimização
+// Cache otimizado com expiração
 const playlistCache = new Map();
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutos
 
 export interface YouTubeVideo {
   id: string;
@@ -52,17 +53,25 @@ export const useYouTube = (playlistUrl?: string) => {
   }, []);
 
   const fetchPlaylistData = useCallback(async (playlistId: string) => {
-    // Verificar cache primeiro
-    if (playlistCache.has(playlistId)) {
+    // Verificar cache com expiração
+    const cacheKey = playlistId;
+    const cached = playlistCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
       console.log('useYouTube - Usando cache para playlist:', playlistId);
-      return playlistCache.get(playlistId);
+      return cached.data;
     }
 
     try {
-      // Buscar informações da playlist
+      // Buscar informações da playlist com timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+      
       const playlistResponse = await fetch(
-        `${YOUTUBE_BASE_URL}/playlists?part=snippet,contentDetails&id=${playlistId}&key=${YOUTUBE_API_KEY}`
+        `${YOUTUBE_BASE_URL}/playlists?part=snippet,contentDetails&id=${playlistId}&key=${YOUTUBE_API_KEY}`,
+        { signal: controller.signal }
       );
+      
+      clearTimeout(timeoutId);
 
       if (!playlistResponse.ok) {
         throw new Error('Erro ao buscar dados da playlist');
@@ -106,7 +115,10 @@ export const useYouTube = (playlistUrl?: string) => {
         id: video.id,
         title: video.snippet.title,
         description: video.snippet.description || '',
-        thumbnail: video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default?.url || '',
+        thumbnail: video.snippet.thumbnails.maxresdefault?.url || 
+                  video.snippet.thumbnails.high?.url || 
+                  video.snippet.thumbnails.medium?.url || 
+                  video.snippet.thumbnails.default?.url || '',
         duration: formatDuration(video.contentDetails.duration),
         publishedAt: video.snippet.publishedAt,
         channelTitle: video.snippet.channelTitle,
@@ -116,18 +128,33 @@ export const useYouTube = (playlistUrl?: string) => {
         id: playlistId,
         title: playlistInfo.snippet.title,
         description: playlistInfo.snippet.description || '',
-        thumbnail: playlistInfo.snippet.thumbnails.medium?.url || playlistInfo.snippet.thumbnails.default?.url || '',
+        thumbnail: playlistInfo.snippet.thumbnails.maxresdefault?.url || 
+                  playlistInfo.snippet.thumbnails.high?.url || 
+                  playlistInfo.snippet.thumbnails.medium?.url || 
+                  playlistInfo.snippet.thumbnails.default?.url || '',
         itemCount: playlistInfo.contentDetails.itemCount || videos.length,
         videos,
       };
 
-      // Salvar no cache
-      playlistCache.set(playlistId, playlistResult);
+      // Salvar no cache com timestamp
+      playlistCache.set(cacheKey, {
+        data: playlistResult,
+        timestamp: Date.now()
+      });
+      
       console.log('useYouTube - Playlist salva no cache:', playlistId);
 
       return playlistResult;
     } catch (error) {
       console.error('useYouTube - Erro ao buscar playlist:', error);
+      
+      // Se for erro de rede, tentar usar cache expirado
+      const cached = playlistCache.get(cacheKey);
+      if (cached) {
+        console.log('useYouTube - Usando cache expirado devido a erro:', playlistId);
+        return cached.data;
+      }
+      
       throw error;
     }
   }, [formatDuration]);
