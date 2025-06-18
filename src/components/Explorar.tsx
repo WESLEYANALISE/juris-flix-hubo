@@ -337,26 +337,7 @@ export const Explorar = () => {
 
       {/* CTA responsivo */}
       <Card className="mt-8 sm:mt-12 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 border-primary/20">
-        <CardContent className="p-4 sm:p-6 md:p-8 text-center">
-          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-            <Award className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold">Pronto para maximizar seus estudos?</h2>
-          </div>
-          <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-4 sm:mb-6 max-w-2xl mx-auto">
-            Cada ferramenta foi desenvolvida para otimizar sua produtividade jurídica. 
-            Comece agora e transforme sua forma de estudar Direito.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-            <Button size="sm" className="text-sm sm:text-lg px-4 sm:px-8 w-full sm:w-auto">
-              <Compass className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-              Começar Agora
-            </Button>
-            <Button size="sm" variant="outline" className="text-sm sm:text-lg px-4 sm:px-6 w-full sm:w-auto">
-              <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-              Falar com Suporte
-            </Button>
-          </div>
-        </CardContent>
+        
       </Card>
     </div>;
 };
