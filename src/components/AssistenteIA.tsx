@@ -30,27 +30,13 @@ export const AssistenteIA = () => {
     window.open('https://youtu.be/HlE9u1c_MPQ', '_blank');
   };
 
-  const handleBack = () => {
-    setCurrentFunction(null);
-  };
-
   return (
     <div className="min-h-screen bg-background p-4 sm:p-6 md:p-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={handleBack}
-            className="text-foreground hover:bg-red-500/10 hover:text-red-400"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold gradient-text">Assistente IA Jurídico</h1>
-            <p className="text-muted-foreground">Escolha como deseja interagir com nosso assistente</p>
-          </div>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold gradient-text mb-2">Assistente IA Jurídico</h1>
+          <p className="text-muted-foreground">Escolha como deseja interagir com nosso assistente</p>
         </div>
 
         {/* Video Section */}
@@ -75,7 +61,7 @@ export const AssistenteIA = () => {
         </Card>
 
         {/* Options Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* WhatsApp Option */}
           <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer group" onClick={handleWhatsAppClick}>
             <CardHeader className="text-center">
@@ -136,7 +122,7 @@ export const AssistenteIA = () => {
         </div>
 
         {/* Info Section */}
-        <Card className="mt-8">
+        <Card>
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold mb-3">Sobre o Assistente IA Jurídico</h3>
             <p className="text-muted-foreground">
