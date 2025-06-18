@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useForm } from 'react-hook-form';
-import { Upload, MessageCircle, Clock, Shield } from 'lucide-react';
+import { Upload, MessageCircle, Clock, Shield, ChevronUp, ChevronDown } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 
@@ -20,6 +20,7 @@ interface SuporteFormData {
 export const SuporteTab = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const form = useForm<SuporteFormData>();
 
@@ -109,6 +110,7 @@ export const SuporteTab = () => {
 
       form.reset();
       setSelectedImage(null);
+      setIsExpanded(false);
     } catch (error) {
       console.error('Error submitting support request:', error);
       toast({
@@ -129,140 +131,169 @@ export const SuporteTab = () => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-t from-slate-900 via-slate-800 to-transparent p-4">
-      <div className="max-w-4xl mx-auto">
-        <Card className="bg-slate-900/95 backdrop-blur-xl border-slate-700/50 shadow-2xl">
-          <CardHeader className="text-center pb-4">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <MessageCircle className="h-6 w-6 text-amber-400" />
-              <CardTitle className="text-xl font-bold gradient-text">Central de Suporte</CardTitle>
-            </div>
-            <CardDescription className="text-slate-300">
-              Precisa de ajuda? Estamos aqui para você!
-            </CardDescription>
-            
-            {/* Badges de confiança */}
-            <div className="flex items-center justify-center gap-4 mt-4">
-              <div className="flex items-center gap-2 text-sm text-amber-400">
-                <Clock className="h-4 w-4" />
-                <span>Resposta em até 24h</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-green-400">
-                <Shield className="h-4 w-4" />
-                <span>100% Seguro</span>
-              </div>
-            </div>
-          </CardHeader>
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-t from-slate-900 via-slate-800 to-transparent">
+      {/* Minimized Tab */}
+      {!isExpanded && (
+        <div className="flex justify-center p-2">
+          <Button
+            onClick={() => setIsExpanded(true)}
+            className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-900 font-semibold px-6 py-2 rounded-t-lg shadow-lg flex items-center gap-2"
+          >
+            <MessageCircle className="h-4 w-4" />
+            Central de Suporte
+            <ChevronUp className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
 
-          <CardContent>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* Campo Assunto */}
-                  <FormField
-                    control={form.control}
-                    name="assunto"
-                    rules={{ required: "Por favor, selecione um assunto" }}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-slate-200">Assunto</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="bg-slate-800 border-slate-600 text-slate-200">
-                              <SelectValue placeholder="Selecione o assunto" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent className="bg-slate-800 border-slate-600">
-                            <SelectItem value="ajuda-app">Ajuda com o App</SelectItem>
-                            <SelectItem value="duvida">Dúvida</SelectItem>
-                            <SelectItem value="bug">Reportar Bug</SelectItem>
-                            <SelectItem value="outro">Outro</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Campo Upload de Imagem */}
-                  <FormField
-                    control={form.control}
-                    name="imagem"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-slate-200">Imagem (opcional)</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Input
-                              type="file"
-                              accept="image/*"
-                              onChange={handleImageChange}
-                              className="bg-slate-800 border-slate-600 text-slate-200 file:bg-amber-500 file:text-slate-900 file:border-0 file:rounded file:px-2 file:py-1"
-                            />
-                            {selectedImage && (
-                              <div className="mt-2 text-sm text-amber-400 flex items-center gap-1">
-                                <Upload className="h-4 w-4" />
-                                {selectedImage.name}
-                              </div>
-                            )}
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                {/* Campo Descrição */}
-                <FormField
-                  control={form.control}
-                  name="descricao"
-                  rules={{ required: "Por favor, descreva sua solicitação" }}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-slate-200">Descrição</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Descreva detalhadamente sua solicitação, dúvida ou problema..."
-                          className="bg-slate-800 border-slate-600 text-slate-200 placeholder:text-slate-400 min-h-[100px]"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Botão Submit */}
-                <div className="flex justify-center pt-4">
+      {/* Expanded Support Form */}
+      {isExpanded && (
+        <div className="p-4">
+          <div className="max-w-4xl mx-auto">
+            <Card className="bg-slate-900/95 backdrop-blur-xl border-slate-700/50 shadow-2xl">
+              <CardHeader className="text-center pb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <MessageCircle className="h-6 w-6 text-amber-400" />
+                    <CardTitle className="text-xl font-bold gradient-text">Central de Suporte</CardTitle>
+                  </div>
                   <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-900 font-semibold px-8 py-2 rounded-lg transition-all duration-300 disabled:opacity-50"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsExpanded(false)}
+                    className="text-slate-400 hover:text-amber-400"
                   >
-                    {isSubmitting ? (
-                      <div className="flex items-center gap-2">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-slate-900"></div>
-                        Enviando...
-                      </div>
-                    ) : (
-                      'Enviar Solicitação'
-                    )}
+                    <ChevronDown className="h-4 w-4" />
                   </Button>
                 </div>
-              </form>
-            </Form>
+                <CardDescription className="text-slate-300">
+                  Precisa de ajuda? Estamos aqui para você!
+                </CardDescription>
+                
+                {/* Badges de confiança */}
+                <div className="flex items-center justify-center gap-4 mt-4">
+                  <div className="flex items-center gap-2 text-sm text-amber-400">
+                    <Clock className="h-4 w-4" />
+                    <span>Resposta em até 24h</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-green-400">
+                    <Shield className="h-4 w-4" />
+                    <span>100% Seguro</span>
+                  </div>
+                </div>
+              </CardHeader>
 
-            {/* Texto de confiança */}
-            <div className="mt-6 text-center">
-              <p className="text-sm text-slate-400">
-                🔒 Suas informações estão seguras e protegidas. Nossa equipe de suporte técnico 
-                analisará sua solicitação e retornará em <span className="text-amber-400 font-semibold">até 24 horas</span>.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+              <CardContent>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Campo Assunto */}
+                      <FormField
+                        control={form.control}
+                        name="assunto"
+                        rules={{ required: "Por favor, selecione um assunto" }}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-slate-200">Assunto</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger className="bg-slate-800 border-slate-600 text-slate-200">
+                                  <SelectValue placeholder="Selecione o assunto" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent className="bg-slate-800 border-slate-600">
+                                <SelectItem value="ajuda-app">Ajuda com o App</SelectItem>
+                                <SelectItem value="duvida">Dúvida</SelectItem>
+                                <SelectItem value="bug">Reportar Bug</SelectItem>
+                                <SelectItem value="outro">Outro</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Campo Upload de Imagem */}
+                      <FormField
+                        control={form.control}
+                        name="imagem"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-slate-200">Imagem (opcional)</FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <Input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={handleImageChange}
+                                  className="bg-slate-800 border-slate-600 text-slate-200 file:bg-amber-500 file:text-slate-900 file:border-0 file:rounded file:px-2 file:py-1"
+                                />
+                                {selectedImage && (
+                                  <div className="mt-2 text-sm text-amber-400 flex items-center gap-1">
+                                    <Upload className="h-4 w-4" />
+                                    {selectedImage.name}
+                                  </div>
+                                )}
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    {/* Campo Descrição */}
+                    <FormField
+                      control={form.control}
+                      name="descricao"
+                      rules={{ required: "Por favor, descreva sua solicitação" }}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-slate-200">Descrição</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Descreva detalhadamente sua solicitação, dúvida ou problema..."
+                              className="bg-slate-800 border-slate-600 text-slate-200 placeholder:text-slate-400 min-h-[100px]"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Botão Submit */}
+                    <div className="flex justify-center pt-4">
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-900 font-semibold px-8 py-2 rounded-lg transition-all duration-300 disabled:opacity-50"
+                      >
+                        {isSubmitting ? (
+                          <div className="flex items-center gap-2">
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-slate-900"></div>
+                            Enviando...
+                          </div>
+                        ) : (
+                          'Enviar Solicitação'
+                        )}
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
+
+                {/* Texto de confiança */}
+                <div className="mt-6 text-center">
+                  <p className="text-sm text-slate-400">
+                    🔒 Suas informações estão seguras e protegidas. Nossa equipe de suporte técnico 
+                    analisará sua solicitação e retornará em <span className="text-amber-400 font-semibold">até 24 horas</span>.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
