@@ -152,12 +152,7 @@ export const DesktopPlatformCarousel = () => {
             }}></div>
               <span>Link por email</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{
-              animationDelay: '1s'
-            }}></div>
-              <span>Sem compromisso</span>
-            </div>
+            
           </div>
         </div>
       </div>

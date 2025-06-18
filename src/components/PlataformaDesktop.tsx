@@ -123,17 +123,11 @@ export const PlataformaDesktop = () => {
 
       {/* Seção de benefícios */}
       <div className="grid md:grid-cols-3 gap-6 mb-12">
-        <div className="text-center p-6 bg-card/30 backdrop-blur-sm rounded-2xl border border-border animate-fade-in-up">
-          <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <Download className="w-8 h-8 text-white" />
-          </div>
-          <h3 className="font-bold text-lg mb-2 text-blue-400">Download Direto</h3>
-          <p className="text-sm text-muted-foreground">Receba o link de download por email e instale em segundos</p>
-        </div>
+        
 
-        <div className="text-center p-6 bg-card/30 backdrop-blur-sm rounded-2xl border border-border animate-fade-in-up" style={{
+        <div style={{
         animationDelay: '0.2s'
-      }}>
+      }} className="text-center p-6 bg-card/30 backdrop-blur-sm rounded-2xl border border-border animate-fade-in-up px-[13px] py-0">
           <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Zap className="w-8 h-8 text-white" />
           </div>
