@@ -335,25 +335,25 @@ export const Explorar = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto p-4 sm:p-6 md:p-8">
-      {/* Header otimizado */}
-      <div className="text-center mb-8">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <div className="p-3 rounded-xl bg-gradient-to-r from-blue-500/10 to-purple-500/10">
-            <Compass className="h-10 w-10 text-primary" />
+    <div className="max-w-7xl mx-auto p-2 sm:p-4 md:p-6 lg:p-8">
+      {/* Header otimizado para mobile */}
+      <div className="text-center mb-6 sm:mb-8">
+        <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+          <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-gradient-to-r from-blue-500/10 to-purple-500/10">
+            <Compass className="h-6 w-6 sm:h-8 md:h-10 text-primary" />
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Explorar Funcionalidades
           </h1>
         </div>
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+        <p className="text-sm sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto px-2">
           Descubra como usar cada ferramenta com exemplos práticos para estudantes, 
           advogados e concurseiros. Maximize sua produtividade jurídica.
         </p>
       </div>
 
-      {/* Filtros otimizados */}
-      <div className="flex flex-wrap justify-center gap-3 mb-8">
+      {/* Filtros responsivos */}
+      <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-8 px-2">
         {categorias.map(categoria => {
           const IconeCategoria = categoria.icone;
           return (
@@ -361,32 +361,33 @@ export const Explorar = () => {
               key={categoria.id}
               variant={categoriaFiltro === categoria.id ? "default" : "outline"}
               onClick={() => setCategoriaFiltro(categoria.id)}
-              className="flex items-center gap-2 transition-all duration-200"
+              className="flex items-center gap-1 sm:gap-2 transition-all duration-200 text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2"
+              size="sm"
             >
-              <IconeCategoria className="h-4 w-4" />
-              {categoria.nome}
+              <IconeCategoria className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">{categoria.nome}</span>
             </Button>
           );
         })}
       </div>
 
-      {/* Grid otimizado */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      {/* Grid responsivo */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8">
         {funcionalidadesFiltradas.map(funcionalidade => {
           const IconeFuncionalidade = funcionalidade.icone;
           return (
             <Card
               key={funcionalidade.id}
-              className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm"
+              className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-0 bg-card backdrop-blur-sm"
               onClick={() => setFuncionalidadeSelecionada(funcionalidade)}
             >
-              <CardHeader className="pb-3">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className={`p-3 rounded-xl bg-gradient-to-r ${funcionalidade.cor} bg-opacity-10 group-hover:scale-110 transition-transform duration-300`}>
-                    <IconeFuncionalidade className="h-8 w-8 text-primary" />
+              <CardHeader className="pb-2 sm:pb-3">
+                <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                  <div className={`p-2 sm:p-3 rounded-lg sm:rounded-xl bg-gradient-to-r ${funcionalidade.cor} bg-opacity-10 group-hover:scale-110 transition-transform duration-300`}>
+                    <IconeFuncionalidade className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-primary" />
                   </div>
                   <div className="flex-1">
-                    <CardTitle className="text-lg leading-tight">{funcionalidade.nome}</CardTitle>
+                    <CardTitle className="text-sm sm:text-base md:text-lg leading-tight">{funcionalidade.nome}</CardTitle>
                     <Badge variant="outline" className="mt-1 text-xs">
                       {categorias.find(c => c.id === funcionalidade.categoria)?.nome}
                     </Badge>
@@ -394,17 +395,17 @@ export const Explorar = () => {
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
-                <p className="text-muted-foreground mb-4 line-clamp-3 text-sm">
+                <p className="text-muted-foreground mb-3 sm:mb-4 line-clamp-3 text-xs sm:text-sm">
                   {funcionalidade.descricao}
                 </p>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <Users className="h-3 w-3" />
+                  <div className="flex items-center gap-1 sm:gap-2 text-xs text-muted-foreground">
+                    <Users className="h-2 w-2 sm:h-3 sm:w-3" />
                     <span>{funcionalidade.exemplos.length} exemplos</span>
                   </div>
                   <div className="flex items-center text-primary group-hover:translate-x-1 transition-transform">
-                    <span className="text-sm font-medium">Ver detalhes</span>
-                    <ArrowRight className="h-4 w-4 ml-1" />
+                    <span className="text-xs sm:text-sm font-medium">Ver detalhes</span>
+                    <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 ml-1" />
                   </div>
                 </div>
               </CardContent>
@@ -413,38 +414,38 @@ export const Explorar = () => {
         })}
       </div>
 
-      {/* Modal otimizado */}
+      {/* Modal responsivo */}
       {funcionalidadeSelecionada && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-background rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-            <div className="sticky top-0 bg-background/95 backdrop-blur-sm border-b p-6 z-10">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4">
+          <div className="bg-background rounded-lg sm:rounded-2xl max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div className="sticky top-0 bg-background/95 backdrop-blur-sm border-b p-3 sm:p-6 z-10">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className={`p-4 rounded-xl bg-gradient-to-r ${funcionalidadeSelecionada.cor}`}>
-                    <funcionalidadeSelecionada.icone className="h-10 w-10 text-white" />
+                <div className="flex items-center gap-2 sm:gap-4">
+                  <div className={`p-2 sm:p-4 rounded-lg sm:rounded-xl bg-gradient-to-r ${funcionalidadeSelecionada.cor}`}>
+                    <funcionalidadeSelecionada.icone className="h-6 w-6 sm:h-8 md:h-10 text-white" />
                   </div>
                   <div>
-                    <h2 className="text-3xl font-bold">{funcionalidadeSelecionada.nome}</h2>
-                    <Badge className="mt-2">
+                    <h2 className="text-lg sm:text-2xl md:text-3xl font-bold">{funcionalidadeSelecionada.nome}</h2>
+                    <Badge className="mt-1 sm:mt-2 text-xs">
                       {categorias.find(c => c.id === funcionalidadeSelecionada.categoria)?.nome}
                     </Badge>
                   </div>
                 </div>
-                <Button variant="outline" onClick={() => setFuncionalidadeSelecionada(null)}>
-                  <X className="h-4 w-4" />
+                <Button variant="outline" size="sm" onClick={() => setFuncionalidadeSelecionada(null)}>
+                  <X className="h-3 w-3 sm:h-4 sm:w-4" />
                 </Button>
               </div>
             </div>
 
-            <div className="p-6 space-y-6">
+            <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
               {/* Descrição */}
               <Card>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
-                    <Lightbulb className="h-5 w-5 text-yellow-500" />
+                <CardContent className="p-3 sm:p-6">
+                  <h3 className="text-base sm:text-xl font-semibold mb-2 sm:mb-3 flex items-center gap-2">
+                    <Lightbulb className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-500" />
                     O que é
                   </h3>
-                  <p className="text-lg text-muted-foreground">
+                  <p className="text-sm sm:text-lg text-muted-foreground">
                     {funcionalidadeSelecionada.descricao}
                   </p>
                 </CardContent>
@@ -452,18 +453,18 @@ export const Explorar = () => {
 
               {/* Exemplos Práticos */}
               <Card>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <PlayCircle className="h-5 w-5 text-green-500" />
+                <CardContent className="p-3 sm:p-6">
+                  <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-4 flex items-center gap-2">
+                    <PlayCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
                     Exemplos Práticos para Estudantes
                   </h3>
-                  <div className="grid gap-3">
+                  <div className="grid gap-2 sm:gap-3">
                     {funcionalidadeSelecionada.exemplos.map((exemplo, index) => (
-                      <div key={index} className="flex items-start gap-3 p-4 bg-green-50 dark:bg-green-950/20 rounded-lg border border-green-200 dark:border-green-800">
-                        <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">
+                      <div key={index} className="flex items-start gap-2 sm:gap-3 p-2 sm:p-4 bg-green-50 dark:bg-green-950/20 rounded-lg border border-green-200 dark:border-green-800">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold flex-shrink-0 mt-0.5">
                           {index + 1}
                         </div>
-                        <span className="text-sm leading-relaxed">{exemplo}</span>
+                        <span className="text-xs sm:text-sm leading-relaxed">{exemplo}</span>
                       </div>
                     ))}
                   </div>
@@ -472,16 +473,16 @@ export const Explorar = () => {
 
               {/* Casos de Uso */}
               <Card>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <Target className="h-5 w-5 text-blue-500" />
+                <CardContent className="p-3 sm:p-6">
+                  <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-4 flex items-center gap-2">
+                    <Target className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500" />
                     Como Usar na Prática
                   </h3>
-                  <div className="grid gap-3">
+                  <div className="grid gap-2 sm:gap-3">
                     {funcionalidadeSelecionada.casosUso.map((caso, index) => (
-                      <div key={index} className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                        <Star className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm leading-relaxed">{caso}</span>
+                      <div key={index} className="flex items-start gap-2 sm:gap-3 p-2 sm:p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                        <Star className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm leading-relaxed">{caso}</span>
                       </div>
                     ))}
                   </div>
@@ -490,36 +491,36 @@ export const Explorar = () => {
 
               {/* Tutorial */}
               <Card>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <BookOpen className="h-5 w-5 text-purple-500" />
+                <CardContent className="p-3 sm:p-6">
+                  <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-4 flex items-center gap-2">
+                    <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-purple-500" />
                     Tutorial Passo a Passo
                   </h3>
                   
-                  <div className="mb-6">
-                    <h4 className="font-semibold mb-3 text-lg">Como começar:</h4>
-                    <div className="space-y-3">
+                  <div className="mb-4 sm:mb-6">
+                    <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-lg">Como começar:</h4>
+                    <div className="space-y-2 sm:space-y-3">
                       {funcionalidadeSelecionada.tutorial.passos.map((passo, index) => (
-                        <div key={index} className="flex items-start gap-3">
-                          <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                        <div key={index} className="flex items-start gap-2 sm:gap-3">
+                          <div className="w-6 h-6 sm:w-8 sm:h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs sm:text-sm font-bold flex-shrink-0">
                             {index + 1}
                           </div>
-                          <span className="pt-1 leading-relaxed">{passo}</span>
+                          <span className="pt-1 leading-relaxed text-xs sm:text-sm">{passo}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   <div>
-                    <h4 className="font-semibold mb-3 text-lg flex items-center gap-2">
-                      <Zap className="h-4 w-4 text-yellow-500" />
+                    <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-lg flex items-center gap-2">
+                      <Zap className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-500" />
                       Dicas de Otimização:
                     </h4>
-                    <div className="space-y-2">
+                    <div className="space-y-1 sm:space-y-2">
                       {funcionalidadeSelecionada.tutorial.dicas.map((dica, index) => (
-                        <div key={index} className="flex items-start gap-3 p-3 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
-                          <TrendingUp className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm leading-relaxed">{dica}</span>
+                        <div key={index} className="flex items-start gap-2 sm:gap-3 p-2 sm:p-3 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                          <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
+                          <span className="text-xs sm:text-sm leading-relaxed">{dica}</span>
                         </div>
                       ))}
                     </div>
@@ -531,24 +532,24 @@ export const Explorar = () => {
         </div>
       )}
 
-      {/* CTA otimizado */}
-      <Card className="mt-12 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 border-primary/20">
-        <CardContent className="p-8 text-center">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Award className="h-8 w-8 text-primary" />
-            <h2 className="text-2xl font-bold">Pronto para maximizar seus estudos?</h2>
+      {/* CTA responsivo */}
+      <Card className="mt-8 sm:mt-12 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 border-primary/20">
+        <CardContent className="p-4 sm:p-6 md:p-8 text-center">
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+            <Award className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold">Pronto para maximizar seus estudos?</h2>
           </div>
-          <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-4 sm:mb-6 max-w-2xl mx-auto">
             Cada ferramenta foi desenvolvida para otimizar sua produtividade jurídica. 
             Comece agora e transforme sua forma de estudar Direito.
           </p>
-          <div className="flex items-center justify-center gap-4">
-            <Button size="lg" className="text-lg px-8">
-              <Compass className="h-5 w-5 mr-2" />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            <Button size="sm" className="text-sm sm:text-lg px-4 sm:px-8 w-full sm:w-auto">
+              <Compass className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
               Começar Agora
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-6">
-              <MessageSquare className="h-5 w-5 mr-2" />
+            <Button size="sm" variant="outline" className="text-sm sm:text-lg px-4 sm:px-6 w-full sm:w-auto">
+              <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
               Falar com Suporte
             </Button>
           </div>

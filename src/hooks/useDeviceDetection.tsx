@@ -15,12 +15,12 @@ export const useDeviceDetection = () => {
       
       setIsTouchDevice(isTouchSupported);
 
-      // Mobile detection
-      if (width < 768) {
+      // Mobile detection - breakpoints mais precisos
+      if (width < 640) { // sm em Tailwind
         setDeviceType('mobile');
       }
       // Tablet detection
-      else if (width >= 768 && width < 1024) {
+      else if (width >= 640 && width < 1024) { // sm até lg
         setDeviceType('tablet');
       }
       // Desktop detection
@@ -37,9 +37,20 @@ export const useDeviceDetection = () => {
     };
 
     checkDevice();
-    window.addEventListener('resize', checkDevice);
     
-    return () => window.removeEventListener('resize', checkDevice);
+    // Debounce para performance
+    let timeoutId: NodeJS.Timeout;
+    const debouncedCheck = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(checkDevice, 100);
+    };
+    
+    window.addEventListener('resize', debouncedCheck);
+    
+    return () => {
+      window.removeEventListener('resize', debouncedCheck);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   return {
