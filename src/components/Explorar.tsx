@@ -1,26 +1,8 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Compass, 
-  BookOpen, 
-  Video, 
-  FileText, 
-  Scale, 
-  Download,
-  Lightbulb,
-  Target,
-  PlayCircle,
-  ArrowRight,
-  CheckCircle,
-  Star,
-  Brain,
-  Library,
-  Headphones
-} from 'lucide-react';
-
+import { Compass, BookOpen, Video, FileText, Scale, Download, Lightbulb, Target, PlayCircle, ArrowRight, CheckCircle, Star, Brain, Library, Headphones } from 'lucide-react';
 interface Funcionalidade {
   id: string;
   nome: string;
@@ -34,276 +16,129 @@ interface Funcionalidade {
   };
   categoria: 'estudo' | 'pesquisa' | 'organizacao' | 'aprendizado';
 }
-
-const funcionalidades: Funcionalidade[] = [
-  {
-    id: 'vade-mecum',
-    nome: 'Vade Mecum Digital',
-    icone: Scale,
-    descricao: 'Acesso completo a leis, códigos e normativas sempre atualizados com sistema de busca inteligente.',
-    exemplos: [
-      'Consulta rápida ao Código Civil, art. 186',
-      'Busca por "responsabilidade civil" em toda legislação',
-      'Comparação entre Lei 8.078/90 e Código Civil'
-    ],
-    casosUso: [
-      'Estudante preparando para OAB precisa consultar artigos específicos',
-      'Advogado verificando atualização de lei durante audiência',
-      'Professor criando material didático com base legal atualizada'
-    ],
-    tutorial: {
-      passos: [
-        'Acesse o menu "Vade Mecum" no rodapé',
-        'Use a barra de busca para encontrar leis específicas',
-        'Utilize filtros por área do direito',
-        'Salve artigos importantes nos favoritos',
-        'Compartilhe trechos relevantes via link'
-      ],
-      dicas: [
-        'Use palavras-chave específicas para busca mais eficiente',
-        'Ative notificações para atualizações de leis importantes',
-        'Crie coleções temáticas para organizar seu estudo'
-      ]
-    },
-    categoria: 'pesquisa'
+const funcionalidades: Funcionalidade[] = [{
+  id: 'vade-mecum',
+  nome: 'Vade Mecum Digital',
+  icone: Scale,
+  descricao: 'Acesso completo a leis, códigos e normativas sempre atualizados com sistema de busca inteligente.',
+  exemplos: ['Consulta rápida ao Código Civil, art. 186', 'Busca por "responsabilidade civil" em toda legislação', 'Comparação entre Lei 8.078/90 e Código Civil'],
+  casosUso: ['Estudante preparando para OAB precisa consultar artigos específicos', 'Advogado verificando atualização de lei durante audiência', 'Professor criando material didático com base legal atualizada'],
+  tutorial: {
+    passos: ['Acesse o menu "Vade Mecum" no rodapé', 'Use a barra de busca para encontrar leis específicas', 'Utilize filtros por área do direito', 'Salve artigos importantes nos favoritos', 'Compartilhe trechos relevantes via link'],
+    dicas: ['Use palavras-chave específicas para busca mais eficiente', 'Ative notificações para atualizações de leis importantes', 'Crie coleções temáticas para organizar seu estudo']
   },
-  {
-    id: 'biblioteca',
-    nome: 'Biblioteca Jurídica',
-    icone: Library,
-    descricao: 'Milhares de livros, doutrinas, jurisprudências e artigos organizados por área do direito.',
-    exemplos: [
-      'Doutrina de Direito Constitucional por Pedro Lenza',
-      'Jurisprudência do STF sobre direitos fundamentais',
-      'Artigos acadêmicos sobre novo Marco Civil da Internet'
-    ],
-    casosUso: [
-      'Estudante pesquisando para TCC sobre direito digital',
-      'Advogado buscando precedentes para caso complexo',
-      'Professor atualizando bibliografia de disciplina'
-    ],
-    tutorial: {
-      passos: [
-        'Entre na seção "Biblioteca" pelo menu principal',
-        'Navegue pelas categorias ou use a busca avançada',
-        'Filtre por tipo: livros, artigos, jurisprudência',
-        'Baixe materiais para leitura offline',
-        'Organize sua biblioteca pessoal'
-      ],
-      dicas: [
-        'Combine filtros para busca mais específica',
-        'Use o histórico de leitura para retomar estudos',
-        'Marque páginas importantes durante a leitura'
-      ]
-    },
-    categoria: 'estudo'
+  categoria: 'pesquisa'
+}, {
+  id: 'biblioteca',
+  nome: 'Biblioteca Jurídica',
+  icone: Library,
+  descricao: 'Milhares de livros, doutrinas, jurisprudências e artigos organizados por área do direito.',
+  exemplos: ['Doutrina de Direito Constitucional por Pedro Lenza', 'Jurisprudência do STF sobre direitos fundamentais', 'Artigos acadêmicos sobre novo Marco Civil da Internet'],
+  casosUso: ['Estudante pesquisando para TCC sobre direito digital', 'Advogado buscando precedentes para caso complexo', 'Professor atualizando bibliografia de disciplina'],
+  tutorial: {
+    passos: ['Entre na seção "Biblioteca" pelo menu principal', 'Navegue pelas categorias ou use a busca avançada', 'Filtre por tipo: livros, artigos, jurisprudência', 'Baixe materiais para leitura offline', 'Organize sua biblioteca pessoal'],
+    dicas: ['Combine filtros para busca mais específica', 'Use o histórico de leitura para retomar estudos', 'Marque páginas importantes durante a leitura']
   },
-  {
-    id: 'videoaulas',
-    nome: 'Videoaulas Jurídicas',
-    icone: Video,
-    descricao: 'Aulas completas com professores renomados cobrindo todas as disciplinas jurídicas.',
-    exemplos: [
-      'Curso completo de Direito Penal com Prof. Rogério Sanches',
-      'Aulas de Processo Civil para concursos',
-      'Videoaulas sobre Direito Tributário atualizado'
-    ],
-    casosUso: [
-      'Concurseiro estudando para magistratura federal',
-      'Estudante de graduação complementando aulas presenciais',
-      'Advogado se atualizando em nova área do direito'
-    ],
-    tutorial: {
-      passos: [
-        'Acesse "Videoaulas" no menu principal',
-        'Escolha a disciplina de interesse',
-        'Selecione o nível: básico, intermediário ou avançado',
-        'Assista às aulas em sequência ou por tópicos',
-        'Faça anotações durante as videoaulas'
-      ],
-      dicas: [
-        'Ajuste velocidade de reprodução conforme sua necessidade',
-        'Use legendas quando disponíveis',
-        'Revise anotações após cada módulo'
-      ]
-    },
-    categoria: 'aprendizado'
+  categoria: 'estudo'
+}, {
+  id: 'videoaulas',
+  nome: 'Videoaulas Jurídicas',
+  icone: Video,
+  descricao: 'Aulas completas com professores renomados cobrindo todas as disciplinas jurídicas.',
+  exemplos: ['Curso completo de Direito Penal com Prof. Rogério Sanches', 'Aulas de Processo Civil para concursos', 'Videoaulas sobre Direito Tributário atualizado'],
+  casosUso: ['Concurseiro estudando para magistratura federal', 'Estudante de graduação complementando aulas presenciais', 'Advogado se atualizando em nova área do direito'],
+  tutorial: {
+    passos: ['Acesse "Videoaulas" no menu principal', 'Escolha a disciplina de interesse', 'Selecione o nível: básico, intermediário ou avançado', 'Assista às aulas em sequência ou por tópicos', 'Faça anotações durante as videoaulas'],
+    dicas: ['Ajuste velocidade de reprodução conforme sua necessidade', 'Use legendas quando disponíveis', 'Revise anotações após cada módulo']
   },
-  {
-    id: 'audio-aulas',
-    nome: 'Áudio-aulas',
-    icone: Headphones,
-    descricao: 'Conteúdo jurídico em formato de áudio para estudo em movimento.',
-    exemplos: [
-      'Podcast sobre mudanças na legislação trabalhista',
-      'Resumo em áudio do Código de Processo Penal',
-      'Análise jurisprudencial em formato de audiobook'
-    ],
-    casosUso: [
-      'Profissional estudando durante trajeto casa-trabalho',
-      'Estudante revisando matéria durante exercícios físicos',
-      'Advogado se atualizando durante viagens'
-    ],
-    tutorial: {
-      passos: [
-        'Abra a seção "Áudio-aulas" no menu',
-        'Baixe conteúdos para ouvir offline',
-        'Use fones de ouvido para melhor experiência',
-        'Controle velocidade de reprodução',
-        'Marque trechos importantes para revisão'
-      ],
-      dicas: [
-        'Crie playlists por matéria ou concurso',
-        'Ouça durante atividades que não exigem concentração visual',
-        'Combine com leitura tradicional para melhor fixação'
-      ]
-    },
-    categoria: 'aprendizado'
+  categoria: 'aprendizado'
+}, {
+  id: 'audio-aulas',
+  nome: 'Áudio-aulas',
+  icone: Headphones,
+  descricao: 'Conteúdo jurídico em formato de áudio para estudo em movimento.',
+  exemplos: ['Podcast sobre mudanças na legislação trabalhista', 'Resumo em áudio do Código de Processo Penal', 'Análise jurisprudencial em formato de audiobook'],
+  casosUso: ['Profissional estudando durante trajeto casa-trabalho', 'Estudante revisando matéria durante exercícios físicos', 'Advogado se atualizando durante viagens'],
+  tutorial: {
+    passos: ['Abra a seção "Áudio-aulas" no menu', 'Baixe conteúdos para ouvir offline', 'Use fones de ouvido para melhor experiência', 'Controle velocidade de reprodução', 'Marque trechos importantes para revisão'],
+    dicas: ['Crie playlists por matéria ou concurso', 'Ouça durante atividades que não exigem concentração visual', 'Combine com leitura tradicional para melhor fixação']
   },
-  {
-    id: 'flashcards',
-    nome: 'Flashcards Inteligentes',
-    icone: Brain,
-    descricao: 'Sistema de repetição espaçada com cartões de memória para fixação de conceitos jurídicos.',
-    exemplos: [
-      'Definições de institutos do Direito Civil',
-      'Prazos processuais do CPC',
-      'Elementos dos crimes do Código Penal'
-    ],
-    casosUso: [
-      'Estudante memorizando conceitos para prova oral da OAB',
-      'Concurseiro fixando jurisprudência dos tribunais superiores',
-      'Professor criando material de revisão para alunos'
-    ],
-    tutorial: {
-      passos: [
-        'Acesse "Flashcards" e escolha um deck temático',
-        'Estude os cartões seguindo o sistema de repetição',
-        'Marque dificuldade: fácil, médio ou difícil',
-        'Crie seus próprios decks personalizados',
-        'Acompanhe estatísticas de aprendizado'
-      ],
-      dicas: [
-        'Estude diariamente por 15-30 minutos',
-        'Seja honesto ao avaliar seu conhecimento',
-        'Revise cartões difíceis com mais frequência'
-      ]
-    },
-    categoria: 'aprendizado'
+  categoria: 'aprendizado'
+}, {
+  id: 'flashcards',
+  nome: 'Flashcards Inteligentes',
+  icone: Brain,
+  descricao: 'Sistema de repetição espaçada com cartões de memória para fixação de conceitos jurídicos.',
+  exemplos: ['Definições de institutos do Direito Civil', 'Prazos processuais do CPC', 'Elementos dos crimes do Código Penal'],
+  casosUso: ['Estudante memorizando conceitos para prova oral da OAB', 'Concurseiro fixando jurisprudência dos tribunais superiores', 'Professor criando material de revisão para alunos'],
+  tutorial: {
+    passos: ['Acesse "Flashcards" e escolha um deck temático', 'Estude os cartões seguindo o sistema de repetição', 'Marque dificuldade: fácil, médio ou difícil', 'Crie seus próprios decks personalizados', 'Acompanhe estatísticas de aprendizado'],
+    dicas: ['Estude diariamente por 15-30 minutos', 'Seja honesto ao avaliar seu conhecimento', 'Revise cartões difíceis com mais frequência']
   },
-  {
-    id: 'mapas-mentais',
-    nome: 'Mapas Mentais Jurídicos',
-    icone: Brain,
-    descricao: 'Visualização de conexões entre institutos jurídicos e organização de conhecimento.',
-    exemplos: [
-      'Mapa da estrutura do Poder Judiciário brasileiro',
-      'Conexões entre tipos de responsabilidade civil',
-      'Fluxograma do processo penal'
-    ],
-    casosUso: [
-      'Estudante organizando conhecimento para prova dissertativa',
-      'Professor explicando relações complexas entre institutos',
-      'Advogado montando estratégia processual'
-    ],
-    tutorial: {
-      passos: [
-        'Entre em "Mapas Mentais" pelo menu',
-        'Escolha um mapa pronto ou crie o seu',
-        'Use cores e símbolos para categorizar informações',
-        'Conecte conceitos relacionados',
-        'Exporte para impressão ou apresentação'
-      ],
-      dicas: [
-        'Mantenha mapas simples e objetivos',
-        'Use palavras-chave em vez de frases longas',
-        'Revise e atualize mapas regularmente'
-      ]
-    },
-    categoria: 'organizacao'
+  categoria: 'aprendizado'
+}, {
+  id: 'mapas-mentais',
+  nome: 'Mapas Mentais Jurídicos',
+  icone: Brain,
+  descricao: 'Visualização de conexões entre institutos jurídicos e organização de conhecimento.',
+  exemplos: ['Mapa da estrutura do Poder Judiciário brasileiro', 'Conexões entre tipos de responsabilidade civil', 'Fluxograma do processo penal'],
+  casosUso: ['Estudante organizando conhecimento para prova dissertativa', 'Professor explicando relações complexas entre institutos', 'Advogado montando estratégia processual'],
+  tutorial: {
+    passos: ['Entre em "Mapas Mentais" pelo menu', 'Escolha um mapa pronto ou crie o seu', 'Use cores e símbolos para categorizar informações', 'Conecte conceitos relacionados', 'Exporte para impressão ou apresentação'],
+    dicas: ['Mantenha mapas simples e objetivos', 'Use palavras-chave em vez de frases longas', 'Revise e atualize mapas regularmente']
   },
-  {
-    id: 'downloads',
-    nome: 'Downloads Jurídicos',
-    icone: Download,
-    descricao: 'Acervo completo de materiais para download: livros, modelos, formulários.',
-    exemplos: [
-      'Modelo de petição inicial para ação de cobrança',
-      'Formulário de constituição de empresa',
-      'Template de contrato de locação atualizado'
-    ],
-    casosUso: [
-      'Advogado baixando modelo de petição para adaptar',
-      'Estudante obtendo formulários para estudo prático',
-      'Empresário baixando contrato padrão'
-    ],
-    tutorial: {
-      passos: [
-        'Acesse a área de "Downloads"',
-        'Filtre por categoria: modelos, livros, formulários',
-        'Visualize prévia antes do download',
-        'Baixe em formato editável (Word/PDF)',
-        'Organize downloads em pastas locais'
-      ],
-      dicas: [
-        'Sempre adapte modelos à sua necessidade específica',
-        'Verifique atualizações periódicas dos materiais',
-        'Mantenha backup dos arquivos importantes'
-      ]
-    },
-    categoria: 'pesquisa'
+  categoria: 'organizacao'
+}, {
+  id: 'downloads',
+  nome: 'Downloads Jurídicos',
+  icone: Download,
+  descricao: 'Acervo completo de materiais para download: livros, modelos, formulários.',
+  exemplos: ['Modelo de petição inicial para ação de cobrança', 'Formulário de constituição de empresa', 'Template de contrato de locação atualizado'],
+  casosUso: ['Advogado baixando modelo de petição para adaptar', 'Estudante obtendo formulários para estudo prático', 'Empresário baixando contrato padrão'],
+  tutorial: {
+    passos: ['Acesse a área de "Downloads"', 'Filtre por categoria: modelos, livros, formulários', 'Visualize prévia antes do download', 'Baixe em formato editável (Word/PDF)', 'Organize downloads em pastas locais'],
+    dicas: ['Sempre adapte modelos à sua necessidade específica', 'Verifique atualizações periódicas dos materiais', 'Mantenha backup dos arquivos importantes']
   },
-  {
-    id: 'anotacoes',
-    nome: 'Sistema de Anotações',
-    icone: FileText,
-    descricao: 'Ferramenta completa para criar, organizar e sincronizar suas anotações jurídicas.',
-    exemplos: [
-      'Resumo pessoal de aula sobre Direito Constitucional',
-      'Anotações de jurisprudência importante',
-      'Lista de pontos-chave para revisão de véspera'
-    ],
-    casosUso: [
-      'Estudante organizando material para concurso público',
-      'Advogado registrando insights durante audiência',
-      'Professor preparando conteúdo de aula'
-    ],
-    tutorial: {
-      passos: [
-        'Abra o "Sistema de Anotações"',
-        'Crie categorias para organizar conteúdo',
-        'Use formatação rica: negrito, listas, destaques',
-        'Adicione tags para facilitar busca',
-        'Sincronize entre dispositivos'
-      ],
-      dicas: [
-        'Use títulos descritivos para facilitar busca',
-        'Revise e atualize anotações regularmente',
-        'Combine com outros recursos da plataforma'
-      ]
-    },
-    categoria: 'organizacao'
-  }
-];
-
+  categoria: 'pesquisa'
+}, {
+  id: 'anotacoes',
+  nome: 'Sistema de Anotações',
+  icone: FileText,
+  descricao: 'Ferramenta completa para criar, organizar e sincronizar suas anotações jurídicas.',
+  exemplos: ['Resumo pessoal de aula sobre Direito Constitucional', 'Anotações de jurisprudência importante', 'Lista de pontos-chave para revisão de véspera'],
+  casosUso: ['Estudante organizando material para concurso público', 'Advogado registrando insights durante audiência', 'Professor preparando conteúdo de aula'],
+  tutorial: {
+    passos: ['Abra o "Sistema de Anotações"', 'Crie categorias para organizar conteúdo', 'Use formatação rica: negrito, listas, destaques', 'Adicione tags para facilitar busca', 'Sincronize entre dispositivos'],
+    dicas: ['Use títulos descritivos para facilitar busca', 'Revise e atualize anotações regularmente', 'Combine com outros recursos da plataforma']
+  },
+  categoria: 'organizacao'
+}];
 export const Explorar = () => {
   const [funcionalidadeSelecionada, setFuncionalidadeSelecionada] = useState<Funcionalidade | null>(null);
   const [categoriaFiltro, setCategoriaFiltro] = useState<string>('todas');
-
-  const funcionalidadesFiltradas = categoriaFiltro === 'todas' 
-    ? funcionalidades 
-    : funcionalidades.filter(f => f.categoria === categoriaFiltro);
-
-  const categorias = [
-    { id: 'todas', nome: 'Todas', icone: Compass },
-    { id: 'estudo', nome: 'Estudo', icone: BookOpen },
-    { id: 'pesquisa', nome: 'Pesquisa', icone: FileText },
-    { id: 'organizacao', nome: 'Organização', icone: Target },
-    { id: 'aprendizado', nome: 'Aprendizado', icone: Brain }
-  ];
-
-  return (
-    <div className="max-w-7xl mx-auto p-4 sm:p-6 md:p-8">
+  const funcionalidadesFiltradas = categoriaFiltro === 'todas' ? funcionalidades : funcionalidades.filter(f => f.categoria === categoriaFiltro);
+  const categorias = [{
+    id: 'todas',
+    nome: 'Todas',
+    icone: Compass
+  }, {
+    id: 'estudo',
+    nome: 'Estudo',
+    icone: BookOpen
+  }, {
+    id: 'pesquisa',
+    nome: 'Pesquisa',
+    icone: FileText
+  }, {
+    id: 'organizacao',
+    nome: 'Organização',
+    icone: Target
+  }, {
+    id: 'aprendizado',
+    nome: 'Aprendizado',
+    icone: Brain
+  }];
+  return <div className="max-w-7xl mx-auto p-4 sm:p-6 md:p-8">
       {/* Header */}
       <div className="text-center mb-8">
         <div className="flex items-center justify-center gap-3 mb-4">
@@ -318,32 +153,20 @@ export const Explorar = () => {
 
       {/* Filtros de Categoria */}
       <div className="flex flex-wrap justify-center gap-4 mb-8">
-        {categorias.map((categoria) => {
-          const IconeCategoria = categoria.icone;
-          return (
-            <Button
-              key={categoria.id}
-              variant={categoriaFiltro === categoria.id ? "default" : "outline"}
-              onClick={() => setCategoriaFiltro(categoria.id)}
-              className="flex items-center gap-2"
-            >
+        {categorias.map(categoria => {
+        const IconeCategoria = categoria.icone;
+        return <Button key={categoria.id} variant={categoriaFiltro === categoria.id ? "default" : "outline"} onClick={() => setCategoriaFiltro(categoria.id)} className="flex items-center gap-2">
               <IconeCategoria className="h-4 w-4" />
               {categoria.nome}
-            </Button>
-          );
-        })}
+            </Button>;
+      })}
       </div>
 
       {/* Grid de Funcionalidades */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {funcionalidadesFiltradas.map((funcionalidade) => {
-          const IconeFuncionalidade = funcionalidade.icone;
-          return (
-            <Card 
-              key={funcionalidade.id} 
-              className="hover:shadow-lg transition-all duration-300 cursor-pointer group"
-              onClick={() => setFuncionalidadeSelecionada(funcionalidade)}
-            >
+        {funcionalidadesFiltradas.map(funcionalidade => {
+        const IconeFuncionalidade = funcionalidade.icone;
+        return <Card key={funcionalidade.id} className="hover:shadow-lg transition-all duration-300 cursor-pointer group" onClick={() => setFuncionalidadeSelecionada(funcionalidade)}>
               <CardHeader>
                 <div className="flex items-center gap-3 mb-3">
                   <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -366,14 +189,12 @@ export const Explorar = () => {
                   <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </div>
               </CardContent>
-            </Card>
-          );
-        })}
+            </Card>;
+      })}
       </div>
 
       {/* Modal de Detalhes */}
-      {funcionalidadeSelecionada && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+      {funcionalidadeSelecionada && <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 px-[8px]">
           <div className="bg-background rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               {/* Header do Modal */}
@@ -389,10 +210,7 @@ export const Explorar = () => {
                     </Badge>
                   </div>
                 </div>
-                <Button 
-                  variant="outline" 
-                  onClick={() => setFuncionalidadeSelecionada(null)}
-                >
+                <Button variant="outline" onClick={() => setFuncionalidadeSelecionada(null)}>
                   Fechar
                 </Button>
               </div>
@@ -418,12 +236,10 @@ export const Explorar = () => {
                     Exemplos Práticos
                   </h3>
                   <div className="space-y-3">
-                    {funcionalidadeSelecionada.exemplos.map((exemplo, index) => (
-                      <div key={index} className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
+                    {funcionalidadeSelecionada.exemplos.map((exemplo, index) => <div key={index} className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
                         <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
                         <span>{exemplo}</span>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
                 </CardContent>
               </Card>
@@ -436,12 +252,10 @@ export const Explorar = () => {
                     Casos de Uso
                   </h3>
                   <div className="space-y-3">
-                    {funcionalidadeSelecionada.casosUso.map((caso, index) => (
-                      <div key={index} className="flex items-start gap-3 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
+                    {funcionalidadeSelecionada.casosUso.map((caso, index) => <div key={index} className="flex items-start gap-3 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
                         <Star className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
                         <span>{caso}</span>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
                 </CardContent>
               </Card>
@@ -457,34 +271,29 @@ export const Explorar = () => {
                   <div className="mb-6">
                     <h4 className="font-semibold mb-3 text-lg">Como usar:</h4>
                     <div className="space-y-3">
-                      {funcionalidadeSelecionada.tutorial.passos.map((passo, index) => (
-                        <div key={index} className="flex items-start gap-3">
+                      {funcionalidadeSelecionada.tutorial.passos.map((passo, index) => <div key={index} className="flex items-start gap-3">
                           <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
                             {index + 1}
                           </div>
                           <span className="pt-1">{passo}</span>
-                        </div>
-                      ))}
+                        </div>)}
                     </div>
                   </div>
 
                   <div>
                     <h4 className="font-semibold mb-3 text-lg">Dicas importantes:</h4>
                     <div className="space-y-2">
-                      {funcionalidadeSelecionada.tutorial.dicas.map((dica, index) => (
-                        <div key={index} className="flex items-start gap-3 p-3 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg">
+                      {funcionalidadeSelecionada.tutorial.dicas.map((dica, index) => <div key={index} className="flex items-start gap-3 p-3 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg">
                           <Lightbulb className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
                           <span className="text-sm">{dica}</span>
-                        </div>
-                      ))}
+                        </div>)}
                     </div>
                   </div>
                 </CardContent>
               </Card>
             </div>
           </div>
-        </div>
-      )}
+        </div>}
 
       {/* Call to Action */}
       <Card className="mt-12 bg-gradient-to-r from-primary/5 to-primary/10">
@@ -500,6 +309,5 @@ export const Explorar = () => {
           </Button>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
