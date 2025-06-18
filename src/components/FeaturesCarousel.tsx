@@ -1,6 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+
 const carouselData = [{
   id: 1,
   title: "Vade Mecum Digital",
@@ -42,29 +44,45 @@ const carouselData = [{
   description: "Mantenha-se atualizado com as últimas novidades do Direito",
   image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=400&fit=crop&crop=center"
 }];
+
 export const FeaturesCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
   useEffect(() => {
     if (!isAutoPlaying) return;
+    
     const interval = setInterval(() => {
       setCurrentSlide(prev => (prev + 1) % carouselData.length);
     }, 5000);
+
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
+
   const nextSlide = () => {
     setCurrentSlide(prev => (prev + 1) % carouselData.length);
   };
+
   const prevSlide = () => {
     setCurrentSlide(prev => (prev - 1 + carouselData.length) % carouselData.length);
   };
+
   const currentItem = carouselData[currentSlide];
-  return <div className="relative h-[200px] sm:h-[240px] w-full overflow-hidden rounded-2xl shadow-legal card-depth-3" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
+
+  return (
+    <div 
+      className="relative h-[200px] sm:h-[240px] w-full overflow-hidden rounded-2xl shadow-legal card-depth-3"
+      onMouseEnter={() => setIsAutoPlaying(false)}
+      onMouseLeave={() => setIsAutoPlaying(true)}
+    >
       {/* Background Image with enhanced overlay */}
-      <div className="absolute inset-0 bg-cover bg-center transition-all duration-1000 transform" style={{
-      backgroundImage: `url(${currentItem.image})`,
-      filter: 'brightness(0.4) contrast(1.1) saturate(0.8)'
-    }} />
+      <div 
+        className="absolute inset-0 bg-cover bg-center transition-all duration-1000 transform"
+        style={{
+          backgroundImage: `url(${currentItem.image})`,
+          filter: 'brightness(0.4) contrast(1.1) saturate(0.8)'
+        }}
+      />
       
       {/* Enhanced Legal Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-background-deep/95 via-background-deep/70 to-background-deep/40" />
@@ -77,51 +95,78 @@ export const FeaturesCarousel = () => {
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-white drop-shadow-2xl animate-fade-in-up gradient-text-legal-light">
             {currentItem.title}
           </h1>
-          <p className="text-sm sm:text-base md:text-lg text-gray-100 drop-shadow-lg animate-fade-in-up leading-relaxed" style={{
-          animationDelay: '0.2s'
-        }}>
+          <p 
+            className="text-sm sm:text-base md:text-lg text-gray-100 drop-shadow-lg animate-fade-in-up leading-relaxed"
+            style={{ animationDelay: '0.2s' }}
+          >
             {currentItem.description}
           </p>
           
           {/* Professional accent line */}
-          <div className="mt-4 w-20 h-1 bg-gradient-to-r from-accent-legal to-accent-legal/60 rounded-full animate-fade-in-up" style={{
-          animationDelay: '0.4s'
-        }} />
+          <div 
+            className="mt-4 w-20 h-1 bg-gradient-to-r from-accent-legal to-accent-legal/60 rounded-full animate-fade-in-up"
+            style={{ animationDelay: '0.4s' }}
+          />
         </div>
       </div>
 
       {/* Enhanced Navigation Arrows with legal styling */}
-      <Button variant="ghost" size="sm" onClick={prevSlide} className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/20 hover:bg-black/40 text-white border-0 rounded-full w-10 h-10 p-0">
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={prevSlide}
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/20 hover:bg-black/40 text-white border-0 rounded-full w-10 h-10 p-0"
+      >
         <ChevronLeft className="h-5 w-5" />
       </Button>
 
-      <Button variant="ghost" size="sm" onClick={nextSlide} className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/20 hover:bg-black/40 text-white border-0 rounded-full w-10 h-10 p-0">
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={nextSlide}
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/20 hover:bg-black/40 text-white border-0 rounded-full w-10 h-10 p-0"
+      >
         <ChevronRight className="h-5 w-5" />
       </Button>
 
       {/* Enhanced Dots Indicator with legal styling */}
       <div className="absolute bottom-12 sm:bottom-16 left-6 sm:left-8 flex gap-2 z-20">
-        {carouselData.map((_, index) => {})}
+        {carouselData.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              index === currentSlide 
+                ? 'bg-accent-legal w-6' 
+                : 'bg-white/40 hover:bg-white/60'
+            }`}
+          />
+        ))}
       </div>
 
       {/* Enhanced Progress bar with legal styling */}
       <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-background-deep/50">
-        <div className="h-full bg-gradient-to-r from-accent-legal via-primary to-accent-legal transition-all duration-500 shadow-lg shadow-accent-legal/30" style={{
-        width: `${(currentSlide + 1) / carouselData.length * 100}%`
-      }} />
+        <div 
+          className="h-full bg-gradient-to-r from-accent-legal via-primary to-accent-legal transition-all duration-500 shadow-lg shadow-accent-legal/30"
+          style={{ width: `${((currentSlide + 1) / carouselData.length) * 100}%` }}
+        />
       </div>
 
       {/* Subtle particle effect overlay */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-4 right-8 w-2 h-2 bg-accent-legal/40 rounded-full animate-legal-pulse" style={{
-        animationDelay: '0s'
-      }} />
-        <div className="absolute top-12 right-16 w-1 h-1 bg-white/30 rounded-full animate-legal-pulse" style={{
-        animationDelay: '1s'
-      }} />
-        <div className="absolute top-8 right-12 w-1.5 h-1.5 bg-accent-legal/30 rounded-full animate-legal-pulse" style={{
-        animationDelay: '2s'
-      }} />
+        <div 
+          className="absolute top-4 right-8 w-2 h-2 bg-accent-legal/40 rounded-full animate-legal-pulse"
+          style={{ animationDelay: '0s' }}
+        />
+        <div 
+          className="absolute top-12 right-16 w-1 h-1 bg-white/30 rounded-full animate-legal-pulse"
+          style={{ animationDelay: '1s' }}
+        />
+        <div 
+          className="absolute top-8 right-12 w-1.5 h-1.5 bg-accent-legal/30 rounded-full animate-legal-pulse"
+          style={{ animationDelay: '2s' }}
+        />
       </div>
-    </div>;
+    </div>
+  );
 };
