@@ -1,4 +1,3 @@
-
 import { Scale, Search, Bell, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
@@ -19,11 +18,7 @@ export const MobileHeader = ({
             {/* Logo and Title */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
-                <img 
-                  src="https://imgur.com/M5Qu1m8.png" 
-                  alt="Direito Premium" 
-                  className="w-full h-full object-cover rounded-xl"
-                />
+                <img src="https://imgur.com/M5Qu1m8.png" alt="Direito Premium" className="w-full h-full object-cover rounded-xl" />
               </div>
               <div>
                 <h1 className="text-lg font-bold gradient-text">Direito Premium</h1>
@@ -33,14 +28,9 @@ export const MobileHeader = ({
             
             {/* Action Buttons */}
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full hover:bg-primary/10">
-                <Search className="h-5 w-5 text-amber-400" />
-              </Button>
               
-              <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full hover:bg-primary/10 relative">
-                <Bell className="h-5 w-5 text-amber-400" />
-                {hasNotifications && <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse" />}
-              </Button>
+              
+              
 
               <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full hover:bg-primary/10 transition-all duration-300" onClick={() => setSidebarOpen(true)}>
                 <Menu className={`h-5 w-5 text-amber-400 transition-transform duration-300 ${sidebarOpen ? 'rotate-90' : 'rotate-0'}`} />
