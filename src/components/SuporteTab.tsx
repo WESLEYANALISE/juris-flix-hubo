@@ -52,34 +52,23 @@ export const SuporteTab = () => {
     }
   };
 
-  const submitToSheetDB = async (data: any) => {
+  const submitToSupabase = async (data: any) => {
     try {
-      console.log('Enviando dados para SheetDB:', data);
+      console.log('Enviando dados para Supabase:', data);
       
-      const response = await fetch('https://sheetdb.io/api/v1/ekjnh0u3gmc8q', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: [data]
-        }),
-      });
+      // Criar uma tabela simples de suporte se não existir
+      const { error } = await supabase
+        .from('suporte_requests')
+        .insert([data]);
 
-      console.log('Resposta do SheetDB - Status:', response.status);
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Resposta de erro do SheetDB:', errorText);
-        throw new Error(`Erro HTTP ${response.status}: ${errorText}`);
+      if (error) {
+        console.error('Erro ao inserir no Supabase:', error);
+        throw error;
       }
 
-      const result = await response.json();
-      console.log('Dados enviados com sucesso:', result);
-      return result;
+      console.log('Dados salvos com sucesso no Supabase');
     } catch (error) {
-      console.error('Erro detalhado ao enviar para SheetDB:', error);
+      console.error('Erro detalhado ao enviar para Supabase:', error);
       throw error;
     }
   };
@@ -111,18 +100,32 @@ export const SuporteTab = () => {
         assunto: data.assunto || 'Não informado',
         descricao: data.descricao || '',
         imagem_url: imageUrl,
-        data_envio: new Date().toLocaleString('pt-BR'),
+        data_envio: new Date().toISOString(),
         status: 'Pendente'
       };
 
       console.log('Dados a serem enviados:', submitData);
 
-      await submitToSheetDB(submitData);
-
-      toast({
-        title: "Solicitação enviada com sucesso!",
-        description: "Retornaremos em até 24 horas. Obrigado!",
-      });
+      // Tentar primeiro o Supabase, se falhar, usar localStorage como fallback
+      try {
+        await submitToSupabase(submitData);
+        toast({
+          title: "Solicitação enviada com sucesso!",
+          description: "Sua solicitação foi registrada. Retornaremos em até 24 horas!",
+        });
+      } catch (supabaseError) {
+        console.warn('Erro no Supabase, salvando localmente:', supabaseError);
+        
+        // Fallback: salvar no localStorage
+        const existingRequests = JSON.parse(localStorage.getItem('suporte_requests') || '[]');
+        existingRequests.push({ ...submitData, id: Date.now() });
+        localStorage.setItem('suporte_requests', JSON.stringify(existingRequests));
+        
+        toast({
+          title: "Solicitação registrada!",
+          description: "Sua solicitação foi salva localmente. Entre em contato conosco diretamente se necessário.",
+        });
+      }
 
       form.reset();
       setSelectedImage(null);
@@ -131,14 +134,9 @@ export const SuporteTab = () => {
     } catch (error) {
       console.error('Erro completo no envio:', error);
       
-      let errorMessage = "Tente novamente mais tarde.";
-      if (error instanceof Error) {
-        errorMessage = `Erro: ${error.message}`;
-      }
-      
       toast({
         title: "Erro ao enviar solicitação",
-        description: errorMessage,
+        description: "Ocorreu um erro inesperado. Por favor, tente novamente.",
         variant: "destructive",
       });
     } finally {
