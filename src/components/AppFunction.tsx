@@ -126,7 +126,51 @@ export const AppFunction = () => {
     );
   }
 
-  // Para todas as funções da tabela APP que têm link válido (incluindo Assistente IA Premium), mostrar o iframe
+  // Para "Assistente IA Premium", usar o link específico fornecido
+  if (currentFunction === 'Assistente IA Premium') {
+    console.log('AppFunction - Renderizando iframe para Assistente IA Premium');
+    
+    return (
+      <div className="min-h-screen bg-background">
+        {/* Header with back button */}
+        <header className="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-border/30">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8 sm:py-4 py-[10px]">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={handleBack} 
+                className="text-foreground hover:bg-red-500/10 hover:text-red-400 transition-all duration-300 hover:scale-110 h-8 w-8 sm:h-10 sm:w-10"
+              >
+                <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+              </Button>
+              <div>
+                <h1 className="text-lg sm:text-xl font-bold gradient-text">
+                  Assistente IA Premium
+                </h1>
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  Inteligência Artificial Jurídica Avançada
+                </p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* WebView Content */}
+        <main className="pt-16 sm:pt-20 h-screen">
+          <iframe 
+            src="https://enchanted-pricey-walkover.glitch.me" 
+            className="w-full h-full border-0" 
+            title="Assistente IA Premium"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"
+            loading="lazy"
+          />
+        </main>
+      </div>
+    );
+  }
+
+  // Para todas as outras funções da tabela APP que têm link válido, mostrar o iframe
   if (functionData && functionData.link && functionData.link.trim() !== '') {
     console.log('AppFunction - Renderizando iframe para:', functionData.funcao, 'Link:', functionData.link);
     
