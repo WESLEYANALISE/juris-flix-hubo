@@ -1,3 +1,4 @@
+
 import { Scale, Search, Bell, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
@@ -17,11 +18,15 @@ export const MobileHeader = ({
           <div className="flex items-center justify-between">
             {/* Logo and Title */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-lg">
-                <Scale className="h-6 w-6 text-amber-400" />
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
+                <img 
+                  src="https://imgur.com/M5Qu1m8.png" 
+                  alt="Direito Premium" 
+                  className="w-full h-full object-cover rounded-xl"
+                />
               </div>
               <div>
-                <h1 className="text-lg font-bold gradient-text">LegalStudy Pro</h1>
+                <h1 className="text-lg font-bold gradient-text">Direito Premium</h1>
                 <p className="text-xs text-muted-foreground">Sua plataforma jurídica</p>
               </div>
             </div>

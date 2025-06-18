@@ -1,3 +1,4 @@
+
 import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
@@ -41,7 +42,8 @@ import {
   File,
   Archive,
   Code,
-  Database
+  Database,
+  HelpCircle
 } from 'lucide-react';
 
 // Array expandido de ícones únicos
@@ -50,7 +52,7 @@ const availableIcons = [
   Newspaper, Film, Brain, BookOpen, FileText, Search, GraduationCap, 
   Calendar, Clock, Award, Target, Bookmark, Download, Upload, Share, 
   Heart, Star, Zap, Shield, Globe, Camera, Music, Video, Image, 
-  File, Archive, Code, Database
+  File, Archive, Code, Database, HelpCircle
 ];
 
 // Get first 8 functions in the specified order
@@ -118,6 +120,8 @@ const getUniqueIconForFunction = (funcao: string, index: number) => {
   if (name.includes('biblioteca')) return Library;
   if (name.includes('resumo') || name.includes('codigo') || name.includes('código')) return BookOpen;
   if (name.includes('video') || name.includes('vídeo') || name.includes('aula')) return Play;
+  if (name.includes('suporte')) return HelpCircle;
+  if (name.includes('banco') && name.includes('questões')) return Target;
   
   // Se não encontrar correspondência específica, usa um ícone único baseado no índice
   return availableIcons[index % availableIcons.length] || Scale;

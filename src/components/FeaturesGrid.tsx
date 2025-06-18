@@ -1,54 +1,20 @@
 
-import { Card, CardContent } from '@/components/ui/card';
-import { useAppFunctions } from '@/hooks/useAppFunctions';
 import { useNavigation } from '@/context/NavigationContext';
+import { useAppFunctions } from '@/hooks/useAppFunctions';
 import { 
-  ArrowRight, 
-  GitBranch,
-  Scale,
-  Bot,
-  Headphones,
-  Library,
-  Monitor,
-  Play,
-  Folder,
-  Newspaper,
-  Film,
-  Brain,
-  BookOpen,
-  FileText,
-  Search,
-  GraduationCap,
-  Calendar,
-  Clock,
-  Award,
-  Target,
-  Bookmark,
-  Download,
-  Upload,
-  Share,
-  Heart,
-  Star,
-  Zap,
-  Shield,
-  Globe,
-  Camera,
-  Music,
-  Video,
-  Image,
-  File,
-  Archive,
-  Code,
-  Database
+  Scale, Bot, Library, Headphones, Brain, Monitor, 
+  Play, Folder, Newspaper, Film, Award, Calendar, 
+  BookOpen, GraduationCap, FileText, Search, Download, Upload, 
+  Share, Heart, Star, Zap, Shield, Globe, Camera, Music, 
+  Video, Image, File, Archive, Code, Database, Clock, Target, HelpCircle
 } from 'lucide-react';
 
 // Array expandido de ícones únicos
 const availableIcons = [
-  Scale, Bot, Library, Headphones, GitBranch, Monitor, Play, Folder, 
-  Newspaper, Film, Brain, BookOpen, FileText, Search, GraduationCap, 
-  Calendar, Clock, Award, Target, Bookmark, Download, Upload, Share, 
-  Heart, Star, Zap, Shield, Globe, Camera, Music, Video, Image, 
-  File, Archive, Code, Database
+  Scale, Bot, Library, Headphones, Brain, Monitor, Play, Folder, 
+  Newspaper, Film, Award, Calendar, BookOpen, GraduationCap, FileText, 
+  Search, Download, Upload, Share, Heart, Star, Zap, Shield, Globe, 
+  Camera, Music, Video, Image, File, Archive, Code, Database, Clock, Target, HelpCircle
 ];
 
 const getUniqueIconForFunction = (funcao: string, index: number) => {
@@ -61,7 +27,7 @@ const getUniqueIconForFunction = (funcao: string, index: number) => {
   if (name.includes('audio') || name.includes('áudio')) return Headphones;
   if (name.includes('mapa') && name.includes('mental')) return Brain;
   if (name.includes('plataforma') && name.includes('desktop')) return Monitor;
-  if (name.includes('flashcard') || name.includes('flash card')) return GitBranch;
+  if (name.includes('flashcard') || name.includes('flash card')) return Brain;
   if (name.includes('resumo') || name.includes('codigo') || name.includes('código')) return BookOpen;
   if (name.includes('video') || name.includes('vídeo') || name.includes('aula')) return Play;
   if (name.includes('petições') || name.includes('peticoes') || name.includes('petição')) return Folder;
@@ -84,139 +50,97 @@ const getUniqueIconForFunction = (funcao: string, index: number) => {
   if (name.includes('música') || name.includes('music')) return Music;
   if (name.includes('arquivo') || name.includes('file')) return Archive;
   if (name.includes('código') || name.includes('programação')) return Code;
-  if (name.includes('banco') || name.includes('dados')) return Database;
+  if (name.includes('banco') && name.includes('dados')) return Database;
+  if (name.includes('banco') && name.includes('questões')) return Target;
+  if (name.includes('suporte')) return HelpCircle;
   
   // Se não encontrar correspondência específica, usa um ícone único baseado no índice
   return availableIcons[index % availableIcons.length] || Scale;
 };
 
-const getColorForFunction = (index: number) => {
+const getColorForIndex = (index: number) => {
   const colors = [
-    'gradient-legal',     // Gold for legal content
-    'gradient-ai',        // Cyan for AI/tech
-    'gradient-study',     // Blue for study materials
-    'gradient-media',     // Purple for media content
-    'gradient-docs',      // Green for documents
-    'gradient-legal',     // Back to gold
-    'gradient-ai',        // Cyan
-    'gradient-study',     // Blue
-    'gradient-media',     // Purple
-    'gradient-docs',      // Green
-    'gradient-legal',     // Gold
-    'gradient-ai'         // Cyan
+    'from-blue-600 to-purple-600',
+    'from-green-600 to-teal-600', 
+    'from-orange-600 to-red-600',
+    'from-purple-600 to-pink-600',
+    'from-teal-600 to-cyan-600',
+    'from-red-600 to-orange-600'
   ];
   return colors[index % colors.length];
 };
 
 export const FeaturesGrid = () => {
-  const { functions, loading } = useAppFunctions();
   const { setCurrentFunction } = useNavigation();
+  const { functions, loading } = useAppFunctions();
 
-  const handleFunctionClick = (funcao: string) => {
+  const handleFeatureClick = (funcao: string) => {
     setCurrentFunction(funcao);
   };
 
-  // Sort functions by id to maintain table order
-  const sortedFunctions = [...functions].sort((a, b) => a.id - b.id);
-
   if (loading) {
     return (
-      <div className="py-12 sm:py-16 px-4 md:px-8">
+      <section className="py-16 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 gradient-text-legal">
-              Ferramentas Jurídicas Profissionais
-            </h2>
-            <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-              Carregando funcionalidades...
-            </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-            {[...Array(8)].map((_, i) => (
-              <Card key={i} className="animate-pulse neomorphism-legal">
-                <CardContent className="p-4 sm:p-6">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 bg-gray-600 rounded-xl animate-legal-shimmer"></div>
-                  <div className="h-4 bg-gray-600 rounded mb-2 animate-legal-shimmer"></div>
-                  <div className="h-3 bg-gray-600 rounded animate-legal-shimmer"></div>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Todas as Funcionalidades</h2>
+            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 
+  if (!functions || functions.length === 0) {
+    return null;
+  }
+
   return (
-    <div className="py-12 sm:py-16 px-4 md:px-8">
+    <section className="py-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-8 sm:mb-12 animate-slide-up-legal">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 gradient-text-legal animate-legal-text-glow">
-            Ferramentas Jurídicas Profissionais
-          </h2>
-          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-            Acesse todas as funcionalidades desenvolvidas especialmente para profissionais e estudantes do Direito
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4 gradient-text">Todas as Funcionalidades</h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Explore nossa suíte completa de ferramentas jurídicas desenvolvidas especialmente para profissionais do Direito
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-          {sortedFunctions.map((func, index) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {functions.map((func, index) => {
             const Icon = getUniqueIconForFunction(func.funcao, index);
-            const colorClass = getColorForFunction(index);
+            const colorClass = getColorForIndex(index);
             
             return (
-              <Card 
-                key={func.id} 
-                className="card-legal group cursor-pointer border-border/30 bg-card/60 backdrop-blur-sm hover:bg-card/90 overflow-hidden animate-scale-glow hover:animate-legal-float"
-                style={{ animationDelay: `${index * 0.05}s` }}
-                onClick={() => handleFunctionClick(func.funcao)}
+              <div
+                key={func.id}
+                onClick={() => handleFeatureClick(func.funcao)}
+                className="group cursor-pointer bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-6 hover:bg-card/80 hover:border-primary/50 transition-all duration-300 hover:scale-105 hover:shadow-lg"
               >
-                <CardContent className="p-4 sm:p-6 text-center relative">
-                  {/* Enhanced background gradient effect with animation */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-legal-glow" />
-                  
-                  <div className={`w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-xl ${colorClass} flex items-center justify-center group-hover:scale-110 transition-all duration-500 card-depth-2 group-hover:card-depth-3 relative animate-legal-shimmer group-hover:animate-legal-icon-glow`}>
-                    <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-amber-400 drop-shadow-lg group-hover:animate-legal-icon-float" />
-                    
-                    {/* Enhanced hover arrow with legal styling and animation */}
-                    <div className="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100 card-depth-1 animate-legal-bounce">
-                      <ArrowRight className="h-2 w-2 sm:h-3 sm:w-3 text-gray-800 animate-legal-arrow-float" />
-                    </div>
-                    
-                    {/* Legal sparkle effect */}
-                    <div className="absolute top-1 right-1 w-2 h-2 bg-white/80 rounded-full opacity-0 group-hover:opacity-100 animate-legal-sparkle transition-opacity duration-500" />
-                  </div>
-                  
-                  <h3 className="font-semibold text-sm sm:text-base lg:text-lg mb-2 text-foreground group-hover:text-primary transition-colors duration-500 line-clamp-2 group-hover:animate-legal-text-glow group-hover:scale-105">
-                    {func.funcao}
-                  </h3>
-                  
-                  <p className="text-xs sm:text-sm text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-500 line-clamp-2-fade">
-                    {func.descricao || 'Funcionalidade especializada para estudos jurídicos'}
+                <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${colorClass} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <Icon className="h-6 w-6 text-white" />
+                </div>
+                
+                <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors duration-300">
+                  {func.funcao}
+                </h3>
+                
+                {func.descricao && (
+                  <p className="text-muted-foreground text-sm line-clamp-2">
+                    {func.descricao}
                   </p>
-
-                  {/* Enhanced interactive border effect with animation */}
-                  <div className="absolute inset-0 rounded-lg border border-primary/0 group-hover:border-primary/30 transition-all duration-500 animate-legal-border" />
-                  
-                  {/* Professional glow effect on hover with animation */}
-                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none hover-glow-legal animate-legal-hover-glow" />
-                  
-                  {/* Justice-themed corner accent */}
-                  <div className="absolute top-2 right-2 w-1 h-6 bg-gradient-to-b from-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-legal-accent" />
-                </CardContent>
-              </Card>
+                )}
+                
+                <div className="mt-4 flex items-center text-primary text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <span>Acessar ferramenta</span>
+                  <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
             );
           })}
         </div>
-
-        {sortedFunctions.length === 0 && !loading && (
-          <div className="text-center py-12 animate-fade-in-legal">
-            <p className="text-muted-foreground text-lg">
-              Nenhuma função encontrada. Verifique a configuração da base de dados.
-            </p>
-          </div>
-        )}
       </div>
-    </div>
+    </section>
   );
 };
