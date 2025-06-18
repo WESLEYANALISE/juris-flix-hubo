@@ -41,9 +41,9 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
     {
       title: 'Ferramentas Jurídicas',
       items: [
-        { icon: Scale, title: 'Vade Mecum Digital', function: findFunction('vade mecum')?.funcao || 'Vade Mecum Digital' },
-        { icon: Bot, title: 'Assistente IA Jurídica', function: findFunction('assistente')?.funcao || 'Assistente IA Jurídico' },
-        { icon: Library, title: 'Biblioteca Jurídica', function: findFunction('biblioteca')?.funcao || 'Biblioteca' },
+        { icon: Scale, title: 'Vade Mecum Digital', function: 'Vade Mecum Digital' },
+        { icon: Bot, title: 'Assistente IA Jurídica', function: 'Assistente IA Jurídico' },
+        { icon: Library, title: 'Biblioteca Jurídica', function: 'Biblioteca' },
         { icon: Brain, title: 'Mapas Mentais', function: 'Mapas Mentais' },
       ]
     },
@@ -51,18 +51,20 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
       title: 'Estudos e Preparação',
       items: [
         { icon: Brain, title: 'Flashcards', function: 'Flashcards' },
-        { icon: Play, title: 'Videoaulas', function: findFunction('videoaulas')?.funcao || findFunction('video')?.funcao || 'Videoaulas' },
-        { icon: Headphones, title: 'Áudio-aulas', function: findFunction('áudio')?.funcao || findFunction('audio')?.funcao || 'Áudio-aulas' },
-        { icon: Download, title: 'Downloads', function: findFunction('downloads')?.funcao || 'Downloads' },
-        { icon: Newspaper, title: 'Notícias Jurídicas', function: findFunction('notícias')?.funcao || findFunction('noticias')?.funcao || 'Notícias Jurídicas' },
+        { icon: Play, title: 'Videoaulas', function: 'Videoaulas' },
+        { icon: Headphones, title: 'Áudio-aulas', function: 'Áudio-aulas' },
+        { icon: Download, title: 'Downloads', function: 'Downloads' },
+        { icon: Newspaper, title: 'Notícias Jurídicas', function: 'Notícias Jurídicas' },
         { icon: FileText, title: 'Anotações', function: 'Anotações' },
       ]
     }
   ];
 
   const handleItemClick = (functionName: string | null) => {
-    console.log('Clicando no item:', functionName);
-    setCurrentFunction(functionName);
+    console.log('DesktopSidebar - Clicando no item:', functionName);
+    if (functionName) {
+      setCurrentFunction(functionName);
+    }
   };
 
   return (
