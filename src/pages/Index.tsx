@@ -1,9 +1,11 @@
+
 import { FeaturesCarousel } from '@/components/FeaturesCarousel';
 import { FeaturesGrid } from '@/components/FeaturesGrid';
 import { QuickAccessSection } from '@/components/QuickAccessSection';
 import { AppFunction } from '@/components/AppFunction';
 import { MobileLayout } from '@/components/MobileLayout';
 import { DesktopLayout } from '@/components/DesktopLayout';
+import { SuporteTab } from '@/components/SuporteTab';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
 import { useDeviceDetection } from '@/hooks/useDeviceDetection';
