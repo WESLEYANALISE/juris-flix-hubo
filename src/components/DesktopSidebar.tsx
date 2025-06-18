@@ -1,3 +1,4 @@
+
 import { 
   Scale, Bot, Library, Headphones, Brain, Monitor, 
   ChevronLeft, ChevronRight, Home, Star, Play, FileText, Newspaper, Download 
@@ -17,14 +18,15 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
   const { setCurrentFunction } = useNavigation();
   const { functions, loading } = useAppFunctions();
 
-  // Função melhorada para encontrar a função na tabela APP com memoização
-  const getFunctionFromDB = useCallback((searchTerms: string[]) => {
-    if (!functions || functions.length === 0) {
-      console.log('DesktopSidebar - Nenhuma função disponível ainda');
-      return null;
-    }
-    
+  // Função simplificada para encontrar a função na tabela APP
+  const getFunctionName = useCallback((searchTerms: string[]) => {
     console.log('DesktopSidebar - Buscando função para termos:', searchTerms);
+    console.log('DesktopSidebar - Funções disponíveis:', functions);
+    
+    if (!functions || functions.length === 0) {
+      console.log('DesktopSidebar - Nenhuma função disponível, usando termo padrão');
+      return searchTerms[0]; // Retorna o primeiro termo como fallback
+    }
     
     // Primeiro, tentativa de correspondência exata
     for (const term of searchTerms) {
@@ -32,7 +34,7 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
         func.funcao.toLowerCase() === term.toLowerCase()
       );
       if (exactMatch) {
-        console.log(`DesktopSidebar - Correspondência exata encontrada para "${term}":`, exactMatch);
+        console.log(`DesktopSidebar - Correspondência exata encontrada para "${term}":`, exactMatch.funcao);
         return exactMatch.funcao;
       }
     }
@@ -44,16 +46,16 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
         term.toLowerCase().includes(func.funcao.toLowerCase())
       );
       if (partialMatch) {
-        console.log(`DesktopSidebar - Correspondência parcial encontrada para "${term}":`, partialMatch);
+        console.log(`DesktopSidebar - Correspondência parcial encontrada para "${term}":`, partialMatch.funcao);
         return partialMatch.funcao;
       }
     }
     
-    console.log(`DesktopSidebar - Nenhuma correspondência encontrada para:`, searchTerms);
-    return null;
+    console.log(`DesktopSidebar - Nenhuma correspondência encontrada, usando primeiro termo:`, searchTerms[0]);
+    return searchTerms[0]; // Fallback para o primeiro termo
   }, [functions]);
 
-  // Memoizar as seções do menu para evitar recálculos
+  // Memoizar as seções do menu
   const menuSections = useMemo(() => {
     console.log('DesktopSidebar - Recalculando menuSections. Loading:', loading, 'Functions count:', functions?.length || 0);
     
@@ -61,8 +63,8 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
       {
         title: 'Principal',
         items: [
-          { icon: Home, title: 'Dashboard', function: 'Dashboard', alwaysClickable: true },
-          { icon: Star, title: 'Favoritos', function: 'Favoritos', alwaysClickable: true },
+          { icon: Home, title: 'Dashboard', function: 'Dashboard' },
+          { icon: Star, title: 'Favoritos', function: 'Favoritos' },
         ]
       },
       {
@@ -71,26 +73,22 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
           { 
             icon: Scale, 
             title: 'Vade Mecum Digital', 
-            function: getFunctionFromDB(['Vade Mecum Digital']) || 'Vade Mecum Digital',
-            alwaysClickable: true
+            function: getFunctionName(['Vade Mecum Digital', 'Vade Mecum'])
           },
           { 
             icon: Bot, 
             title: 'Assistente IA Jurídica', 
-            function: getFunctionFromDB(['Assistente IA Jurídica', 'Assistente IA']) || 'Assistente IA Jurídica',
-            alwaysClickable: true
+            function: getFunctionName(['Assistente IA Jurídica', 'Assistente IA'])
           },
           { 
             icon: Library, 
             title: 'Biblioteca Jurídica', 
-            function: getFunctionFromDB(['Biblioteca Jurídica']) || 'Biblioteca Jurídica',
-            alwaysClickable: true
+            function: getFunctionName(['Biblioteca Jurídica', 'Biblioteca'])
           },
           { 
             icon: Brain, 
             title: 'Mapas Mentais', 
-            function: getFunctionFromDB(['Mapas Mentais']) || 'Mapas Mentais',
-            alwaysClickable: true
+            function: getFunctionName(['Mapas Mentais'])
           },
         ]
       },
@@ -100,57 +98,47 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
           { 
             icon: Brain, 
             title: 'Flashcards', 
-            function: getFunctionFromDB(['Flashcards']) || 'Flashcards',
-            alwaysClickable: true
+            function: getFunctionName(['Flashcards'])
           },
           { 
             icon: Play, 
             title: 'Videoaulas', 
-            function: 'Videoaulas',
-            alwaysClickable: true
+            function: 'Videoaulas' // Sempre usar componente local
           },
           { 
             icon: Headphones, 
             title: 'Áudio-aulas', 
-            function: getFunctionFromDB(['Áudio-aulas']) || 'Áudio-aulas',
-            alwaysClickable: true
+            function: getFunctionName(['Áudio-aulas', 'Audio-aulas'])
           },
           { 
             icon: Download, 
             title: 'Downloads', 
-            function: 'Downloads',
-            alwaysClickable: true
+            function: 'Downloads' // Sempre usar componente local
           },
           { 
             icon: Newspaper, 
             title: 'Notícias Jurídicas', 
-            function: 'Notícias Jurídicas',
-            alwaysClickable: true
+            function: 'Notícias Jurídicas' // Sempre usar componente local
           },
           { 
             icon: FileText, 
             title: 'Anotações', 
-            function: 'Anotações',
-            alwaysClickable: true
+            function: 'Anotações' // Sempre usar componente local
           },
         ]
       }
     ];
-  }, [functions, loading, getFunctionFromDB]);
+  }, [functions, loading, getFunctionName]);
 
-  // Função de clique otimizada - SEMPRE clicável agora
-  const handleItemClick = useCallback((functionName: string | null, title: string) => {
-    // Se não tem função definida, usar o título como função
+  // Função de clique otimizada
+  const handleItemClick = useCallback((functionName: string, title: string) => {
+    console.log('DesktopSidebar - Clicando no item:', title);
+    console.log('DesktopSidebar - Function name:', functionName);
+    
+    // Sempre navegar para a função, mesmo que seja null
     const targetFunction = functionName || title;
-    
-    console.log('DesktopSidebar - Clicando no item:', title, 'targetFunction:', targetFunction);
-    
-    if (targetFunction) {
-      console.log('DesktopSidebar - Navegando para função:', targetFunction);
-      setCurrentFunction(targetFunction);
-    } else {
-      console.log('DesktopSidebar - Erro: função não definida para', title);
-    }
+    console.log('DesktopSidebar - Navegando para:', targetFunction);
+    setCurrentFunction(targetFunction);
   }, [setCurrentFunction]);
 
   // Mostrar loading se ainda estamos carregando as funções
@@ -202,7 +190,7 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
         </div>
       </div>
 
-      {/* Enhanced menu content - TODOS os itens agora são clicáveis */}
+      {/* Enhanced menu content - TODOS os itens são clicáveis */}
       <ScrollArea className="flex-1 px-3 py-4">
         <div className="space-y-6">
           {menuSections.map((section, sectionIndex) => (

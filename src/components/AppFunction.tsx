@@ -1,3 +1,4 @@
+
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
@@ -22,21 +23,11 @@ export const AppFunction = () => {
     console.log('AppFunction - functions:', functions);
     
     if (currentFunction && functions.length > 0) {
-      // Buscar função exata primeiro
-      let func = functions.find(f => f.funcao === currentFunction);
-      
-      // Se não encontrar, buscar por correspondência parcial
-      if (!func) {
-        func = functions.find(f => 
-          f.funcao.toLowerCase().includes(currentFunction.toLowerCase()) ||
-          currentFunction.toLowerCase().includes(f.funcao.toLowerCase())
-        );
-      }
-      
+      // Buscar função na base de dados
+      const func = functions.find(f => f.funcao === currentFunction);
       console.log('AppFunction - functionData encontrada:', func);
-      setFunctionData(func);
+      setFunctionData(func || null);
     } else {
-      // Se não encontrar na base de dados, limpar functionData
       setFunctionData(null);
     }
   }, [currentFunction, functions]);
@@ -49,7 +40,7 @@ export const AppFunction = () => {
     return null;
   }
 
-  // Componentes específicos para funções customizadas
+  // Componentes específicos para funções customizadas (sempre prioritários)
   const renderSpecificComponent = () => {
     console.log('AppFunction - renderSpecificComponent para:', currentFunction);
     
@@ -135,8 +126,8 @@ export const AppFunction = () => {
     );
   }
 
-  // Para funções da tabela APP que têm link, mostrar o iframe
-  if (functionData && functionData.link) {
+  // Para funções da tabela APP que têm link válido, mostrar o iframe
+  if (functionData && functionData.link && functionData.link.trim() !== '') {
     console.log('AppFunction - Renderizando iframe para:', functionData.funcao, 'Link:', functionData.link);
     
     return (
@@ -220,7 +211,7 @@ export const AppFunction = () => {
                 Esta função será implementada em breve
               </p>
             )}
-            {functionData && !functionData.link && (
+            {functionData && (!functionData.link || functionData.link.trim() === '') && (
               <p className="text-sm text-amber-400">
                 Link em configuração
               </p>
