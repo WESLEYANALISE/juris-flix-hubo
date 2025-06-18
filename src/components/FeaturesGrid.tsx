@@ -39,7 +39,8 @@ import {
   File,
   Archive,
   Code,
-  Database
+  Database,
+  Hammer
 } from 'lucide-react';
 
 // Array expandido de ícones únicos
@@ -48,7 +49,7 @@ const availableIcons = [
   Newspaper, Film, Brain, BookOpen, FileText, Search, GraduationCap, 
   Calendar, Clock, Award, Target, Bookmark, Download, Upload, Share, 
   Heart, Star, Zap, Shield, Globe, Camera, Music, Video, Image, 
-  File, Archive, Code, Database
+  File, Archive, Code, Database, Hammer
 ];
 
 const getUniqueIconForFunction = (funcao: string, index: number) => {
@@ -61,13 +62,13 @@ const getUniqueIconForFunction = (funcao: string, index: number) => {
   if (name.includes('audio') || name.includes('áudio')) return Headphones;
   if (name.includes('mapa') && name.includes('mental')) return Brain;
   if (name.includes('plataforma') && name.includes('desktop')) return Monitor;
-  if (name.includes('flashcard') || name.includes('flash card')) return GitBranch;
+  if (name.includes('flashcard') || name.includes('flash card')) return Brain; // Alterado para cérebro
   if (name.includes('resumo') || name.includes('codigo') || name.includes('código')) return BookOpen;
   if (name.includes('video') || name.includes('vídeo') || name.includes('aula')) return Play;
   if (name.includes('petições') || name.includes('peticoes') || name.includes('petição')) return Folder;
   if (name.includes('noticia') || name.includes('notícia') || name.includes('juridica')) return Newspaper;
   if (name.includes('juriflix') || name.includes('filme') || name.includes('cinema')) return Film;
-  if (name.includes('simulado') || name.includes('prova')) return Award;
+  if (name.includes('simulado') || name.includes('prova') || name.includes('oab')) return Hammer; // Alterado para martelo
   if (name.includes('calendario') || name.includes('agenda')) return Calendar;
   if (name.includes('curso') || name.includes('aula')) return GraduationCap;
   if (name.includes('pesquisa') || name.includes('busca')) return Search;
@@ -85,6 +86,8 @@ const getUniqueIconForFunction = (funcao: string, index: number) => {
   if (name.includes('arquivo') || name.includes('file')) return Archive;
   if (name.includes('código') || name.includes('programação')) return Code;
   if (name.includes('banco') || name.includes('dados')) return Database;
+  if (name.includes('questões') || name.includes('questao') || name.includes('questão')) return Target; // Alterado para alvo
+  if (name.includes('dicionário') || name.includes('dicionario')) return Search; // Alterado para lupa
   
   // Se não encontrar correspondência específica, usa um ícone único baseado no índice
   return availableIcons[index % availableIcons.length] || Scale;
