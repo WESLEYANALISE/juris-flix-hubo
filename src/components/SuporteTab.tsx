@@ -25,6 +25,8 @@ export const SuporteTab = () => {
 
   const uploadImage = async (file: File): Promise<string | null> => {
     try {
+      console.log('Iniciando upload da imagem:', file.name);
+      
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
       const filePath = `suporte/${fileName}`;
@@ -34,7 +36,7 @@ export const SuporteTab = () => {
         .upload(filePath, file);
 
       if (uploadError) {
-        console.error('Error uploading image:', uploadError);
+        console.error('Erro no upload da imagem:', uploadError);
         return null;
       }
 
@@ -42,15 +44,18 @@ export const SuporteTab = () => {
         .from('support-images')
         .getPublicUrl(filePath);
 
+      console.log('Upload concluído, URL:', data.publicUrl);
       return data.publicUrl;
     } catch (error) {
-      console.error('Error in uploadImage:', error);
+      console.error('Erro inesperado no upload:', error);
       return null;
     }
   };
 
   const submitToSheetDB = async (data: any) => {
     try {
+      console.log('Enviando dados para SheetDB:', data);
+      
       const response = await fetch('https://sheetdb.io/api/v1/ekjnh0u3gmc8q', {
         method: 'POST',
         headers: {
@@ -62,43 +67,55 @@ export const SuporteTab = () => {
         }),
       });
 
+      console.log('Resposta do SheetDB - Status:', response.status);
+      
       if (!response.ok) {
-        throw new Error('Erro ao enviar dados para SheetDB');
+        const errorText = await response.text();
+        console.error('Resposta de erro do SheetDB:', errorText);
+        throw new Error(`Erro HTTP ${response.status}: ${errorText}`);
       }
 
-      return await response.json();
+      const result = await response.json();
+      console.log('Dados enviados com sucesso:', result);
+      return result;
     } catch (error) {
-      console.error('Error submitting to SheetDB:', error);
+      console.error('Erro detalhado ao enviar para SheetDB:', error);
       throw error;
     }
   };
 
   const onSubmit = async (data: SuporteFormData) => {
+    console.log('Iniciando envio do formulário:', data);
     setIsSubmitting(true);
     
     try {
       let imageUrl = '';
       
       if (selectedImage) {
+        console.log('Fazendo upload da imagem...');
         const uploadedUrl = await uploadImage(selectedImage);
         if (uploadedUrl) {
           imageUrl = uploadedUrl;
+          console.log('Imagem carregada com sucesso');
         } else {
+          console.warn('Falha no upload da imagem, continuando sem imagem');
           toast({
-            title: "Erro no upload",
-            description: "Não foi possível fazer upload da imagem. Tentando enviar sem imagem...",
+            title: "Aviso",
+            description: "Não foi possível fazer upload da imagem. Enviando formulário sem imagem...",
             variant: "destructive",
           });
         }
       }
 
       const submitData = {
-        assunto: data.assunto,
-        descricao: data.descricao,
+        assunto: data.assunto || 'Não informado',
+        descricao: data.descricao || '',
         imagem_url: imageUrl,
         data_envio: new Date().toLocaleString('pt-BR'),
         status: 'Pendente'
       };
+
+      console.log('Dados a serem enviados:', submitData);
 
       await submitToSheetDB(submitData);
 
@@ -109,11 +126,19 @@ export const SuporteTab = () => {
 
       form.reset();
       setSelectedImage(null);
+      console.log('Formulário resetado com sucesso');
+      
     } catch (error) {
-      console.error('Error submitting support request:', error);
+      console.error('Erro completo no envio:', error);
+      
+      let errorMessage = "Tente novamente mais tarde.";
+      if (error instanceof Error) {
+        errorMessage = `Erro: ${error.message}`;
+      }
+      
       toast({
         title: "Erro ao enviar solicitação",
-        description: "Tente novamente mais tarde.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -124,6 +149,7 @@ export const SuporteTab = () => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      console.log('Arquivo selecionado:', file.name, 'Tamanho:', file.size);
       setSelectedImage(file);
     }
   };
