@@ -47,7 +47,7 @@ export const AppFunction = () => {
         {/* Header with back button */}
         <header className="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-border/30">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8 sm:py-4 py-[10px]">
-            <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-4 bg-zinc-950">
               <Button variant="ghost" size="icon" onClick={handleBack} className="text-foreground hover:bg-red-500/10 hover:text-red-400 transition-all duration-300 hover:scale-110 h-8 w-8 sm:h-10 sm:w-10">
                 <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
