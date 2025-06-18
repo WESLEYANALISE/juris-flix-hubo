@@ -10,7 +10,7 @@ import { X, Home, Scale, Headphones, Library, Bot, User, Settings, HelpCircle,
          DollarSign, Euro, PoundSterling, CreditCard, ShoppingCart, Package,
          Truck, Map, MapPin, Navigation, Compass, Route, Car,
          Plane, Ship, Train, Bus, Bike, Footprints, Clock3, Timer,
-         Watch, AlarmClock, Calendar as CalendarIcon, CalendarDays, Hammer, Support } from 'lucide-react';
+         Watch, AlarmClock, Calendar as CalendarIcon, CalendarDays, Hammer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
 import { useAppFunctions } from '@/hooks/useAppFunctions';
@@ -31,7 +31,7 @@ const availableIcons = [
   Mail, MessageCircle, Bell, Flag, Tag, Hash, AtSign, Percent, 
   DollarSign, Euro, PoundSterling, CreditCard, ShoppingCart, Package, Truck, 
   Map, MapPin, Navigation, Compass, Route, Car, Plane, Ship, Train, 
-  Bus, Bike, Footprints, Clock3, Timer, Watch, AlarmClock, CalendarIcon, CalendarDays, Hammer, Support
+  Bus, Bike, Footprints, Clock3, Timer, Watch, AlarmClock, CalendarIcon, CalendarDays, Hammer, HelpCircle
 ];
 
 const getUniqueIconForFunction = (funcao: string, index: number) => {
@@ -70,7 +70,7 @@ const getUniqueIconForFunction = (funcao: string, index: number) => {
   if (name.includes('banco') || name.includes('dados')) return Database;
   if (name.includes('questões') || name.includes('questao') || name.includes('questão')) return Target;
   if (name.includes('dicionário') || name.includes('dicionario')) return Search;
-  if (name.includes('suporte') || name.includes('help')) return Support;
+  if (name.includes('suporte') || name.includes('help')) return HelpCircle;
   
   // Se não encontrar correspondência específica, usa um ícone único baseado no índice
   return availableIcons[index % availableIcons.length] || Scale;
