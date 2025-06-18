@@ -58,8 +58,8 @@ export const SuporteTab = () => {
     try {
       console.log('Enviando dados para Google Sheets:', data);
       
-      // URL da sua planilha Google Sheets (substitua pela sua URL do SheetDB)
-      const SHEET_URL = 'https://sheetdb.io/api/v1/YOUR_SHEET_ID';
+      // URL da sua planilha Google Sheets
+      const SHEET_URL = 'https://sheetdb.io/api/v1/ekjnh0u3gmc8q';
       
       const response = await fetch(SHEET_URL, {
         method: 'POST',
@@ -384,9 +384,6 @@ export const SuporteTab = () => {
               <p className="text-sm text-slate-400">
                 🔒 Suas informações estão seguras e protegidas. Nossa equipe de suporte técnico 
                 analisará sua solicitação e retornará em <span className="text-amber-400 font-semibold">até 24 horas</span>.
-              </p>
-              <p className="text-xs text-slate-500 mt-2">
-                ⚠️ Para que funcione com Google Sheets, substitua 'YOUR_SHEET_ID' no código pela sua URL do SheetDB.
               </p>
             </div>
           </CardContent>
