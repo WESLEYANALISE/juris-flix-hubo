@@ -12,9 +12,14 @@ const NavigationContext = createContext<NavigationContextType | undefined>(undef
 export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentFunction, setCurrentFunction] = useState<string | null>(null);
 
+  const handleSetCurrentFunction = (func: string | null) => {
+    console.log('NavigationContext - Definindo função:', func);
+    setCurrentFunction(func);
+  };
+
   const value = {
     currentFunction,
-    setCurrentFunction,
+    setCurrentFunction: handleSetCurrentFunction,
     isInFunction: currentFunction !== null,
   };
 

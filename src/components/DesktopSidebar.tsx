@@ -17,11 +17,17 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
   const { setCurrentFunction } = useNavigation();
   const { functions } = useAppFunctions();
 
-  // Helper function to find functions
+  // Helper function to find functions with better matching
   const findFunction = (searchTerm: string) => {
-    return functions.find(func => 
+    console.log('Buscando função:', searchTerm);
+    console.log('Funções disponíveis:', functions);
+    
+    const found = functions.find(func => 
       func.funcao.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    
+    console.log('Função encontrada:', found);
+    return found;
   };
 
   const menuSections = [
@@ -35,8 +41,8 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
     {
       title: 'Ferramentas Jurídicas',
       items: [
-        { icon: Scale, title: 'Vade Mecum Digital', function: findFunction('vade')?.funcao || 'Vade Mecum' },
-        { icon: Bot, title: 'Assistente IA Jurídica', function: findFunction('assistente')?.funcao || 'Assistente IA' },
+        { icon: Scale, title: 'Vade Mecum Digital', function: findFunction('vade mecum')?.funcao || 'Vade Mecum Digital' },
+        { icon: Bot, title: 'Assistente IA Jurídica', function: findFunction('assistente')?.funcao || 'Assistente IA Jurídico' },
         { icon: Library, title: 'Biblioteca Jurídica', function: findFunction('biblioteca')?.funcao || 'Biblioteca' },
         { icon: Brain, title: 'Mapas Mentais', function: 'Mapas Mentais' },
       ]
@@ -45,16 +51,17 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
       title: 'Estudos e Preparação',
       items: [
         { icon: Brain, title: 'Flashcards', function: 'Flashcards' },
-        { icon: Play, title: 'Videoaulas', function: findFunction('video')?.funcao || 'Videoaulas' },
-        { icon: Headphones, title: 'Áudio-aulas', function: findFunction('audio')?.funcao || findFunction('áudio')?.funcao || 'Áudio-aulas' },
+        { icon: Play, title: 'Videoaulas', function: findFunction('videoaulas')?.funcao || findFunction('video')?.funcao || 'Videoaulas' },
+        { icon: Headphones, title: 'Áudio-aulas', function: findFunction('áudio')?.funcao || findFunction('audio')?.funcao || 'Áudio-aulas' },
         { icon: Download, title: 'Downloads', function: findFunction('downloads')?.funcao || 'Downloads' },
-        { icon: Newspaper, title: 'Notícias Jurídicas', function: findFunction('noticias')?.funcao || findFunction('notícias')?.funcao || 'Notícias Jurídicas' },
+        { icon: Newspaper, title: 'Notícias Jurídicas', function: findFunction('notícias')?.funcao || findFunction('noticias')?.funcao || 'Notícias Jurídicas' },
         { icon: FileText, title: 'Anotações', function: 'Anotações' },
       ]
     }
   ];
 
   const handleItemClick = (functionName: string | null) => {
+    console.log('Clicando no item:', functionName);
     setCurrentFunction(functionName);
   };
 

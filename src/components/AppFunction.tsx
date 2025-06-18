@@ -1,3 +1,4 @@
+
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
@@ -21,21 +22,30 @@ export const AppFunction = () => {
     loading
   } = useAppFunctions();
   const [functionData, setFunctionData] = useState<any>(null);
+  
   useEffect(() => {
+    console.log('AppFunction - currentFunction:', currentFunction);
+    console.log('AppFunction - functions:', functions);
+    
     if (currentFunction && functions.length > 0) {
       const func = functions.find(f => f.funcao === currentFunction);
+      console.log('AppFunction - functionData encontrada:', func);
       setFunctionData(func);
     }
   }, [currentFunction, functions]);
+  
   const handleBack = () => {
     setCurrentFunction(null);
   };
+  
   if (!currentFunction || loading) {
     return null;
   }
 
   // Componentes específicos para cada função
   const renderSpecificComponent = () => {
+    console.log('AppFunction - renderSpecificComponent para:', currentFunction);
+    
     switch (currentFunction) {
       case 'Videoaulas':
         return <Videoaulas />;
@@ -52,10 +62,14 @@ export const AppFunction = () => {
       case 'Assistente IA Jurídico':
       case 'Assistente IA':
         return <AssistenteIA />;
+      case 'Vade Mecum Digital':
+        // Para Vade Mecum Digital, vamos usar o iframe padrão se houver functionData
+        return null;
       default:
         return null;
     }
   };
+  
   const specificComponent = renderSpecificComponent();
 
   // Se há um componente específico, renderizar com layout completo
@@ -99,6 +113,7 @@ export const AppFunction = () => {
         </div>
       </div>;
   }
+  
   return <div className="min-h-screen bg-background">
       {/* Header with back button */}
       <header className="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-border/30">
