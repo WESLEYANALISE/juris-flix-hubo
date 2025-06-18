@@ -1,7 +1,7 @@
 
 import { 
   Scale, Bot, Library, Headphones, Brain, Monitor, 
-  ChevronLeft, ChevronRight, Home, Star 
+  ChevronLeft, ChevronRight, Home, Star, Play 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
@@ -33,6 +33,7 @@ const menuSections = [
     title: 'Estudos e Preparação',
     items: [
       { icon: Brain, title: 'Flashcards', function: 'Flashcards' },
+      { icon: Play, title: 'Videoaulas', function: 'Videoaulas' },
       { icon: Headphones, title: 'Áudio-aulas', function: 'Áudio-aulas' },
       { icon: Library, title: 'Downloads', function: 'Downloads' },
       { icon: Scale, title: 'Notícias Jurídicas', function: 'Notícias Jurídicas' },
