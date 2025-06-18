@@ -17,19 +17,40 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
   const { setCurrentFunction } = useNavigation();
   const { functions, loading } = useAppFunctions();
 
-  // Função para encontrar a função na tabela APP
+  // Função melhorada para encontrar a função na tabela APP com logs de debug
   const getFunctionFromDB = (searchTerms: string[]) => {
-    if (!functions || functions.length === 0) return null;
+    if (!functions || functions.length === 0) {
+      console.log('DesktopSidebar - Nenhuma função disponível');
+      return null;
+    }
     
+    console.log('DesktopSidebar - Buscando função para termos:', searchTerms);
+    console.log('DesktopSidebar - Funções disponíveis:', functions.map(f => f.funcao));
+    
+    // Primeiro, tentativa de correspondência exata
     for (const term of searchTerms) {
-      const found = functions.find(func => 
-        func.funcao.toLowerCase().includes(term.toLowerCase())
+      const exactMatch = functions.find(func => 
+        func.funcao.toLowerCase() === term.toLowerCase()
       );
-      if (found) {
-        console.log(`Encontrada função para "${term}":`, found);
-        return found.funcao;
+      if (exactMatch) {
+        console.log(`DesktopSidebar - Correspondência exata encontrada para "${term}":`, exactMatch);
+        return exactMatch.funcao;
       }
     }
+    
+    // Se não encontrar correspondência exata, tenta incluir
+    for (const term of searchTerms) {
+      const partialMatch = functions.find(func => 
+        func.funcao.toLowerCase().includes(term.toLowerCase()) ||
+        term.toLowerCase().includes(func.funcao.toLowerCase())
+      );
+      if (partialMatch) {
+        console.log(`DesktopSidebar - Correspondência parcial encontrada para "${term}":`, partialMatch);
+        return partialMatch.funcao;
+      }
+    }
+    
+    console.log(`DesktopSidebar - Nenhuma correspondência encontrada para:`, searchTerms);
     return null;
   };
 
@@ -47,22 +68,22 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
         { 
           icon: Scale, 
           title: 'Vade Mecum Digital', 
-          function: getFunctionFromDB(['Vade Mecum Digital', 'vade mecum']) 
+          function: getFunctionFromDB(['Vade Mecum Digital']) 
         },
         { 
           icon: Bot, 
           title: 'Assistente IA Jurídica', 
-          function: getFunctionFromDB(['Assistente IA Jurídica', 'Assistente IA', 'assistente']) 
+          function: getFunctionFromDB(['Assistente IA Jurídica']) 
         },
         { 
           icon: Library, 
           title: 'Biblioteca Jurídica', 
-          function: getFunctionFromDB(['Biblioteca Jurídica', 'biblioteca']) 
+          function: getFunctionFromDB(['Biblioteca Jurídica']) 
         },
         { 
           icon: Brain, 
           title: 'Mapas Mentais', 
-          function: getFunctionFromDB(['Mapas Mentais', 'mapas']) 
+          function: getFunctionFromDB(['Mapas Mentais']) 
         },
       ]
     },
@@ -72,36 +93,40 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
         { 
           icon: Brain, 
           title: 'Flashcards', 
-          function: getFunctionFromDB(['Flashcards', 'flashcard']) 
+          function: getFunctionFromDB(['Flashcards']) 
         },
         { 
           icon: Play, 
           title: 'Videoaulas', 
-          function: getFunctionFromDB(['Videoaulas', 'video']) 
+          function: getFunctionFromDB(['Videoaulas']) 
         },
         { 
           icon: Headphones, 
           title: 'Áudio-aulas', 
-          function: getFunctionFromDB(['Áudio-aulas', 'audio']) 
+          function: getFunctionFromDB(['Áudio-aulas']) 
         },
         { 
           icon: Download, 
           title: 'Downloads', 
-          function: getFunctionFromDB(['Downloads', 'download']) 
+          function: getFunctionFromDB(['Downloads']) 
         },
         { 
           icon: Newspaper, 
           title: 'Notícias Jurídicas', 
-          function: getFunctionFromDB(['Notícias Jurídicas', 'noticias']) 
+          function: getFunctionFromDB(['Notícias Jurídicas']) 
         },
-        { icon: FileText, title: 'Anotações', function: 'Anotações' },
+        { 
+          icon: FileText, 
+          title: 'Anotações', 
+          function: 'Anotações' // Esta função sempre será clicável
+        },
       ]
     }
   ];
 
   const handleItemClick = (functionName: string | null) => {
     console.log('DesktopSidebar - Clicando no item:', functionName);
-    console.log('Funções disponíveis:', functions?.map(f => f.funcao));
+    console.log('DesktopSidebar - Funções disponíveis:', functions?.map(f => f.funcao));
     
     if (functionName) {
       setCurrentFunction(functionName);
@@ -173,6 +198,8 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
                   const Icon = item.icon;
                   const isClickable = item.function !== null;
                   
+                  console.log(`DesktopSidebar - Item ${item.title}: isClickable=${isClickable}, function=${item.function}`);
+                  
                   return (
                     <Button
                       key={item.title}
@@ -181,8 +208,11 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
                       disabled={!isClickable}
                       className={`w-full justify-start gap-3 h-10 hover:bg-secondary/80 hover-glow-legal group transition-all duration-500 animate-bounce-in-legal hover:animate-legal-float ${
                         collapsed ? 'px-0 justify-center' : 'px-3'
-                      } ${!isClickable ? 'opacity-50 cursor-not-allowed' : ''}`}
-                      style={{ animationDelay: `${(sectionIndex * section.items.length + itemIndex) * 0.05}s` }}
+                      } ${!isClickable ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-105'}`}
+                      style={{ 
+                        animationDelay: `${(sectionIndex * section.items.length + itemIndex) * 0.05}s`,
+                        pointerEvents: isClickable ? 'auto' : 'none'
+                      }}
                     >
                       <div className="relative">
                         <Icon className="h-5 w-5 text-amber-400 group-hover:text-amber-300 transition-colors duration-500 group-hover:animate-legal-icon-glow" />
