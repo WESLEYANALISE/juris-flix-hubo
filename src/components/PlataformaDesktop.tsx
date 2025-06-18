@@ -8,7 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, User, Mail, CheckCircle } from 'lucide-react';
+import { Loader2, User, Mail, CheckCircle, Download, Zap, Shield } from 'lucide-react';
+import { DesktopPlatformCarousel } from '@/components/DesktopPlatformCarousel';
 
 const formSchema = z.object({
   nome: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
@@ -63,7 +64,7 @@ export const PlataformaDesktop = () => {
         
         toast({
           title: "Cadastro realizado com sucesso!",
-          description: "Seus dados foram enviados para nossa equipe.",
+          description: "Você receberá o link de acesso da plataforma desktop no seu email em instantes.",
         });
       } else {
         const errorText = await response.text();
@@ -86,25 +87,47 @@ export const PlataformaDesktop = () => {
 
   if (isSuccess) {
     return (
-      <div className="max-w-2xl mx-auto p-4 sm:p-6 md:p-8">
-        <Card className="text-center">
-          <CardHeader>
-            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-              <CheckCircle className="w-8 h-8 text-green-600" />
+      <div className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
+        <Card className="text-center shadow-2xl border-0 bg-gradient-to-br from-green-50 to-emerald-50">
+          <CardHeader className="pb-4">
+            <div className="mx-auto w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mb-6 animate-scale-in">
+              <CheckCircle className="w-10 h-10 text-white" />
             </div>
-            <CardTitle className="gradient-text text-2xl">Cadastro Realizado!</CardTitle>
-            <CardDescription className="text-lg">
-              Obrigado por se cadastrar na Plataforma Desktop. Nossa equipe entrará em contato em breve.
+            <CardTitle className="gradient-text text-3xl mb-2">
+              🎉 Cadastro Realizado com Sucesso!
+            </CardTitle>
+            <CardDescription className="text-lg text-muted-foreground">
+              Perfeito! Seu acesso à plataforma desktop está sendo preparado.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button 
-              onClick={() => setIsSuccess(false)} 
-              variant="outline"
-              className="mt-4"
-            >
-              Fazer novo cadastro
-            </Button>
+            <div className="bg-white/70 rounded-lg p-6 mb-6">
+              <h3 className="font-bold text-lg mb-4 text-green-700">📧 Próximos passos:</h3>
+              <div className="space-y-3 text-left">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-sm">1</div>
+                  <p className="text-sm">Verifique sua caixa de entrada (e spam) nos próximos minutos</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 font-bold text-sm">2</div>
+                  <p className="text-sm">Clique no link de acesso que você receberá por email</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold text-sm">3</div>
+                  <p className="text-sm">Faça o download e comece a usar a plataforma completa!</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex gap-4 justify-center">
+              <Button 
+                onClick={() => setIsSuccess(false)} 
+                variant="outline"
+                className="border-green-500/30 text-green-600 hover:bg-green-50"
+              >
+                Fazer novo cadastro
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -112,86 +135,141 @@ export const PlataformaDesktop = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-4 sm:p-6 md:p-8">
-      <Card className="shadow-legal">
-        <CardHeader className="text-center">
-          <CardTitle className="gradient-text text-2xl sm:text-3xl mb-2">
-            Plataforma Desktop
+    <div className="max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
+      {/* Carrossel de imagens da plataforma */}
+      <div className="mb-12">
+        <DesktopPlatformCarousel />
+      </div>
+
+      {/* Seção de benefícios */}
+      <div className="grid md:grid-cols-3 gap-6 mb-12">
+        <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 animate-fade-in-up">
+          <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Download className="w-8 h-8 text-white" />
+          </div>
+          <h3 className="font-bold text-lg mb-2 text-blue-700">Download Direto</h3>
+          <p className="text-sm text-blue-600">Receba o link de download por email e instale em segundos</p>
+        </div>
+
+        <div className="text-center p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl border border-purple-100 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Zap className="w-8 h-8 text-white" />
+          </div>
+          <h3 className="font-bold text-lg mb-2 text-purple-700">Acesso Imediato</h3>
+          <p className="text-sm text-purple-600">Sem espera! Comece a usar assim que fizer o download</p>
+        </div>
+
+        <div className="text-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border border-green-100 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+          <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Shield className="w-8 h-8 text-white" />
+          </div>
+          <h3 className="font-bold text-lg mb-2 text-green-700">100% Seguro</h3>
+          <p className="text-sm text-green-600">Plataforma confiável e dados protegidos</p>
+        </div>
+      </div>
+
+      {/* Formulário de cadastro */}
+      <Card className="shadow-2xl border-0 bg-gradient-to-br from-white to-gray-50">
+        <CardHeader className="text-center pb-6">
+          <CardTitle className="gradient-text text-3xl sm:text-4xl mb-4">
+            Acesse a Versão Desktop Completa
           </CardTitle>
-          <CardDescription className="text-base sm:text-lg">
-            Cadastre-se para ter acesso completo à nossa plataforma jurídica desktop
+          <CardDescription className="text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
+            Preencha os dados abaixo e receba o <strong>link de download da plataforma desktop</strong> diretamente no seu email. 
+            Acesso completo a todas as funcionalidades profissionais!
           </CardDescription>
+          
+          {/* Banner explicativo */}
+          <div className="mt-6 p-4 bg-gradient-to-r from-primary/10 to-accent-legal/10 rounded-xl border border-primary/20">
+            <p className="text-sm font-medium text-primary flex items-center justify-center gap-2">
+              <Mail className="w-4 h-4" />
+              Você receberá um email com o link de download da plataforma
+            </p>
+          </div>
         </CardHeader>
         
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="nome"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-foreground font-medium flex items-center gap-2">
-                      <User className="w-4 h-4" />
-                      Nome Completo
-                    </FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="Digite seu nome completo" 
-                        {...field}
-                        className="h-12 text-base"
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <div className="grid sm:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="nome"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-foreground font-semibold flex items-center gap-2 text-base">
+                        <User className="w-5 h-5 text-primary" />
+                        Nome Completo
+                      </FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="Digite seu nome completo" 
+                          {...field}
+                          className="h-14 text-base border-2 border-gray-200 focus:border-primary transition-all duration-300"
+                          disabled={isLoading}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-foreground font-medium flex items-center gap-2">
-                      <Mail className="w-4 h-4" />
-                      E-mail
-                    </FormLabel>
-                    <FormControl>
-                      <Input 
-                        type="email"
-                        placeholder="Digite seu e-mail" 
-                        {...field}
-                        className="h-12 text-base"
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-foreground font-semibold flex items-center gap-2 text-base">
+                        <Mail className="w-5 h-5 text-primary" />
+                        E-mail para receber o link
+                      </FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="email"
+                          placeholder="Digite seu melhor e-mail" 
+                          {...field}
+                          className="h-14 text-base border-2 border-gray-200 focus:border-primary transition-all duration-300"
+                          disabled={isLoading}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               <Button 
                 type="submit" 
-                className="w-full h-12 text-base font-semibold bg-gradient-to-r from-accent-legal to-primary hover:from-accent-legal/90 hover:to-primary/90 transition-all duration-300"
+                className="w-full h-16 text-lg font-bold bg-gradient-to-r from-primary via-accent-legal to-primary hover:from-primary/90 hover:via-accent-legal/90 hover:to-primary/90 transition-all duration-500 transform hover:scale-105 shadow-xl hover:shadow-2xl"
                 disabled={isLoading}
               >
                 {isLoading ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Enviando...
+                    <Loader2 className="w-6 h-6 mr-3 animate-spin" />
+                    Enviando para seu email...
                   </>
                 ) : (
-                  'Cadastrar-se'
+                  <>
+                    <Download className="w-6 h-6 mr-3" />
+                    Receber Link de Download por Email
+                  </>
                 )}
               </Button>
             </form>
           </Form>
 
-          <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-            <p className="text-sm text-muted-foreground text-center">
-              Ao se cadastrar, você concorda com nossos termos de uso e política de privacidade.
-            </p>
+          <div className="mt-8 p-6 bg-muted/30 rounded-xl border border-muted">
+            <div className="text-center space-y-2">
+              <p className="text-sm text-muted-foreground">
+                ✅ Ao se cadastrar, você receberá o link de acesso por email
+              </p>
+              <p className="text-sm text-muted-foreground">
+                🔒 Seus dados estão seguros e protegidos
+              </p>
+              <p className="text-sm text-muted-foreground">
+                📧 Verifique também sua caixa de spam
+              </p>
+            </div>
           </div>
         </CardContent>
       </Card>
