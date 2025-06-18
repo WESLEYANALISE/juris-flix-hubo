@@ -1,4 +1,3 @@
-
 import { FeaturesCarousel } from '@/components/FeaturesCarousel';
 import { FeaturesGrid } from '@/components/FeaturesGrid';
 import { QuickAccessSection } from '@/components/QuickAccessSection';
@@ -74,6 +73,9 @@ const Index = () => {
           </div>
         </section>
       )}
+
+      {/* Support Section - appears at the bottom of index page */}
+      <SuporteTab />
     </>
   );
 
