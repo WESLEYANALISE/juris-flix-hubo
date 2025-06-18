@@ -1,198 +1,66 @@
-import { ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useNavigation } from '@/context/NavigationContext';
-import { useAppFunctions } from '@/hooks/useAppFunctions';
-import { NoticiasJuridicas } from '@/components/NoticiasJuridicas';
-import { Downloads } from '@/components/Downloads';
-import { PlataformaDesktop } from '@/components/PlataformaDesktop';
+
+import { Vade } from '@/components/Vade';
+import { Biblioteca } from '@/components/Biblioteca';
+import { Flashcards } from '@/components/Flashcards';
+import { Mapas } from '@/components/Mapas';
 import { Videoaulas } from '@/components/Videoaulas';
-import { useEffect, useState } from 'react';
+import { Downloads } from '@/components/Downloads';
+import { NoticiasJuridicas } from '@/components/NoticiasJuridicas';
+import { PlataformaDesktop } from '@/components/PlataformaDesktop';
+import { Anotacoes } from '@/components/Anotacoes';
+import { Explorar } from '@/components/Explorar';
+import { useNavigation } from '@/context/NavigationContext';
+import { Brain } from 'lucide-react';
+
 export const AppFunction = () => {
-  const {
-    currentFunction,
-    setCurrentFunction
-  } = useNavigation();
-  const {
-    functions,
-    loading
-  } = useAppFunctions();
-  const [functionData, setFunctionData] = useState<any>(null);
-  useEffect(() => {
-    if (currentFunction && functions.length > 0) {
-      const func = functions.find(f => f.funcao === currentFunction);
-      setFunctionData(func);
-    }
-  }, [currentFunction, functions]);
-  const handleBack = () => {
-    setCurrentFunction(null);
+  const { currentFunction } = useNavigation();
+
+  if (!currentFunction) return null;
+
+  // Mapear funções para componentes
+  const functionComponents: { [key: string]: JSX.Element } = {
+    'Vade Mecum': <Vade />,
+    'Biblioteca Jurídica': <Biblioteca />,
+    'Biblioteca': <Biblioteca />,
+    'Flashcards': <Flashcards />,
+    'Mapas Mentais': <Mapas />,
+    'Videoaulas': <Videoaulas />,
+    'Áudio-aulas': <Videoaulas />, // Temporarily using Videoaulas component
+    'Downloads': <Downloads />,
+    'Notícias Jurídicas': <NoticiasJuridicas />,
+    'Plataforma Desktop': <PlataformaDesktop />,
+    'Anotações': <Anotacoes />,
+    'Explorar': <Explorar />
   };
-  if (!currentFunction || loading) {
-    return null;
-  }
-  if (!functionData) {
-    return <div className="min-h-screen bg-background flex items-center justify-center">
+
+  // Verificar se a função deve usar o ícone Brain
+  const shouldUseBrainIcon = (functionName: string) => {
+    const brainFunctions = ['Flashcards', 'Mapas Mentais'];
+    return brainFunctions.includes(functionName);
+  };
+
+  // Buscar componente baseado no nome da função
+  const component = functionComponents[currentFunction];
+
+  if (!component) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <h2 className="text-xl font-bold text-foreground mb-2">Função não encontrada</h2>
-          <p className="text-muted-foreground mb-4">A função "{currentFunction}" não foi encontrada na base de dados.</p>
-          <Button onClick={handleBack} variant="outline">
-            Voltar
-          </Button>
+          <div className="mb-4">
+            {shouldUseBrainIcon(currentFunction) ? (
+              <Brain className="h-16 w-16 mx-auto text-muted-foreground" />
+            ) : (
+              <div className="h-16 w-16 mx-auto bg-muted rounded-lg flex items-center justify-center">
+                <span className="text-2xl">🔧</span>
+              </div>
+            )}
+          </div>
+          <h2 className="text-2xl font-bold mb-2">Função: {currentFunction}</h2>
+          <p className="text-muted-foreground">Esta funcionalidade está sendo desenvolvida.</p>
         </div>
-      </div>;
+      </div>
+    );
   }
 
-  // Se a função for "Videoaulas", mostrar o componente específico
-  if (currentFunction === 'Videoaulas') {
-    return <div className="min-h-screen bg-background">
-        {/* Header with back button */}
-        <header className="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-border/30">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8 sm:py-4 py-[10px] bg-zinc-950">
-            <div className="flex items-center gap-2 sm:gap-4 bg-zinc-950">
-              <Button variant="ghost" size="icon" onClick={handleBack} className="text-foreground hover:bg-red-500/10 hover:text-red-400 transition-all duration-300 hover:scale-110 h-8 w-8 sm:h-10 sm:w-10">
-                <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-              </Button>
-              <div>
-                <h1 className="text-lg sm:text-xl font-bold gradient-text">
-                  Videoaulas Jurídicas
-                </h1>
-                <p className="text-xs sm:text-sm text-muted-foreground">
-                  Aulas com professores renomados
-                </p>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* Content */}
-        <main className="pt-16 sm:pt-20">
-          <Videoaulas />
-        </main>
-      </div>;
-  }
-
-  // Se a função for "Notícias Jurídicas", mostrar o componente específico
-  if (currentFunction === 'Notícias Jurídicas') {
-    return <div className="min-h-screen bg-background">
-        {/* Header with back button */}
-        <header className="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-border/30">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8 sm:py-4 py-[10px]">
-            <div className="flex items-center gap-2 sm:gap-4">
-              <Button variant="ghost" size="icon" onClick={handleBack} className="text-foreground hover:bg-red-500/10 hover:text-red-400 transition-all duration-300 hover:scale-110 h-8 w-8 sm:h-10 sm:w-10">
-                <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-              </Button>
-              <div>
-                <h1 className="text-lg sm:text-xl font-bold gradient-text">
-                  {functionData.funcao}
-                </h1>
-                {functionData.descricao && <p className="text-xs sm:text-sm text-muted-foreground">
-                    {functionData.descricao}
-                  </p>}
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* Content */}
-        <main className="pt-16 sm:pt-20">
-          <NoticiasJuridicas />
-        </main>
-      </div>;
-  }
-
-  // Se a função for "Downloads", mostrar o componente específico
-  if (currentFunction === 'Downloads') {
-    return <div className="min-h-screen bg-background">
-        {/* Header with back button */}
-        <header className="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-border/30">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8 sm:py-4 py-[10px] bg-zinc-950">
-            <div className="flex items-center gap-2 sm:gap-4">
-              <Button variant="ghost" size="icon" onClick={handleBack} className="text-foreground hover:bg-red-500/10 hover:text-red-400 transition-all duration-300 hover:scale-110 h-8 w-8 sm:h-10 sm:w-10">
-                <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-              </Button>
-              <div className="bg-zinc-950">
-                <h1 className="text-lg sm:text-xl font-bold gradient-text">
-                  {functionData.funcao}
-                </h1>
-                {functionData.descricao && <p className="text-xs sm:text-sm text-muted-foreground">
-                    {functionData.descricao}
-                  </p>}
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* Content */}
-        <main className="pt-16 sm:pt-20">
-          <Downloads />
-        </main>
-      </div>;
-  }
-
-  // Se a função for "Plataforma Desktop", mostrar o componente específico
-  if (currentFunction === 'Plataforma Desktop') {
-    return <div className="min-h-screen bg-background">
-        {/* Header with back button */}
-        <header className="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-border/30">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8 sm:py-4 py-[10px]">
-            <div className="flex items-center gap-2 sm:gap-4">
-              <Button variant="ghost" size="icon" onClick={handleBack} className="text-foreground hover:bg-red-500/10 hover:text-red-400 transition-all duration-300 hover:scale-110 h-8 w-8 sm:h-10 sm:w-10">
-                <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-              </Button>
-              <div>
-                <h1 className="text-lg sm:text-xl font-bold gradient-text">
-                  {functionData.funcao}
-                </h1>
-                {functionData.descricao && <p className="text-xs sm:text-sm text-muted-foreground">
-                    {functionData.descricao}
-                  </p>}
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* Content */}
-        <main className="pt-16 sm:pt-20">
-          <PlataformaDesktop />
-        </main>
-      </div>;
-  }
-
-  // Para outras funções, mostrar o iframe ou conteúdo padrão
-  return <div className="min-h-screen bg-background">
-      {/* Header with back button */}
-      <header className="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-border/30">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8 sm:py-4 py-[10px] bg-zinc-950">
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Button variant="ghost" size="icon" onClick={handleBack} className="text-foreground hover:bg-red-500/10 hover:text-red-400 transition-all duration-300 hover:scale-110 h-8 w-8 sm:h-10 sm:w-10">
-              <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-            </Button>
-            <div>
-              <h1 className="text-lg sm:text-xl font-bold gradient-text">
-                {functionData.funcao}
-              </h1>
-              {functionData.descricao && <p className="text-xs sm:text-sm text-muted-foreground">
-                  {functionData.descricao}
-                </p>}
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* WebView Content */}
-      <main className="pt-16 sm:pt-20 h-screen">
-        {functionData.link ? <iframe src={functionData.link} className="w-full h-full border-0" title={functionData.funcao} sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation" loading="lazy" /> : <div className="flex items-center justify-center h-full">
-            <div className="text-center p-8">
-              <h2 className="text-2xl font-bold mb-4 gradient-text">
-                {functionData.funcao}
-              </h2>
-              <p className="text-lg text-muted-foreground mb-8">
-                {functionData.descricao || 'Funcionalidade em desenvolvimento'}
-              </p>
-              <p className="text-sm text-red-400">
-                Link não disponível para esta função
-              </p>
-            </div>
-          </div>}
-      </main>
-    </div>;
+  return component;
 };

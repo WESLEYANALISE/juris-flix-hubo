@@ -5,6 +5,9 @@ interface NavigationContextType {
   currentFunction: string | null;
   setCurrentFunction: (func: string | null) => void;
   isInFunction: boolean;
+  functionName: string | null;
+  goHome: () => void;
+  goToFunction: (functionName: string) => void;
 }
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
@@ -12,10 +15,21 @@ const NavigationContext = createContext<NavigationContextType | undefined>(undef
 export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentFunction, setCurrentFunction] = useState<string | null>(null);
 
+  const goHome = () => {
+    setCurrentFunction(null);
+  };
+
+  const goToFunction = (functionName: string) => {
+    setCurrentFunction(functionName);
+  };
+
   const value = {
     currentFunction,
     setCurrentFunction,
     isInFunction: currentFunction !== null,
+    functionName: currentFunction,
+    goHome,
+    goToFunction,
   };
 
   return (
