@@ -8,7 +8,9 @@ import { PlataformaDesktop } from '@/components/PlataformaDesktop';
 import { Videoaulas } from '@/components/Videoaulas';
 import { Anotacoes } from '@/components/Anotacoes';
 import { Explorar } from '@/components/Explorar';
+import { AssistenteIA } from '@/components/AssistenteIA';
 import { useEffect, useState } from 'react';
+
 export const AppFunction = () => {
   const {
     currentFunction,
@@ -47,6 +49,9 @@ export const AppFunction = () => {
         return <Anotacoes />;
       case 'Explorar':
         return <Explorar />;
+      case 'Assistente IA Jurídico':
+      case 'Assistente IA':
+        return <AssistenteIA />;
       default:
         return null;
     }

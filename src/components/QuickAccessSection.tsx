@@ -1,4 +1,3 @@
-
 import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
@@ -53,9 +52,38 @@ const availableIcons = [
   File, Archive, Code, Database
 ];
 
-// Get first 8 most common functions for quick access
+// Get first 8 functions in the specified order
 const getMostUsedFunctions = (functions: any[]) => {
-  return functions.slice(0, 8); // First 8 functions from table
+  const orderedFunctionNames = [
+    'Vade Mecum',
+    'Assistente IA',
+    'Downloads', 
+    'Acesso Desktop',
+    'Audio-aulas',
+    'Biblioteca juridica',
+    'resumos jurídicos',
+    'video aulas'
+  ];
+  
+  const orderedFunctions: any[] = [];
+  
+  // Add functions in the specified order
+  orderedFunctionNames.forEach(name => {
+    const func = functions.find(f => 
+      f.funcao.toLowerCase().includes(name.toLowerCase()) ||
+      (name === 'Assistente IA' && f.funcao.toLowerCase().includes('assistente') && f.funcao.toLowerCase().includes('ia')) ||
+      (name === 'Acesso Desktop' && f.funcao.toLowerCase().includes('plataforma') && f.funcao.toLowerCase().includes('desktop')) ||
+      (name === 'Audio-aulas' && (f.funcao.toLowerCase().includes('audio') || f.funcao.toLowerCase().includes('áudio'))) ||
+      (name === 'Biblioteca juridica' && f.funcao.toLowerCase().includes('biblioteca')) ||
+      (name === 'resumos jurídicos' && f.funcao.toLowerCase().includes('resumo')) ||
+      (name === 'video aulas' && f.funcao.toLowerCase().includes('video'))
+    );
+    if (func && !orderedFunctions.includes(func)) {
+      orderedFunctions.push(func);
+    }
+  });
+  
+  return orderedFunctions.slice(0, 8);
 };
 
 const getColorForIndex = (index: number) => {
@@ -75,37 +103,15 @@ const getColorForIndex = (index: number) => {
 const getUniqueIconForFunction = (funcao: string, index: number) => {
   const name = funcao.toLowerCase();
   
-  // Mapeamento específico para funções principais
+  // Mapeamento específico para funções principais na ordem especificada
   if (name.includes('vade') || name.includes('mecum')) return Scale;
   if (name.includes('assistente') && name.includes('ia')) return Bot;
-  if (name.includes('biblioteca')) return Library;
-  if (name.includes('audio') || name.includes('áudio')) return Headphones;
-  if (name.includes('mapa') && name.includes('mental')) return Brain;
+  if (name.includes('downloads') || name.includes('download')) return Download;
   if (name.includes('plataforma') && name.includes('desktop')) return Monitor;
-  if (name.includes('flashcard') || name.includes('flash card')) return GitBranch;
+  if (name.includes('audio') || name.includes('áudio')) return Headphones;
+  if (name.includes('biblioteca')) return Library;
   if (name.includes('resumo') || name.includes('codigo') || name.includes('código')) return BookOpen;
   if (name.includes('video') || name.includes('vídeo') || name.includes('aula')) return Play;
-  if (name.includes('petições') || name.includes('peticoes') || name.includes('petição')) return Folder;
-  if (name.includes('noticia') || name.includes('notícia') || name.includes('juridica')) return Newspaper;
-  if (name.includes('juriflix') || name.includes('filme') || name.includes('cinema')) return Film;
-  if (name.includes('simulado') || name.includes('prova')) return Award;
-  if (name.includes('calendario') || name.includes('agenda')) return Calendar;
-  if (name.includes('curso') || name.includes('aula')) return GraduationCap;
-  if (name.includes('pesquisa') || name.includes('busca')) return Search;
-  if (name.includes('documento') || name.includes('texto')) return FileText;
-  if (name.includes('download') || name.includes('baixar')) return Download;
-  if (name.includes('upload') || name.includes('enviar')) return Upload;
-  if (name.includes('compartilhar') || name.includes('share')) return Share;
-  if (name.includes('favorito') || name.includes('favoritar')) return Heart;
-  if (name.includes('avaliação') || name.includes('rating')) return Star;
-  if (name.includes('rápido') || name.includes('express')) return Zap;
-  if (name.includes('segurança') || name.includes('security')) return Shield;
-  if (name.includes('web') || name.includes('site')) return Globe;
-  if (name.includes('imagem') || name.includes('foto')) return Camera;
-  if (name.includes('música') || name.includes('music')) return Music;
-  if (name.includes('arquivo') || name.includes('file')) return Archive;
-  if (name.includes('código') || name.includes('programação')) return Code;
-  if (name.includes('banco') || name.includes('dados')) return Database;
   
   // Se não encontrar correspondência específica, usa um ícone único baseado no índice
   return availableIcons[index % availableIcons.length] || Scale;
