@@ -3,6 +3,7 @@ import { ReactNode, useState } from 'react';
 import { DesktopSidebar } from '@/components/DesktopSidebar';
 import { DesktopHeader } from '@/components/DesktopHeader';
 import { FooterMenu } from '@/components/FooterMenu';
+import { SuporteTab } from '@/components/SuporteTab';
 
 interface DesktopLayoutProps {
   children: ReactNode;
@@ -32,10 +33,13 @@ export const DesktopLayout = ({ children }: DesktopLayoutProps) => {
         </div>
         
         {/* Main Content */}
-        <main className="pt-4">
+        <main className="pt-4 pb-80">
           {children}
         </main>
       </div>
+
+      {/* Support Tab */}
+      <SuporteTab />
     </div>
   );
 };
