@@ -1,8 +1,9 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ArrowLeft, Search, Brain, BookOpen, Scale, Users, Download, Play, StickyNote } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Scale, Library, brain, FileText, Video, Headphones, Download, Newspaper, MonitorSpeaker, StickyNote, Search, BookOpen, Gavel, Users, Trophy, Clock, Star, Lightbulb, Target, Zap } from 'lucide-react';
 import { useNavigation } from '@/context/NavigationContext';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 export const Explorar = () => {
   const { setCurrentFunction } = useNavigation();
@@ -11,393 +12,284 @@ export const Explorar = () => {
     setCurrentFunction(null);
   };
 
-  const handleFunctionSelect = (functionName: string) => {
-    setCurrentFunction(functionName);
-  };
-
   const features = [
     {
-      title: "Vade Mecum Digital",
       icon: Scale,
-      description: "Acesso completo à legislação brasileira atualizada",
+      title: 'Vade Mecum',
+      description: 'Consulte a legislação brasileira completa e atualizada',
       examples: [
-        "Busca inteligente por palavras-chave",
-        "Navegação por ramos do direito",
-        "Comparação entre versões de leis"
+        'Busque por artigos específicos do Código Civil',
+        'Consulte jurisprudência relacionada a casos similares',
+        'Acesse decretos e portarias atualizados'
       ],
-      useCases: [
-        "Consulta rápida durante audiências",
-        "Pesquisa de jurisprudência para petições",
-        "Verificação de alterações legislativas"
-      ],
-      function: "Vade Mecum"
+      tutorial: 'Use a barra de pesquisa para encontrar leis específicas ou navegue pelas categorias organizadas por área do direito.',
+      color: 'bg-amber-50 border-amber-200'
     },
     {
-      title: "Biblioteca Jurídica",
-      icon: Library,
-      description: "Vasto acervo de livros, doutrinas e materiais de estudo",
+      icon: BookOpen,
+      title: 'Biblioteca Jurídica',
+      description: 'Acesse livros, artigos e publicações especializadas',
       examples: [
-        "Livros de doutrinadores renomados",
-        "Artigos científicos atualizados",
-        "Comentários aos códigos"
+        'Estude doutrina sobre Direito Constitucional',
+        'Leia artigos sobre jurisprudência recente',
+        'Consulte comentários de especialistas'
       ],
-      useCases: [
-        "Fundamentação teórica para pareceres",
-        "Estudo aprofundado de institutos jurídicos",
-        "Preparação para concursos e OAB"
-      ],
-      function: "Biblioteca"
+      tutorial: 'Filtre por área do direito, autor ou ano de publicação para encontrar o material mais relevante para seus estudos.',
+      color: 'bg-blue-50 border-blue-200'
     },
     {
-      title: "Flashcards Inteligentes",
-      icon: brain,
-      description: "Sistema de repetição espaçada para memorização eficaz",
+      icon: Brain,
+      title: 'Flashcards',
+      description: 'Memorize conceitos através de cartões interativos',
       examples: [
-        "Cards personalizáveis por matéria",
-        "Algoritmo de repetição otimizado",
-        "Estatísticas de progresso"
+        'Revise definições de institutos jurídicos',
+        'Pratique com casos práticos resumidos',
+        'Teste conhecimentos sobre prazos processuais'
       ],
-      useCases: [
-        "Memorização de artigos importantes",
-        "Revisão antes de provas",
-        "Fixação de conceitos complexos"
-      ],
-      function: "Flashcards"
+      tutorial: 'Crie decks personalizados ou use os pré-definidos. O sistema adapta a frequência das revisões baseado no seu desempenho.',
+      color: 'bg-purple-50 border-purple-200'
     },
     {
-      title: "Mapas Mentais Jurídicos",
-      icon: brain,
-      description: "Visualização de conexões entre institutos do direito",
+      icon: Brain,
+      title: 'Mapas Mentais',
+      description: 'Visualize conexões entre conceitos jurídicos',
       examples: [
-        "Mapas interativos por área",
-        "Conexões entre conceitos",
-        "Templates pré-definidos"
+        'Mapeie os requisitos de uma ação judicial',
+        'Conecte princípios constitucionais relacionados',
+        'Organize cronologicamente procedimentos legais'
       ],
-      useCases: [
-        "Organização visual do conhecimento",
-        "Compreensão de relações jurídicas",
-        "Apresentações didáticas"
-      ],
-      function: "Mapas Mentais"
+      tutorial: 'Comece com um conceito central e adicione ramificações. Use cores para categorizar diferentes tipos de informação.',
+      color: 'bg-green-50 border-green-200'
     },
     {
-      title: "Videoaulas Especializadas",
-      icon: Video,
-      description: "Conteúdo audiovisual com professores renomados",
+      icon: Play,
+      title: 'Videoaulas',
+      description: 'Aprenda com professores especializados',
       examples: [
-        "Aulas organizadas por disciplina",
-        "Professores especialistas",
-        "Qualidade HD com legendas"
+        'Assista aulas sobre novos entendimentos do STF',
+        'Acompanhe análises de casos práticos',
+        'Participe de lives sobre mudanças legislativas'
       ],
-      useCases: [
-        "Aprendizado visual e auditivo",
-        "Complemento aos estudos escritos",
-        "Flexibilidade de horários"
-      ],
-      function: "Videoaulas"
+      tutorial: 'Use a função de velocidade variável, faça anotações sincronizadas e marque trechos importantes para revisão.',
+      color: 'bg-red-50 border-red-200'
     },
     {
-      title: "Áudio-aulas Mobile",
-      icon: Headphones,
-      description: "Estude em qualquer lugar com conteúdo em áudio",
-      examples: [
-        "Formato podcast",
-        "Download offline",
-        "Velocidade ajustável"
-      ],
-      useCases: [
-        "Estudo durante deslocamentos",
-        "Revisão em caminhadas",
-        "Multitarefa com aprendizado"
-      ],
-      function: "Áudio-aulas"
-    },
-    {
-      title: "Downloads Jurídicos",
       icon: Download,
-      description: "Acervo completo de materiais para download",
+      title: 'Downloads',
+      description: 'Baixe materiais para estudo offline',
       examples: [
-        "PDFs organizados por matéria",
-        "Modelos de petições",
-        "Súmulas e orientações"
+        'Faça download de PDFs de leis atualizadas',
+        'Baixe modelos de petições e contratos',
+        'Salve resumos e esquemas de estudo'
       ],
-      useCases: [
-        "Estudo offline",
-        "Criação de biblioteca pessoal",
-        "Backup de materiais importantes"
-      ],
-      function: "Downloads"
-    },
-    {
-      title: "Notícias Jurídicas",
-      icon: Newspaper,
-      description: "Mantenha-se atualizado com as novidades do direito",
-      examples: [
-        "Notícias do STF e STJ",
-        "Alterações legislativas",
-        "Análises especializadas"
-      ],
-      useCases: [
-        "Acompanhamento de mudanças",
-        "Atualização profissional",
-        "Fundamentação em decisões recentes"
-      ],
-      function: "Notícias Jurídicas"
-    },
-    {
-      title: "Plataforma Desktop",
-      icon: MonitorSpeaker,
-      description: "Versão completa para computadores",
-      examples: [
-        "Interface otimizada",
-        "Recursos avançados",
-        "Sincronização automática"
-      ],
-      useCases: [
-        "Trabalho em escritório",
-        "Estudo intensivo",
-        "Pesquisas aprofundadas"
-      ],
-      function: "Plataforma Desktop"
-    },
-    {
-      title: "Sistema de Anotações",
-      icon: StickyNote,
-      description: "Organize seus estudos com anotações inteligentes",
-      examples: [
-        "Formatação avançada",
-        "Tags e categorias",
-        "Busca eficiente"
-      ],
-      useCases: [
-        "Registro de insights",
-        "Organização de ideias",
-        "Criação de resumos"
-      ],
-      function: "Anotações"
-    }
-  ];
-
-  const tutorials = [
-    {
-      title: "Como usar a Busca Inteligente",
-      description: "Aprenda a encontrar qualquer informação rapidamente",
-      steps: ["Digite palavras-chave", "Use filtros avançados", "Salve suas buscas frequentes"],
-      icon: Search
-    },
-    {
-      title: "Organizando seus Estudos",
-      description: "Dicas para criar um cronograma eficiente",
-      steps: ["Defina metas diárias", "Use flashcards para revisão", "Acompanhe seu progresso"],
-      icon: Target
-    },
-    {
-      title: "Maximizando a Memorização",
-      description: "Técnicas científicas de aprendizado",
-      steps: ["Repetição espaçada", "Mapas mentais", "Teste ativo"],
-      icon: brain
-    }
-  ];
-
-  const benefits = [
-    {
-      icon: Clock,
-      title: "Economia de Tempo",
-      description: "Encontre informações 5x mais rápido"
-    },
-    {
-      icon: Trophy,
-      title: "Resultados Comprovados",
-      description: "89% de aprovação em concursos"
+      tutorial: 'Organize seus downloads em pastas temáticas e sincronize entre dispositivos para acesso offline.',
+      color: 'bg-orange-50 border-orange-200'
     },
     {
       icon: Users,
-      title: "Comunidade Ativa",
-      description: "15.000+ profissionais conectados"
+      title: 'Notícias Jurídicas',
+      description: 'Mantenha-se atualizado com o mundo jurídico',
+      examples: [
+        'Leia sobre decisões recentes dos tribunais',
+        'Acompanhe mudanças na legislação',
+        'Receba alertas sobre sua área de interesse'
+      ],
+      tutorial: 'Configure filtros por área do direito e receba notificações push sobre as principais novidades.',
+      color: 'bg-cyan-50 border-cyan-200'
     },
     {
-      icon: Star,
-      title: "Qualidade Premium",
-      description: "Conteúdo curado por especialistas"
+      icon: StickyNote,
+      title: 'Anotações',
+      description: 'Organize seus estudos e ideias',
+      examples: [
+        'Crie fichamentos de livros e artigos',
+        'Faça anotações durante as videoaulas',
+        'Organize ideias para trabalhos acadêmicos'
+      ],
+      tutorial: 'Use tags para categorizar anotações, crie links entre conceitos relacionados e exporte para diferentes formatos.',
+      color: 'bg-pink-50 border-pink-200'
+    }
+  ];
+
+  const useCases = [
+    {
+      title: 'Estudante de Direito',
+      scenario: 'Preparação para provas e concursos',
+      workflow: [
+        'Use flashcards para memorizar conceitos básicos',
+        'Assista videoaulas sobre temas complexos',
+        'Faça anotações organizadas por disciplina',
+        'Consulte o Vade Mecum para verificar artigos',
+        'Crie mapas mentais para conectar diferentes institutos'
+      ]
+    },
+    {
+      title: 'Advogado Iniciante',
+      scenario: 'Pesquisa para elaboração de petições',
+      workflow: [
+        'Pesquise jurisprudência na Biblioteca',
+        'Consulte artigos atualizados no Vade Mecum',
+        'Baixe modelos de petições em Downloads',
+        'Mantenha-se atualizado com Notícias Jurídicas',
+        'Faça anotações sobre estratégias processuais'
+      ]
+    },
+    {
+      title: 'Concurseiro',
+      scenario: 'Preparação intensiva para concursos',
+      workflow: [
+        'Estude com videoaulas organizadas por edital',
+        'Pratique com flashcards de questões anteriores',
+        'Use mapas mentais para revisar matérias extensas',
+        'Faça anotações de pontos importantes',
+        'Consulte legislação atualizada constantemente'
+      ]
     }
   ];
 
   return (
-    <div className="max-w-7xl mx-auto p-4 sm:p-6 md:p-8">
-      {/* Header */}
-      <div className="flex items-center gap-4 mb-8">
-        <Button variant="outline" onClick={handleBack} size="sm">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Voltar
-        </Button>
-        <div className="flex-1">
-          <h1 className="text-4xl font-bold gradient-text mb-2">🔍 Explorar Plataforma</h1>
-          <p className="text-lg text-muted-foreground">
-            Descubra como maximizar seus estudos jurídicos
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white p-4">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex items-center gap-4 mb-8">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleBack}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Voltar
+          </Button>
+        </div>
+
+        <div className="text-center mb-12">
+          <Search className="h-16 w-16 mx-auto text-blue-500 mb-6" />
+          <h1 className="text-4xl font-bold text-slate-800 mb-4">Explorar Funcionalidades</h1>
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            Descubra como aproveitar ao máximo todas as ferramentas disponíveis para 
+            otimizar seus estudos e prática jurídica.
           </p>
         </div>
-      </div>
 
-      {/* Benefícios Principais */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-          <Zap className="h-6 w-6 text-amber-500" />
-          Por que escolher nossa plataforma?
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {benefits.map((benefit, index) => {
-            const Icon = benefit.icon;
-            return (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <Icon className="h-12 w-12 mx-auto mb-4 text-accent-legal" />
-                  <h3 className="font-semibold mb-2">{benefit.title}</h3>
-                  <p className="text-sm text-muted-foreground">{benefit.description}</p>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Funcionalidades Detalhadas */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-          <BookOpen className="h-6 w-6 text-accent-legal" />
-          Funcionalidades Completas
-        </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-            return (
-              <Card key={index} className="hover:shadow-xl transition-all duration-300 group">
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="p-3 rounded-lg bg-accent-legal/10 group-hover:bg-accent-legal/20 transition-colors">
-                      <Icon className="h-6 w-6 text-accent-legal" />
+        {/* Funcionalidades Principais */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-slate-800 mb-8 text-center">
+            Funcionalidades Principais
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((feature, index) => {
+              const Icon = feature.icon;
+              return (
+                <Card key={index} className={`${feature.color} hover:shadow-lg transition-shadow duration-300`}>
+                  <CardHeader>
+                    <div className="flex items-center gap-3 mb-2">
+                      <Icon className="h-8 w-8 text-slate-700" />
+                      <CardTitle className="text-xl text-slate-800">{feature.title}</CardTitle>
                     </div>
-                    <div className="flex-1">
-                      <CardTitle className="text-xl group-hover:text-accent-legal transition-colors">
-                        {feature.title}
-                      </CardTitle>
-                      <p className="text-muted-foreground">{feature.description}</p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div>
-                    <h4 className="font-semibold mb-3 flex items-center gap-2">
-                      <Lightbulb className="h-4 w-4 text-amber-500" />
-                      Exemplos Práticos:
-                    </h4>
-                    <ul className="space-y-2">
-                      {feature.examples.map((example, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm">
-                          <div className="w-1.5 h-1.5 bg-accent-legal rounded-full mt-2 flex-shrink-0" />
-                          {example}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-3 flex items-center gap-2">
-                      <Target className="h-4 w-4 text-green-500" />
-                      Casos de Uso:
-                    </h4>
-                    <ul className="space-y-2">
-                      {feature.useCases.map((useCase, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm">
-                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0" />
-                          {useCase}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <Button 
-                    onClick={() => handleFunctionSelect(feature.function)}
-                    className="w-full group-hover:bg-accent-legal group-hover:text-white transition-colors"
-                    variant="outline"
-                  >
-                    Experimentar Agora
-                  </Button>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Tutoriais Rápidos */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-          <Gavel className="h-6 w-6 text-accent-legal" />
-          Tutoriais Rápidos
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {tutorials.map((tutorial, index) => {
-            const Icon = tutorial.icon;
-            return (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <Icon className="h-8 w-8 text-accent-legal" />
+                    <CardDescription className="text-slate-600">
+                      {feature.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
                     <div>
-                      <CardTitle className="text-lg">{tutorial.title}</CardTitle>
-                      <p className="text-sm text-muted-foreground">{tutorial.description}</p>
+                      <h4 className="font-semibold text-slate-700 mb-2">Exemplos de Uso:</h4>
+                      <ul className="space-y-1">
+                        {feature.examples.map((example, idx) => (
+                          <li key={idx} className="text-sm text-slate-600 flex items-start gap-2">
+                            <span className="text-blue-500 mt-1">•</span>
+                            {example}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
+                    <div className="bg-white/60 rounded-lg p-3">
+                      <h4 className="font-semibold text-slate-700 mb-1">💡 Dica:</h4>
+                      <p className="text-sm text-slate-600">{feature.tutorial}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Casos de Uso */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-slate-800 mb-8 text-center">
+            Casos de Uso Práticos
+          </h2>
+          <div className="grid lg:grid-cols-3 gap-6">
+            {useCases.map((useCase, index) => (
+              <Card key={index} className="bg-white border-slate-200 hover:shadow-lg transition-shadow duration-300">
+                <CardHeader>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                      {useCase.title}
+                    </Badge>
                   </div>
+                  <CardTitle className="text-lg text-slate-800">{useCase.scenario}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-3">
-                    {tutorial.steps.map((step, i) => (
-                      <div key={i} className="flex items-center gap-3">
-                        <div className="w-6 h-6 bg-accent-legal text-white rounded-full flex items-center justify-center text-sm font-medium">
-                          {i + 1}
-                        </div>
-                        <span className="text-sm">{step}</span>
-                      </div>
+                  <h4 className="font-semibold text-slate-700 mb-3">Fluxo de Trabalho:</h4>
+                  <ol className="space-y-2">
+                    {useCase.workflow.map((step, idx) => (
+                      <li key={idx} className="text-sm text-slate-600 flex items-start gap-3">
+                        <span className="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold mt-0.5 flex-shrink-0">
+                          {idx + 1}
+                        </span>
+                        {step}
+                      </li>
                     ))}
-                  </div>
+                  </ol>
                 </CardContent>
               </Card>
-            );
-          })}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
 
-      {/* Call to Action */}
-      <section className="text-center">
-        <Card className="bg-gradient-to-r from-accent-legal/10 to-primary/10 border-accent-legal/20">
-          <CardContent className="p-8">
-            <h2 className="text-3xl font-bold mb-4 gradient-text">
-              Pronto para revolucionar seus estudos?
-            </h2>
-            <p className="text-lg text-muted-foreground mb-6">
-              Junte-se a milhares de profissionais que já transformaram sua carreira
-            </p>
-            <div className="flex gap-4 justify-center">
-              <Button 
-                size="lg" 
-                onClick={() => handleFunctionSelect("Videoaulas")}
-                className="bg-accent-legal hover:bg-accent-legal/90"
-              >
-                <Video className="h-5 w-5 mr-2" />
-                Começar com Videoaulas
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline"
-                onClick={() => handleFunctionSelect("Flashcards")}
-              >
-                <brain className="h-5 w-5 mr-2" />
-                Testar Flashcards
-              </Button>
+        {/* Dicas Gerais */}
+        <section className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-200">
+          <h2 className="text-2xl font-bold text-slate-800 mb-6 text-center">
+            🎯 Dicas para Maximizar seu Aprendizado
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-slate-700">Organização</h3>
+              <ul className="space-y-2 text-slate-600">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">✓</span>
+                  Crie uma rotina de estudos consistente
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">✓</span>
+                  Use tags e categorias para organizar conteúdo
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">✓</span>
+                  Sincronize entre dispositivos para estudar em qualquer lugar
+                </li>
+              </ul>
             </div>
-          </CardContent>
-        </Card>
-      </section>
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-slate-700">Eficiência</h3>
+              <ul className="space-y-2 text-slate-600">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">✓</span>
+                  Combine diferentes ferramentas para reforçar o aprendizado
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">✓</span>
+                  Revise regularmente com flashcards e mapas mentais
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">✓</span>
+                  Mantenha-se atualizado com notícias jurídicas diárias
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 };
