@@ -5,7 +5,7 @@ import { useYouTube } from '@/hooks/useYouTube';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Play, ArrowLeft, Clock, BookOpen } from 'lucide-react';
+import { Search, Play, ArrowLeft, Clock, PlayCircle, Video } from 'lucide-react';
 import { VideoPlayerEnhanced } from '@/components/VideoPlayerEnhanced';
 
 export const VideoAreasGrid = () => {
@@ -106,14 +106,19 @@ export const VideoAreasGrid = () => {
       {/* Header com navegação */}
       <div className="flex items-center gap-4 mb-6">
         {(selectedArea) && (
-          <Button variant="outline" onClick={handleBack} size="sm">
+          <Button 
+            variant="outline" 
+            onClick={handleBack} 
+            size="sm"
+            className="bg-primary/10 border-primary/30 text-primary hover:bg-primary/20 hover:border-primary/50 font-medium"
+          >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Voltar
           </Button>
         )}
         <div className="flex-1">
           <h1 className="text-3xl font-bold gradient-text mb-2">
-            {selectedArea ? `${selectedArea} - Videoaulas` : 'Áreas de Estudo'}
+            {selectedArea ? `${selectedArea} - Videoaulas` : 'Áreas de Videoaulas'}
           </h1>
           <p className="text-muted-foreground">
             {selectedArea 
@@ -136,35 +141,50 @@ export const VideoAreasGrid = () => {
       </div>
 
       {!selectedArea ? (
-        // Grid de áreas
+        // Grid de áreas com visual de videoaulas
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Object.entries(filteredAreas).map(([area, data]) => (
             <Card 
               key={area} 
-              className="group hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden border-2 hover:border-accent-legal/30"
+              className="group hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden border-2 hover:border-accent-legal/30 bg-gradient-to-br from-slate-900 to-slate-800"
               onClick={() => handleAreaSelect(area)}
             >
-              <div className="relative aspect-video bg-gradient-to-br from-accent-legal/20 to-primary/20">
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300" />
+              <div className="relative aspect-video bg-gradient-to-br from-red-900/40 via-amber-900/20 to-orange-900/40 overflow-hidden">
+                {/* Fundo com padrão de videoaula */}
+                <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-300" />
+                
+                {/* Overlay decorativo */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-red-600/20 via-transparent to-amber-600/20" />
+                
+                {/* Ícones flutuantes */}
+                <div className="absolute top-3 left-3 flex gap-2">
+                  <div className="bg-red-600/80 text-white px-2 py-1 rounded-full text-xs font-medium">
+                    VÍDEO
+                  </div>
+                </div>
+                
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center text-white">
-                    <BookOpen className="h-12 w-12 mx-auto mb-3 group-hover:scale-110 transition-transform duration-300" />
-                    <div className="bg-black/60 px-3 py-1 rounded-full text-sm">
+                  <div className="text-center text-white transform group-hover:scale-110 transition-transform duration-300">
+                    <div className="relative mb-4">
+                      <Video className="h-16 w-16 mx-auto text-amber-400 drop-shadow-lg" />
+                      <PlayCircle className="h-8 w-8 absolute -bottom-2 -right-2 text-red-500 animate-pulse" />
+                    </div>
+                    <div className="bg-black/70 px-4 py-2 rounded-full text-sm font-medium">
                       {data.videos.length} playlist{data.videos.length !== 1 ? 's' : ''}
                     </div>
                   </div>
                 </div>
                 
-                {/* Overlay de hover */}
-                <div className="absolute inset-0 bg-accent-legal/0 group-hover:bg-accent-legal/10 transition-colors duration-300" />
+                {/* Overlay de hover com efeito */}
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 via-red-500/0 to-orange-500/0 group-hover:from-amber-500/10 group-hover:via-red-500/5 group-hover:to-orange-500/10 transition-all duration-500" />
               </div>
               
-              <CardContent className="p-4">
-                <h3 className="font-semibold text-lg mb-2 group-hover:text-accent-legal transition-colors">
-                  {area}
+              <CardContent className="p-4 bg-gradient-to-b from-slate-800 to-slate-900">
+                <h3 className="font-semibold text-lg mb-2 group-hover:text-amber-400 transition-colors text-center">
+                  📹 {area}
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  Acesse o conteúdo completo desta área
+                <p className="text-sm text-muted-foreground text-center">
+                  Videoaulas completas desta área
                 </p>
               </CardContent>
             </Card>

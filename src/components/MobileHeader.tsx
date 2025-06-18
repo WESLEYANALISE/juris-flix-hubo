@@ -52,7 +52,7 @@ export const MobileHeader = ({ sidebarOpen, setSidebarOpen }: MobileHeaderProps)
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className="h-10 w-10 rounded-full hover:bg-primary/10 transition-all duration-300"
+                className="h-10 w-10 rounded-full hover:bg-slate-800/50 bg-slate-700 transition-all duration-300 border border-slate-600"
                 onClick={() => setSidebarOpen(true)}
               >
                 <Menu className={`h-5 w-5 text-amber-400 transition-transform duration-300 ${sidebarOpen ? 'rotate-90' : 'rotate-0'}`} />

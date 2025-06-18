@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, User, Mail, CheckCircle, Download, Zap, Shield } from 'lucide-react';
+import { Loader2, User, Mail, CheckCircle, ExternalLink, Zap, Shield } from 'lucide-react';
 import { DesktopPlatformCarousel } from '@/components/DesktopPlatformCarousel';
 
 const formSchema = z.object({
@@ -114,7 +114,7 @@ export const PlataformaDesktop = () => {
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-green-500/20 border border-green-500/30 rounded-full flex items-center justify-center text-green-400 font-bold text-sm">3</div>
-                  <p className="text-sm text-muted-foreground">Faça o download e comece a usar a plataforma completa!</p>
+                  <p className="text-sm text-muted-foreground">Acesse diretamente a plataforma completa pelo navegador!</p>
                 </div>
               </div>
             </div>
@@ -145,10 +145,10 @@ export const PlataformaDesktop = () => {
       <div className="grid md:grid-cols-3 gap-6 mb-12">
         <div className="text-center p-6 bg-card/30 backdrop-blur-sm rounded-2xl border border-border animate-fade-in-up">
           <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <Download className="w-8 h-8 text-white" />
+            <ExternalLink className="w-8 h-8 text-white" />
           </div>
-          <h3 className="font-bold text-lg mb-2 text-blue-400">Download Direto</h3>
-          <p className="text-sm text-muted-foreground">Receba o link de download por email e instale em segundos</p>
+          <h3 className="font-bold text-lg mb-2 text-blue-400">Link de Acesso</h3>
+          <p className="text-sm text-muted-foreground">Receba o link de acesso por email e entre direto pela web</p>
         </div>
 
         <div className="text-center p-6 bg-card/30 backdrop-blur-sm rounded-2xl border border-border animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
@@ -156,7 +156,7 @@ export const PlataformaDesktop = () => {
             <Zap className="w-8 h-8 text-white" />
           </div>
           <h3 className="font-bold text-lg mb-2 text-purple-400">Acesso Imediato</h3>
-          <p className="text-sm text-muted-foreground">Sem espera! Comece a usar assim que fizer o download</p>
+          <p className="text-sm text-muted-foreground">Sem espera! Comece a usar assim que receber o link</p>
         </div>
 
         <div className="text-center p-6 bg-card/30 backdrop-blur-sm rounded-2xl border border-border animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
@@ -175,7 +175,7 @@ export const PlataformaDesktop = () => {
             Acesse a Versão Desktop Completa
           </CardTitle>
           <CardDescription className="text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed text-muted-foreground">
-            Preencha os dados abaixo e receba o <strong className="text-primary">link de download da plataforma desktop</strong> diretamente no seu email. 
+            Preencha os dados abaixo e receba o <strong className="text-primary">link de acesso da plataforma desktop</strong> diretamente no seu email. 
             Acesso completo a todas as funcionalidades profissionais!
           </CardDescription>
           
@@ -183,7 +183,7 @@ export const PlataformaDesktop = () => {
           <div className="mt-6 p-4 bg-primary/10 backdrop-blur-sm rounded-xl border border-primary/20">
             <p className="text-sm font-medium text-primary flex items-center justify-center gap-2">
               <Mail className="w-4 h-4" />
-              Você receberá um email com o link de download da plataforma
+              Você receberá um email com o link de acesso da plataforma
             </p>
           </div>
         </CardHeader>
@@ -250,8 +250,8 @@ export const PlataformaDesktop = () => {
                   </>
                 ) : (
                   <>
-                    <Download className="w-6 h-6 mr-3" />
-                    Receber Link de Download por Email
+                    <ExternalLink className="w-6 h-6 mr-3" />
+                    Receber Link de Acesso por Email
                   </>
                 )}
               </Button>
