@@ -10,7 +10,6 @@ import { Videoaulas } from '@/components/Videoaulas';
 import { Anotacoes } from '@/components/Anotacoes';
 import { Explorar } from '@/components/Explorar';
 import { AssistenteIA } from '@/components/AssistenteIA';
-import { Suporte } from '@/components/Suporte';
 import { useEffect, useState } from 'react';
 
 export const AppFunction = () => {
@@ -68,8 +67,6 @@ export const AppFunction = () => {
       case 'Assistente IA Jurídica':
       case 'Assistente IA':
         return <AssistenteIA />;
-      case 'Suporte':
-        return <Suporte />;
       default:
         // Para outras funções, usar o iframe da tabela APP
         return null;

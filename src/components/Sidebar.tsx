@@ -44,15 +44,11 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
           {/* Enhanced header - Mobile Optimized */}
           <div className="flex items-center justify-between mb-6 sm:mb-8 animate-fade-in-up">
             <div className="flex items-center gap-2 sm:gap-3">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
-                <img 
-                  src="https://imgur.com/M5Qu1m8.png" 
-                  alt="Direito Premium" 
-                  className="w-full h-full object-contain"
-                />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-red-600 to-red-700 rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg">
+                <Scale className="h-5 w-5 sm:h-7 sm:w-7 text-white" />
               </div>
               <div>
-                <h2 className="text-lg sm:text-xl font-bold gradient-text">Direito Premium</h2>
+                <h2 className="text-lg sm:text-xl font-bold gradient-text">LegalStudy Pro</h2>
                 <p className="text-sm text-muted-foreground">Plataforma Jurídica</p>
               </div>
             </div>
