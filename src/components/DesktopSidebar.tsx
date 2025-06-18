@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAppFunctions } from '@/hooks/useAppFunctions';
+import { useMemo, useCallback } from 'react';
 
 interface DesktopSidebarProps {
   collapsed: boolean;
@@ -17,10 +18,10 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
   const { setCurrentFunction } = useNavigation();
   const { functions, loading } = useAppFunctions();
 
-  // Função melhorada para encontrar a função na tabela APP com logs de debug
-  const getFunctionFromDB = (searchTerms: string[]) => {
+  // Função melhorada para encontrar a função na tabela APP com memoização
+  const getFunctionFromDB = useCallback((searchTerms: string[]) => {
     if (!functions || functions.length === 0) {
-      console.log('DesktopSidebar - Nenhuma função disponível');
+      console.log('DesktopSidebar - Nenhuma função disponível ainda');
       return null;
     }
     
@@ -52,86 +53,104 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
     
     console.log(`DesktopSidebar - Nenhuma correspondência encontrada para:`, searchTerms);
     return null;
-  };
+  }, [functions]);
 
-  const menuSections = [
-    {
-      title: 'Principal',
-      items: [
-        { icon: Home, title: 'Dashboard', function: null },
-        { icon: Star, title: 'Favoritos', function: null },
-      ]
-    },
-    {
-      title: 'Ferramentas Jurídicas',
-      items: [
-        { 
-          icon: Scale, 
-          title: 'Vade Mecum Digital', 
-          function: getFunctionFromDB(['Vade Mecum Digital']) 
-        },
-        { 
-          icon: Bot, 
-          title: 'Assistente IA Jurídica', 
-          function: getFunctionFromDB(['Assistente IA Jurídica']) 
-        },
-        { 
-          icon: Library, 
-          title: 'Biblioteca Jurídica', 
-          function: getFunctionFromDB(['Biblioteca Jurídica']) 
-        },
-        { 
-          icon: Brain, 
-          title: 'Mapas Mentais', 
-          function: getFunctionFromDB(['Mapas Mentais']) 
-        },
-      ]
-    },
-    {
-      title: 'Estudos e Preparação',
-      items: [
-        { 
-          icon: Brain, 
-          title: 'Flashcards', 
-          function: getFunctionFromDB(['Flashcards']) 
-        },
-        { 
-          icon: Play, 
-          title: 'Videoaulas', 
-          function: getFunctionFromDB(['Videoaulas']) 
-        },
-        { 
-          icon: Headphones, 
-          title: 'Áudio-aulas', 
-          function: getFunctionFromDB(['Áudio-aulas']) 
-        },
-        { 
-          icon: Download, 
-          title: 'Downloads', 
-          function: getFunctionFromDB(['Downloads']) 
-        },
-        { 
-          icon: Newspaper, 
-          title: 'Notícias Jurídicas', 
-          function: getFunctionFromDB(['Notícias Jurídicas']) 
-        },
-        { 
-          icon: FileText, 
-          title: 'Anotações', 
-          function: 'Anotações' // Esta função sempre será clicável
-        },
-      ]
-    }
-  ];
-
-  const handleItemClick = (functionName: string | null) => {
-    console.log('DesktopSidebar - Clicando no item:', functionName);
-    console.log('DesktopSidebar - Funções disponíveis:', functions?.map(f => f.funcao));
+  // Memoizar as seções do menu para evitar recálculos
+  const menuSections = useMemo(() => {
+    console.log('DesktopSidebar - Recalculando menuSections. Loading:', loading, 'Functions count:', functions?.length || 0);
     
-    if (functionName) {
+    return [
+      {
+        title: 'Principal',
+        items: [
+          { icon: Home, title: 'Dashboard', function: null, alwaysClickable: true },
+          { icon: Star, title: 'Favoritos', function: null, alwaysClickable: true },
+        ]
+      },
+      {
+        title: 'Ferramentas Jurídicas',
+        items: [
+          { 
+            icon: Scale, 
+            title: 'Vade Mecum Digital', 
+            function: getFunctionFromDB(['Vade Mecum Digital']),
+            alwaysClickable: false
+          },
+          { 
+            icon: Bot, 
+            title: 'Assistente IA Jurídica', 
+            function: getFunctionFromDB(['Assistente IA Jurídica', 'Assistente IA']),
+            alwaysClickable: false
+          },
+          { 
+            icon: Library, 
+            title: 'Biblioteca Jurídica', 
+            function: getFunctionFromDB(['Biblioteca Jurídica']),
+            alwaysClickable: false
+          },
+          { 
+            icon: Brain, 
+            title: 'Mapas Mentais', 
+            function: getFunctionFromDB(['Mapas Mentais']),
+            alwaysClickable: false
+          },
+        ]
+      },
+      {
+        title: 'Estudos e Preparação',
+        items: [
+          { 
+            icon: Brain, 
+            title: 'Flashcards', 
+            function: getFunctionFromDB(['Flashcards']),
+            alwaysClickable: false
+          },
+          { 
+            icon: Play, 
+            title: 'Videoaulas', 
+            function: 'Videoaulas', // Função sempre clicável
+            alwaysClickable: true
+          },
+          { 
+            icon: Headphones, 
+            title: 'Áudio-aulas', 
+            function: getFunctionFromDB(['Áudio-aulas']),
+            alwaysClickable: false
+          },
+          { 
+            icon: Download, 
+            title: 'Downloads', 
+            function: 'Downloads', // Função sempre clicável
+            alwaysClickable: true
+          },
+          { 
+            icon: Newspaper, 
+            title: 'Notícias Jurídicas', 
+            function: 'Notícias Jurídicas', // Função sempre clicável
+            alwaysClickable: true
+          },
+          { 
+            icon: FileText, 
+            title: 'Anotações', 
+            function: 'Anotações', // Função sempre clicável
+            alwaysClickable: true
+          },
+        ]
+      }
+    ];
+  }, [functions, loading, getFunctionFromDB]);
+
+  // Função de clique otimizada com useCallback
+  const handleItemClick = useCallback((functionName: string | null, isClickable: boolean) => {
+    console.log('DesktopSidebar - Clicando no item:', functionName, 'isClickable:', isClickable);
+    
+    if (isClickable && functionName) {
+      console.log('DesktopSidebar - Navegando para função:', functionName);
       setCurrentFunction(functionName);
+    } else {
+      console.log('DesktopSidebar - Item não clicável ou função nula');
     }
-  };
+  }, [setCurrentFunction]);
 
   // Mostrar loading se ainda estamos carregando as funções
   if (loading) {
@@ -196,42 +215,55 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
               <div className="space-y-1">
                 {section.items.map((item, itemIndex) => {
                   const Icon = item.icon;
-                  const isClickable = item.function !== null;
+                  const isClickable = item.alwaysClickable || item.function !== null;
                   
-                  console.log(`DesktopSidebar - Item ${item.title}: isClickable=${isClickable}, function=${item.function}`);
+                  console.log(`DesktopSidebar - Renderizando item ${item.title}: isClickable=${isClickable}, function=${item.function}, alwaysClickable=${item.alwaysClickable}`);
                   
                   return (
                     <Button
                       key={item.title}
                       variant="ghost"
-                      onClick={() => handleItemClick(item.function)}
+                      onClick={() => handleItemClick(item.function, isClickable)}
                       disabled={!isClickable}
                       className={`w-full justify-start gap-3 h-10 hover:bg-secondary/80 hover-glow-legal group transition-all duration-500 animate-bounce-in-legal hover:animate-legal-float ${
                         collapsed ? 'px-0 justify-center' : 'px-3'
-                      } ${!isClickable ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-105'}`}
+                      } ${isClickable ? 'cursor-pointer hover:scale-105 pointer-events-auto' : 'opacity-50 cursor-not-allowed pointer-events-none'}`}
                       style={{ 
-                        animationDelay: `${(sectionIndex * section.items.length + itemIndex) * 0.05}s`,
-                        pointerEvents: isClickable ? 'auto' : 'none'
+                        animationDelay: `${(sectionIndex * section.items.length + itemIndex) * 0.05}s`
                       }}
                     >
                       <div className="relative">
-                        <Icon className="h-5 w-5 text-amber-400 group-hover:text-amber-300 transition-colors duration-500 group-hover:animate-legal-icon-glow" />
+                        <Icon className={`h-5 w-5 transition-colors duration-500 ${
+                          isClickable 
+                            ? 'text-amber-400 group-hover:text-amber-300 group-hover:animate-legal-icon-glow' 
+                            : 'text-muted-foreground/50'
+                        }`} />
                         
-                        {/* Legal sparkle effect on icon */}
-                        <div className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-amber-400/60 rounded-full opacity-0 group-hover:opacity-100 animate-legal-sparkle transition-opacity duration-500" />
+                        {/* Legal sparkle effect on icon for clickable items */}
+                        {isClickable && (
+                          <div className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-amber-400/60 rounded-full opacity-0 group-hover:opacity-100 animate-legal-sparkle transition-opacity duration-500" />
+                        )}
                       </div>
                       
                       {!collapsed && (
-                        <span className="text-sm font-medium group-hover:text-primary transition-all duration-500 group-hover:animate-legal-text-glow group-hover:scale-105">
+                        <span className={`text-sm font-medium transition-all duration-500 ${
+                          isClickable 
+                            ? 'group-hover:text-primary group-hover:animate-legal-text-glow group-hover:scale-105' 
+                            : 'text-muted-foreground/50'
+                        }`}>
                           {item.title}
                         </span>
                       )}
                       
-                      {/* Enhanced hover indicator with animation */}
-                      <div className="absolute right-2 w-1 h-6 bg-primary/0 group-hover:bg-primary/60 rounded-full transition-all duration-500 animate-legal-accent" />
+                      {/* Enhanced hover indicator with animation for clickable items */}
+                      {isClickable && (
+                        <div className="absolute right-2 w-1 h-6 bg-primary/0 group-hover:bg-primary/60 rounded-full transition-all duration-500 animate-legal-accent" />
+                      )}
                       
-                      {/* Legal profession ripple effect */}
-                      <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 rounded-lg transition-all duration-500 animate-legal-ripple" />
+                      {/* Legal profession ripple effect for clickable items */}
+                      {isClickable && (
+                        <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 rounded-lg transition-all duration-500 animate-legal-ripple" />
+                      )}
                     </Button>
                   );
                 })}

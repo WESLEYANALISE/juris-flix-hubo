@@ -17,17 +17,26 @@ export const useAppFunctions = () => {
   useEffect(() => {
     const fetchFunctions = async () => {
       try {
+        console.log('useAppFunctions - Iniciando busca das funções...');
+        
         const { data, error } = await supabase
           .from('APP')
           .select('id, funcao, descricao, link')
           .order('id');
 
-        if (error) throw error;
+        if (error) {
+          console.error('useAppFunctions - Erro na consulta:', error);
+          throw error;
+        }
+        
+        console.log('useAppFunctions - Funções carregadas:', data);
         setFunctions(data || []);
       } catch (err) {
+        console.error('useAppFunctions - Erro ao carregar funções:', err);
         setError(err instanceof Error ? err.message : 'Erro ao carregar funções');
       } finally {
         setLoading(false);
+        console.log('useAppFunctions - Carregamento concluído');
       }
     };
 
