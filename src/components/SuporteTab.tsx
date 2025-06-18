@@ -54,6 +54,46 @@ export const SuporteTab = () => {
     }
   };
 
+  const submitToGoogleSheets = async (data: any) => {
+    try {
+      console.log('Enviando dados para Google Sheets:', data);
+      
+      // URL da sua planilha Google Sheets (substitua pela sua URL do SheetDB)
+      const SHEET_URL = 'https://sheetdb.io/api/v1/YOUR_SHEET_ID';
+      
+      const response = await fetch(SHEET_URL, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: [{
+            nome: data.nome,
+            email: data.email,
+            assunto: data.assunto,
+            descricao: data.descricao,
+            imagem_url: data.imagem_url || '',
+            data_envio: data.data_envio,
+            status: data.status
+          }]
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erro HTTP: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Dados salvos com sucesso no Google Sheets:', result);
+      
+      return result;
+    } catch (error) {
+      console.error('Erro ao enviar para Google Sheets:', error);
+      throw error;
+    }
+  };
+
   const submitToSupabase = async (data: any) => {
     try {
       console.log('Enviando dados para Supabase:', data);
@@ -109,25 +149,37 @@ export const SuporteTab = () => {
 
       console.log('Dados a serem enviados:', submitData);
 
-      // Tentar primeiro o Supabase, se falhar, usar localStorage como fallback
+      // Tentar primeiro o Google Sheets, depois Supabase como fallback
       try {
-        await submitToSupabase(submitData);
+        await submitToGoogleSheets(submitData);
+        console.log('Dados salvos com sucesso no Google Sheets');
         toast({
           title: "Solicitação enviada com sucesso!",
-          description: "Sua solicitação foi registrada. Retornaremos em até 24 horas!",
+          description: "Sua solicitação foi registrada no Google Sheets. Retornaremos em até 24 horas!",
         });
-      } catch (supabaseError) {
-        console.warn('Erro no Supabase, salvando localmente:', supabaseError);
+      } catch (sheetsError) {
+        console.warn('Erro no Google Sheets, tentando Supabase:', sheetsError);
         
-        // Fallback: salvar no localStorage
-        const existingRequests = JSON.parse(localStorage.getItem('suporte_requests') || '[]');
-        existingRequests.push({ ...submitData, id: Date.now() });
-        localStorage.setItem('suporte_requests', JSON.stringify(existingRequests));
-        
-        toast({
-          title: "Solicitação registrada!",
-          description: "Sua solicitação foi salva localmente. Entre em contato conosco diretamente se necessário.",
-        });
+        // Fallback: tentar Supabase
+        try {
+          await submitToSupabase(submitData);
+          toast({
+            title: "Solicitação enviada com sucesso!",
+            description: "Sua solicitação foi registrada. Retornaremos em até 24 horas!",
+          });
+        } catch (supabaseError) {
+          console.warn('Erro no Supabase, salvando localmente:', supabaseError);
+          
+          // Fallback final: salvar no localStorage
+          const existingRequests = JSON.parse(localStorage.getItem('suporte_requests') || '[]');
+          existingRequests.push({ ...submitData, id: Date.now() });
+          localStorage.setItem('suporte_requests', JSON.stringify(existingRequests));
+          
+          toast({
+            title: "Solicitação registrada!",
+            description: "Sua solicitação foi salva localmente. Entre em contato conosco diretamente se necessário.",
+          });
+        }
       }
 
       form.reset();
@@ -332,6 +384,9 @@ export const SuporteTab = () => {
               <p className="text-sm text-slate-400">
                 🔒 Suas informações estão seguras e protegidas. Nossa equipe de suporte técnico 
                 analisará sua solicitação e retornará em <span className="text-amber-400 font-semibold">até 24 horas</span>.
+              </p>
+              <p className="text-xs text-slate-500 mt-2">
+                ⚠️ Para que funcione com Google Sheets, substitua 'YOUR_SHEET_ID' no código pela sua URL do SheetDB.
               </p>
             </div>
           </CardContent>
