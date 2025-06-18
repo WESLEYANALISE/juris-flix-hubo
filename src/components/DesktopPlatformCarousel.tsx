@@ -134,7 +134,7 @@ export const DesktopPlatformCarousel = () => {
       <div className="text-center mt-8 animate-fade-in-up" style={{
       animationDelay: '0.6s'
     }}>
-        <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border">
+        <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border py-[20px]">
           <h3 className="text-xl font-bold mb-2 gradient-text-legal">
             🚀 Pronto para começar?
           </h3>
