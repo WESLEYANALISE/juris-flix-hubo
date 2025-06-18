@@ -1,3 +1,4 @@
+
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
@@ -60,29 +61,6 @@ export const AppFunction = () => {
       case 'Assistente IA Jurídica':
       case 'Assistente IA':
         return <AssistenteIA />;
-      case 'Assistente IA Premium':
-        // Para a IA Premium, abrir o link em webview interno se existir
-        if (functionData?.link && functionData.link.trim() !== '') {
-          return (
-            <div className="h-screen w-full">
-              <iframe 
-                src={functionData.link} 
-                className="w-full h-full border-0" 
-                title="Assistente IA Premium"
-                sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"
-                loading="lazy"
-              />
-            </div>
-          );
-        }
-        return (
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center p-8">
-              <h2 className="text-2xl font-bold mb-4 gradient-text">Assistente IA Premium</h2>
-              <p className="text-muted-foreground">Link em configuração</p>
-            </div>
-          </div>
-        );
       case 'Suporte':
         return <Suporte />;
       case 'Dashboard':
@@ -148,7 +126,7 @@ export const AppFunction = () => {
     );
   }
 
-  // Para funções da tabela APP que têm link válido, mostrar o iframe
+  // Para todas as funções da tabela APP que têm link válido (incluindo Assistente IA Premium), mostrar o iframe
   if (functionData && functionData.link && functionData.link.trim() !== '') {
     console.log('AppFunction - Renderizando iframe para:', functionData.funcao, 'Link:', functionData.link);
     
