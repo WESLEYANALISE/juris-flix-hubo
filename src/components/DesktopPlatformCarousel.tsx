@@ -1,136 +1,165 @@
-
 import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
-interface Platform {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-  link: string;
-}
-
-const platforms: Platform[] = [
-  {
-    id: '1',
-    name: 'Windows',
-    description: 'Versão completa para desktop Windows',
-    image: '/placeholder.svg',
-    link: 'https://windows-link.com'
-  },
-  {
-    id: '2',
-    name: 'macOS',
-    description: 'Versão otimizada para Mac',
-    image: '/placeholder.svg',
-    link: 'https://macos-link.com'
-  },
-  {
-    id: '3',
-    name: 'Linux',
-    description: 'Suporte para distribuições Linux',
-    image: '/placeholder.svg',
-    link: 'https://linux-link.com'
-  },
-  {
-    id: '4',
-    name: 'Web App',
-    description: 'Acesse direto do navegador',
-    image: '/placeholder.svg',
-    link: 'https://webapp-link.com'
-  }
-];
-
+const desktopImages = [{
+  id: 1,
+  url: "https://i.imgur.com/zeUZfy9.png",
+  title: "Interface Principal",
+  description: "Acesso completo ao sistema jurídico desktop"
+}, {
+  id: 2,
+  url: "https://i.imgur.com/uMMd0la.png",
+  title: "Biblioteca Jurídica",
+  description: "Milhares de livros e materiais organizados"
+}, {
+  id: 3,
+  url: "https://i.imgur.com/qQdODwE.png",
+  title: "Pesquisa Avançada",
+  description: "Busca inteligente em toda base de dados"
+}, {
+  id: 4,
+  url: "https://i.imgur.com/gZSFBe3.png",
+  title: "Vade Mecum Digital",
+  description: "Códigos e leis sempre atualizados"
+}, {
+  id: 5,
+  url: "https://i.imgur.com/TvM0QhE.png",
+  title: "Assistente IA",
+  description: "Inteligência artificial especializada"
+}, {
+  id: 6,
+  url: "https://i.imgur.com/MkYTUjg.png",
+  title: "Jurisprudência",
+  description: "Acervo completo de decisões judiciais"
+}, {
+  id: 7,
+  url: "https://i.imgur.com/9LPSlKC.png",
+  title: "Mapas Mentais",
+  description: "Visualização de conceitos jurídicos"
+}, {
+  id: 8,
+  url: "https://i.imgur.com/u7fTR5K.png",
+  title: "Relatórios Avançados",
+  description: "Análises detalhadas e estatísticas"
+}, {
+  id: 9,
+  url: "https://i.imgur.com/XKCvzsj.png",
+  title: "Ferramentas Especializadas",
+  description: "Recursos exclusivos para profissionais"
+}];
 export const DesktopPlatformCarousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % platforms.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + platforms.length) % platforms.length);
-  };
-
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
-    const interval = setInterval(nextSlide, 5000);
-    return () => clearInterval(interval);
+    setIsLoaded(true);
   }, []);
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    const interval = setInterval(() => {
+      setCurrentSlide(prev => (prev + 1) % desktopImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
+  const nextSlide = () => {
+    setCurrentSlide(prev => (prev + 1) % desktopImages.length);
+  };
+  const prevSlide = () => {
+    setCurrentSlide(prev => (prev - 1 + desktopImages.length) % desktopImages.length);
+  };
+  const currentItem = desktopImages[currentSlide];
+  return <div className="relative">
+      {/* Header com texto persuasivo */}
+      <div className="text-center mb-8 animate-fade-in">
+        <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4">
+          <Play className="w-4 h-4" />
+          <span>Versão Completa Desktop</span>
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 gradient-text-legal">
+          Acesse a Plataforma Desktop Completa
+        </h2>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          Receba o link de acesso direto no seu email e tenha acesso a todas as funcionalidades 
+          profissionais da nossa plataforma jurídica desktop.
+        </p>
+      </div>
 
-  return (
-    <div className="relative max-w-4xl mx-auto">
-      <div className="overflow-hidden rounded-2xl">
-        <div 
-          className="flex transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-          {platforms.map((platform) => (
-            <div key={platform.id} className="w-full flex-shrink-0">
-              <Card className="border-0 bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl">
-                <CardContent className="p-12 text-center">
-                  <div className="mb-8">
-                    <img 
-                      src={platform.image} 
-                      alt={platform.name}
-                      className="w-24 h-24 mx-auto mb-6 rounded-2xl object-cover"
-                    />
-                    <h3 className="text-3xl font-bold text-white mb-4">
-                      {platform.name}
-                    </h3>
-                    <p className="text-slate-300 text-lg max-w-md mx-auto mb-8">
-                      {platform.description}
-                    </p>
-                  </div>
-                  
-                  <Button 
-                    size="lg"
-                    className="bg-gradient-to-r from-accent-legal to-amber-500 hover:from-accent-legal/90 hover:to-amber-500/90 text-white px-8 py-3 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                    onClick={() => window.open(platform.link, '_blank')}
-                  >
-                    Acessar Plataforma
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          ))}
+      {/* Carrossel de imagens */}
+      <div className={`relative h-[600px] w-full overflow-hidden rounded-2xl bg-card border border-border transition-all duration-1000 ${isLoaded ? 'opacity-100 transform-none' : 'opacity-0 translate-y-8'}`} onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
+        {/* Imagem principal - sem fundo, respeitando tamanho original */}
+        <div className="absolute inset-0 flex items-center justify-center transition-all duration-700 ease-in-out">
+          <img src={currentItem.url} alt={currentItem.title} className="max-w-full max-h-full object-contain transition-all duration-700 hover:scale-105" />
+        </div>
+
+        {/* Overlay para informações */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/95 via-background/50 to-transparent p-6 sm:p-8">
+          <div className="max-w-2xl">
+            <h3 className="text-2xl sm:text-3xl font-bold mb-2 text-foreground animate-fade-in-up">
+              {currentItem.title}
+            </h3>
+            <p className="text-lg text-muted-foreground animate-fade-in-up" style={{
+            animationDelay: '0.2s'
+          }}>
+              {currentItem.description}
+            </p>
+            
+            {/* Barra de progresso animada */}
+            <div className="mt-4 w-24 h-1 bg-gradient-to-r from-primary to-accent-legal rounded-full animate-fade-in-up" style={{
+            animationDelay: '0.4s'
+          }} />
+          </div>
+        </div>
+
+        {/* Navegação */}
+        <Button variant="ghost" size="sm" onClick={prevSlide} className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-background/20 hover:bg-background/40 text-foreground border border-border rounded-full w-12 h-12 p-0 transition-all duration-300 hover:scale-110 backdrop-blur-sm">
+          <ChevronLeft className="h-6 w-6" />
+        </Button>
+
+        <Button variant="ghost" size="sm" onClick={nextSlide} className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-background/20 hover:bg-background/40 text-foreground border border-border rounded-full w-12 h-12 p-0 transition-all duration-300 hover:scale-110 backdrop-blur-sm">
+          <ChevronRight className="h-6 w-6" />
+        </Button>
+
+        {/* Indicadores */}
+        <div className="absolute bottom-20 left-6 sm:left-8 flex gap-2 z-20">
+          {desktopImages.map((_, index) => {})}
+        </div>
+
+        {/* Contador */}
+        <div className="absolute top-6 right-6 bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-full text-sm font-medium border border-border">
+          {currentSlide + 1} / {desktopImages.length}
         </div>
       </div>
 
-      {/* Navigation Buttons */}
-      <Button
-        variant="outline"
-        size="icon"
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/20 border-white/20 text-white hover:bg-black/40 hover:border-white/40"
-        onClick={prevSlide}
-      >
-        <ChevronLeft className="h-6 w-6" />
-      </Button>
-      
-      <Button
-        variant="outline"
-        size="icon"
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/20 border-white/20 text-white hover:bg-black/40 hover:border-white/40"
-        onClick={nextSlide}
-      >
-        <ChevronRight className="h-6 w-6" />
-      </Button>
-
-      {/* Dots Indicator */}
-      <div className="flex justify-center mt-6 space-x-2">
-        {platforms.map((_, index) => (
-          <button
-            key={index}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentIndex 
-                ? 'bg-accent-legal shadow-lg' 
-                : 'bg-slate-600 hover:bg-slate-500'
-            }`}
-            onClick={() => setCurrentIndex(index)}
-          />
-        ))}
+      {/* Call to action abaixo do carrossel */}
+      <div className="text-center mt-8 animate-fade-in-up" style={{
+      animationDelay: '0.6s'
+    }}>
+        <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border">
+          <h3 className="text-xl font-bold mb-2 gradient-text-legal">
+            🚀 Pronto para começar?
+          </h3>
+          <p className="text-muted-foreground mb-4">
+            Preencha os dados abaixo e receba o link de acesso da plataforma desktop no seu email
+          </p>
+          <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span>Acesso imediato</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{
+              animationDelay: '0.5s'
+            }}></div>
+              <span>Link por email</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{
+              animationDelay: '1s'
+            }}></div>
+              <span>Sem compromisso</span>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  );
+    </div>;
 };

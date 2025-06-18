@@ -1,3 +1,4 @@
+
 import { FeaturesCarousel } from '@/components/FeaturesCarousel';
 import { FeaturesGrid } from '@/components/FeaturesGrid';
 import { QuickAccessSection } from '@/components/QuickAccessSection';
@@ -9,12 +10,12 @@ import { useNavigation } from '@/context/NavigationContext';
 import { useDeviceDetection } from '@/hooks/useDeviceDetection';
 
 const Index = () => {
-  const { isInFunction, functionName } = useNavigation();
+  const { isInFunction } = useNavigation();
   const { isMobileOrTablet } = useDeviceDetection();
 
   // If we're in a function, show the function component
   if (isInFunction) {
-    return <AppFunction functionName={functionName} />;
+    return <AppFunction />;
   }
 
   // Main content for both mobile and desktop

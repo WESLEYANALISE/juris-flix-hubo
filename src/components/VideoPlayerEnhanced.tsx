@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowLeft, Clock, User, Calendar, FileText, X, Check, SkipForward, Pause, Play, Maximize, StickyNote } from 'lucide-react';
+import { ArrowLeft, Clock, User, Calendar, FileText, X, Check, SkipForward, Pause, Play } from 'lucide-react';
 import { YouTubePlaylist } from '@/hooks/useYouTube';
 import { useToast } from '@/hooks/use-toast';
 
@@ -26,9 +26,9 @@ export const VideoPlayerEnhanced = ({
   const [currentNote, setCurrentNote] = useState('');
   const [showNotes, setShowNotes] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [progress, setProgress] = useState(0);
   const [videoEnded, setVideoEnded] = useState(false);
   const [animating, setAnimating] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
   
   const playerRef = useRef<HTMLIFrameElement>(null);
   const { toast } = useToast();
@@ -40,6 +40,31 @@ export const VideoPlayerEnhanced = ({
       setCurrentNote(notes[currentVideo.id] || '');
     }
   }, [currentVideo, notes]);
+
+  // Simular progresso do vídeo (em uma implementação real, você usaria a API do YouTube)
+  useEffect(() => {
+    if (!isPlaying) return;
+    
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        const newProgress = prev + 0.5;
+        if (newProgress >= 100) {
+          setVideoEnded(true);
+          setIsPlaying(false);
+          // Auto-play próximo vídeo após 3 segundos
+          setTimeout(() => {
+            if (currentVideoIndex < playlist.videos.length - 1) {
+              handleNextVideo();
+            }
+          }, 3000);
+          return 100;
+        }
+        return newProgress;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isPlaying, currentVideoIndex, playlist.videos.length]);
 
   const saveNote = () => {
     if (currentVideo) {
@@ -60,6 +85,7 @@ export const VideoPlayerEnhanced = ({
     setAnimating(true);
     setTimeout(() => {
       setCurrentVideoIndex(index);
+      setProgress(0);
       setVideoEnded(false);
       setIsPlaying(true);
       setAnimating(false);
@@ -71,6 +97,7 @@ export const VideoPlayerEnhanced = ({
       setAnimating(true);
       setTimeout(() => {
         setCurrentVideoIndex(prev => prev + 1);
+        setProgress(0);
         setVideoEnded(false);
         setIsPlaying(true);
         setAnimating(false);
@@ -86,6 +113,7 @@ export const VideoPlayerEnhanced = ({
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
     if (videoEnded) {
+      setProgress(0);
       setVideoEnded(false);
     }
   };
@@ -111,14 +139,9 @@ export const VideoPlayerEnhanced = ({
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6 md:p-8">
-      {/* Header with prominent back button */}
+      {/* Header */}
       <div className="flex items-center gap-4 mb-6">
-        <Button 
-          variant="outline" 
-          onClick={onBack} 
-          size="sm"
-          className="bg-accent-legal/20 border-accent-legal hover:bg-accent-legal hover:text-white transition-all duration-200 font-semibold px-4 py-2"
-        >
+        <Button variant="outline" onClick={onBack} size="sm">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Voltar
         </Button>
@@ -128,11 +151,21 @@ export const VideoPlayerEnhanced = ({
             {playlist.videos.length} vídeos • {video.area}
           </p>
         </div>
+        
+        {/* Botão de anotações discreto */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setShowNotes(!showNotes)}
+          className={`${showNotes ? 'bg-accent-legal/10 text-accent-legal' : ''}`}
+        >
+          <FileText className="h-4 w-4" />
+        </Button>
       </div>
 
-      <div className={`grid gap-6 ${isExpanded ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-4'}`}>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Video Player */}
-        <div className={isExpanded ? 'col-span-1' : 'lg:col-span-3'}>
+        <div className="lg:col-span-2">
           <Card className="mb-6 overflow-hidden">
             <div className={`aspect-video relative ${animating ? 'animate-scale-out' : 'animate-scale-in'}`}>
               {videoEnded ? (
@@ -173,11 +206,49 @@ export const VideoPlayerEnhanced = ({
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 />
               )}
+              
+              {/* Controles customizados overlay */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                {/* Barra de progresso */}
+                <div className="w-full bg-white/20 rounded-full h-1 mb-3">
+                  <div 
+                    className="bg-accent-legal h-1 rounded-full transition-all duration-1000"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+                
+                {/* Controles */}
+                <div className="flex items-center justify-between text-white">
+                  <div className="flex items-center gap-3">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={togglePlayPause}
+                      className="text-white hover:bg-white/20 p-2"
+                    >
+                      {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                    </Button>
+                    <span className="text-sm">{Math.round(progress)}%</span>
+                  </div>
+                  
+                  {currentVideoIndex < playlist.videos.length - 1 && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleNextVideo}
+                      className="text-white hover:bg-white/20"
+                    >
+                      <SkipForward className="h-4 w-4 mr-1" />
+                      Próximo
+                    </Button>
+                  )}
+                </div>
+              </div>
             </div>
             
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-2">{currentVideo.title}</h2>
-              <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+              <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <span className="flex items-center gap-1">
                   <User className="h-4 w-4" />
                   {currentVideo.channelTitle}
@@ -191,30 +262,10 @@ export const VideoPlayerEnhanced = ({
                   {formatDate(currentVideo.publishedAt)}
                 </span>
               </div>
-              
-              {/* Action buttons */}
-              <div className="flex gap-3">
-                <Button
-                  variant="outline"
-                  onClick={() => setShowNotes(!showNotes)}
-                  className="flex-1 bg-accent-legal/10 border-accent-legal/30 text-accent-legal hover:bg-accent-legal hover:text-white"
-                >
-                  <StickyNote className="h-4 w-4 mr-2" />
-                  Anotações
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => setIsExpanded(!isExpanded)}
-                  className="flex-1 bg-primary/10 border-primary/30 text-primary hover:bg-primary hover:text-white"
-                >
-                  <Maximize className="h-4 w-4 mr-2" />
-                  {isExpanded ? 'Minimizar' : 'Expandir'}
-                </Button>
-              </div>
             </CardContent>
           </Card>
 
-          {/* Anotações */}
+          {/* Anotações - Modal discreto */}
           {showNotes && (
             <Card className="animate-fade-in">
               <CardContent className="p-6">
@@ -246,73 +297,71 @@ export const VideoPlayerEnhanced = ({
           )}
         </div>
 
-        {/* Playlist Sidebar - Full height when not expanded */}
-        {!isExpanded && (
-          <div className="lg:col-span-1">
-            <Card className="h-full">
-              <CardContent className="p-4 h-full flex flex-col">
-                <h3 className="font-semibold mb-4 flex items-center gap-2">
-                  Lista de Reprodução
-                  <span className="text-sm text-muted-foreground">
-                    ({playlist.videos.length} vídeos)
-                  </span>
-                </h3>
-                
-                <div className="space-y-2 flex-1 overflow-y-auto">
-                  {playlist.videos.map((vid, index) => (
-                    <div
-                      key={vid.id}
-                      className={`p-3 rounded-lg cursor-pointer transition-all duration-200 ${
-                        index === currentVideoIndex 
-                          ? 'bg-accent-legal/10 border-l-4 border-l-accent-legal' 
-                          : 'hover:bg-muted/50'
-                      }`}
-                      onClick={() => handleVideoSelect(index)}
-                    >
-                      <div className="flex gap-3">
-                        <div className="relative flex-shrink-0">
-                          <img
-                            src={vid.thumbnail}
-                            alt={vid.title}
-                            className="w-20 h-12 object-cover rounded"
-                          />
-                          <div className="absolute bottom-1 right-1 bg-black/80 text-white text-xs px-1 rounded">
-                            {vid.duration}
-                          </div>
-                          {index === currentVideoIndex && (
-                            <div className="absolute inset-0 bg-accent-legal/20 rounded flex items-center justify-center">
-                              {isPlaying ? (
-                                <Pause className="h-4 w-4 text-white" />
-                              ) : (
-                                <Play className="h-4 w-4 text-white" />
-                              )}
-                            </div>
-                          )}
+        {/* Playlist Sidebar */}
+        <div className="lg:col-span-1">
+          <Card>
+            <CardContent className="p-4">
+              <h3 className="font-semibold mb-4 flex items-center gap-2">
+                Lista de Reprodução
+                <span className="text-sm text-muted-foreground">
+                  ({playlist.videos.length} vídeos)
+                </span>
+              </h3>
+              
+              <div className="space-y-2 max-h-[600px] overflow-y-auto">
+                {playlist.videos.map((vid, index) => (
+                  <div
+                    key={vid.id}
+                    className={`p-3 rounded-lg cursor-pointer transition-all duration-200 ${
+                      index === currentVideoIndex 
+                        ? 'bg-accent-legal/10 border-l-4 border-l-accent-legal' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                    onClick={() => handleVideoSelect(index)}
+                  >
+                    <div className="flex gap-3">
+                      <div className="relative flex-shrink-0">
+                        <img
+                          src={vid.thumbnail}
+                          alt={vid.title}
+                          className="w-20 h-12 object-cover rounded"
+                        />
+                        <div className="absolute bottom-1 right-1 bg-black/80 text-white text-xs px-1 rounded">
+                          {vid.duration}
                         </div>
-                        
-                        <div className="flex-1 min-w-0">
-                          <h4 className={`text-sm font-medium line-clamp-2 ${
-                            index === currentVideoIndex ? 'text-accent-legal' : ''
-                          }`}>
-                            {vid.title}
-                          </h4>
-                          <div className="flex items-center gap-2 mt-1">
-                            <span className="text-xs text-muted-foreground">
-                              {index + 1}/{playlist.videos.length}
-                            </span>
-                            {notes[vid.id] && (
-                              <div className="w-2 h-2 bg-accent-legal rounded-full" title="Tem anotações" />
+                        {index === currentVideoIndex && (
+                          <div className="absolute inset-0 bg-accent-legal/20 rounded flex items-center justify-center">
+                            {isPlaying ? (
+                              <Pause className="h-4 w-4 text-white" />
+                            ) : (
+                              <Play className="h-4 w-4 text-white" />
                             )}
                           </div>
+                        )}
+                      </div>
+                      
+                      <div className="flex-1 min-w-0">
+                        <h4 className={`text-sm font-medium line-clamp-2 ${
+                          index === currentVideoIndex ? 'text-accent-legal' : ''
+                        }`}>
+                          {vid.title}
+                        </h4>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-xs text-muted-foreground">
+                            {index + 1}/{playlist.videos.length}
+                          </span>
+                          {notes[vid.id] && (
+                            <div className="w-2 h-2 bg-accent-legal rounded-full" title="Tem anotações" />
+                          )}
                         </div>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
