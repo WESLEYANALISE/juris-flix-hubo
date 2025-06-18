@@ -5,7 +5,7 @@ import { useYouTube } from '@/hooks/useYouTube';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Play, ArrowLeft, Clock, PlayCircle, Video } from 'lucide-react';
+import { Search, Play, ArrowLeft, Clock, PlayCircle, Video, FileText, Expand } from 'lucide-react';
 import { VideoPlayerEnhanced } from '@/components/VideoPlayerEnhanced';
 
 export const VideoAreasGrid = () => {
@@ -14,6 +14,8 @@ export const VideoAreasGrid = () => {
   const [selectedVideo, setSelectedVideo] = useState<any>(null);
   const [selectedPlaylistUrl, setSelectedPlaylistUrl] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [showNotes, setShowNotes] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const { playlist, loading: playlistLoading } = useYouTube(selectedPlaylistUrl);
 
@@ -57,9 +59,30 @@ export const VideoAreasGrid = () => {
     if (selectedVideo) {
       setSelectedVideo(null);
       setSelectedPlaylistUrl('');
+      setShowNotes(false);
+      setIsFullscreen(false);
     } else if (selectedArea) {
       setSelectedArea('');
     }
+  };
+
+  // Extrair thumbnail do YouTube
+  const getYouTubeThumbnail = (url: string) => {
+    const regex = /[?&]list=([^&#]*)/;
+    const match = url.match(regex);
+    if (match) {
+      const playlistId = match[1];
+      return `https://img.youtube.com/vi/playlist/${playlistId}/0.jpg`;
+    }
+    
+    // Fallback para vídeo individual
+    const videoRegex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/;
+    const videoMatch = url.match(videoRegex);
+    if (videoMatch) {
+      return `https://img.youtube.com/vi/${videoMatch[1]}/maxresdefault.jpg`;
+    }
+    
+    return "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&h=400&fit=crop&crop=center";
   };
 
   if (videosLoading) {
@@ -93,11 +116,17 @@ export const VideoAreasGrid = () => {
 
   if (selectedVideo && playlist) {
     return (
-      <VideoPlayerEnhanced
-        video={selectedVideo}
-        playlist={playlist}
-        onBack={handleBack}
-      />
+      <div className="w-full">
+        <VideoPlayerEnhanced
+          video={selectedVideo}
+          playlist={playlist}
+          onBack={handleBack}
+          showNotes={showNotes}
+          onNotesToggle={() => setShowNotes(!showNotes)}
+          isFullscreen={isFullscreen}
+          onFullscreenToggle={() => setIsFullscreen(!isFullscreen)}
+        />
+      </div>
     );
   }
 
@@ -141,46 +170,40 @@ export const VideoAreasGrid = () => {
       </div>
 
       {!selectedArea ? (
-        // Grid de áreas com visual de videoaulas
+        // Grid de áreas com capas reais das primeiras thumbnails
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Object.entries(filteredAreas).map(([area, data]) => (
             <Card 
               key={area} 
-              className="group hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden border-2 hover:border-accent-legal/30 bg-gradient-to-br from-slate-900 to-slate-800"
+              className="group hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden border-2 hover:border-accent-legal/30"
               onClick={() => handleAreaSelect(area)}
             >
-              <div className="relative aspect-video bg-gradient-to-br from-red-900/40 via-amber-900/20 to-orange-900/40 overflow-hidden">
-                {/* Fundo com padrão de videoaula */}
+              <div className="relative aspect-video overflow-hidden">
+                <img
+                  src={getYouTubeThumbnail(data.firstVideo.link)}
+                  alt={area}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&h=400&fit=crop&crop=center";
+                  }}
+                />
+                
+                {/* Overlay com informações */}
                 <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-300" />
                 
-                {/* Overlay decorativo */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-red-600/20 via-transparent to-amber-600/20" />
-                
-                {/* Ícones flutuantes */}
-                <div className="absolute top-3 left-3 flex gap-2">
-                  <div className="bg-red-600/80 text-white px-2 py-1 rounded-full text-xs font-medium">
-                    VÍDEO
-                  </div>
+                {/* Badge de área */}
+                <div className="absolute top-3 left-3 bg-red-600/90 text-white px-2 py-1 rounded-full text-xs font-medium">
+                  {data.videos.length} playlist{data.videos.length !== 1 ? 's' : ''}
                 </div>
                 
+                {/* Ícone de play centralizado */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center text-white transform group-hover:scale-110 transition-transform duration-300">
-                    <div className="relative mb-4">
-                      <Video className="h-16 w-16 mx-auto text-amber-400 drop-shadow-lg" />
-                      <PlayCircle className="h-8 w-8 absolute -bottom-2 -right-2 text-red-500 animate-pulse" />
-                    </div>
-                    <div className="bg-black/70 px-4 py-2 rounded-full text-sm font-medium">
-                      {data.videos.length} playlist{data.videos.length !== 1 ? 's' : ''}
-                    </div>
-                  </div>
+                  <PlayCircle className="h-16 w-16 text-white group-hover:scale-110 transition-transform duration-300 drop-shadow-lg" />
                 </div>
-                
-                {/* Overlay de hover com efeito */}
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 via-red-500/0 to-orange-500/0 group-hover:from-amber-500/10 group-hover:via-red-500/5 group-hover:to-orange-500/10 transition-all duration-500" />
               </div>
               
-              <CardContent className="p-4 bg-gradient-to-b from-slate-800 to-slate-900">
-                <h3 className="font-semibold text-lg mb-2 group-hover:text-amber-400 transition-colors text-center">
+              <CardContent className="p-4">
+                <h3 className="font-semibold text-lg mb-2 group-hover:text-accent-legal transition-colors text-center">
                   📹 {area}
                 </h3>
                 <p className="text-sm text-muted-foreground text-center">
@@ -191,7 +214,7 @@ export const VideoAreasGrid = () => {
           ))}
         </div>
       ) : (
-        // Grid de vídeos da área selecionada
+        // Grid de vídeos da área selecionada com capas reais
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {videoAreas[selectedArea]?.videos
             .filter(video => 
@@ -203,8 +226,18 @@ export const VideoAreasGrid = () => {
               className="group hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden"
               onClick={() => handleVideoSelect(video)}
             >
-              <div className="relative aspect-video bg-gradient-to-br from-accent-legal/20 to-primary/20">
+              <div className="relative aspect-video overflow-hidden">
+                <img
+                  src={getYouTubeThumbnail(video.link)}
+                  alt={video.nome}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&h=400&fit=crop&crop=center";
+                  }}
+                />
+                
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300" />
+                
                 <div className="absolute inset-0 flex items-center justify-center">
                   <Play className="h-16 w-16 text-white group-hover:scale-110 transition-transform duration-300 drop-shadow-lg" />
                 </div>
@@ -214,9 +247,6 @@ export const VideoAreasGrid = () => {
                   <Clock className="h-3 w-3" />
                   Playlist
                 </div>
-
-                {/* Overlay de hover */}
-                <div className="absolute inset-0 bg-accent-legal/0 group-hover:bg-accent-legal/10 transition-colors duration-300" />
               </div>
               
               <CardContent className="p-4">
