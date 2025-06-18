@@ -15,19 +15,22 @@ interface DesktopSidebarProps {
 
 export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => {
   const { setCurrentFunction } = useNavigation();
-  const { functions } = useAppFunctions();
+  const { functions, loading } = useAppFunctions();
 
-  // Helper function to find functions with better matching
-  const findFunction = (searchTerm: string) => {
-    console.log('Buscando função:', searchTerm);
-    console.log('Funções disponíveis:', functions);
+  // Função para encontrar a função na tabela APP
+  const getFunctionFromDB = (searchTerms: string[]) => {
+    if (!functions || functions.length === 0) return null;
     
-    const found = functions.find(func => 
-      func.funcao.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    
-    console.log('Função encontrada:', found);
-    return found;
+    for (const term of searchTerms) {
+      const found = functions.find(func => 
+        func.funcao.toLowerCase().includes(term.toLowerCase())
+      );
+      if (found) {
+        console.log(`Encontrada função para "${term}":`, found);
+        return found.funcao;
+      }
+    }
+    return null;
   };
 
   const menuSections = [
@@ -41,20 +44,56 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
     {
       title: 'Ferramentas Jurídicas',
       items: [
-        { icon: Scale, title: 'Vade Mecum Digital', function: 'Vade Mecum Digital' },
-        { icon: Bot, title: 'Assistente IA Jurídica', function: 'Assistente IA Jurídico' },
-        { icon: Library, title: 'Biblioteca Jurídica', function: 'Biblioteca' },
-        { icon: Brain, title: 'Mapas Mentais', function: 'Mapas Mentais' },
+        { 
+          icon: Scale, 
+          title: 'Vade Mecum Digital', 
+          function: getFunctionFromDB(['Vade Mecum Digital', 'vade mecum']) 
+        },
+        { 
+          icon: Bot, 
+          title: 'Assistente IA Jurídica', 
+          function: getFunctionFromDB(['Assistente IA Jurídica', 'Assistente IA', 'assistente']) 
+        },
+        { 
+          icon: Library, 
+          title: 'Biblioteca Jurídica', 
+          function: getFunctionFromDB(['Biblioteca Jurídica', 'biblioteca']) 
+        },
+        { 
+          icon: Brain, 
+          title: 'Mapas Mentais', 
+          function: getFunctionFromDB(['Mapas Mentais', 'mapas']) 
+        },
       ]
     },
     {
       title: 'Estudos e Preparação',
       items: [
-        { icon: Brain, title: 'Flashcards', function: 'Flashcards' },
-        { icon: Play, title: 'Videoaulas', function: 'Videoaulas' },
-        { icon: Headphones, title: 'Áudio-aulas', function: 'Áudio-aulas' },
-        { icon: Download, title: 'Downloads', function: 'Downloads' },
-        { icon: Newspaper, title: 'Notícias Jurídicas', function: 'Notícias Jurídicas' },
+        { 
+          icon: Brain, 
+          title: 'Flashcards', 
+          function: getFunctionFromDB(['Flashcards', 'flashcard']) 
+        },
+        { 
+          icon: Play, 
+          title: 'Videoaulas', 
+          function: getFunctionFromDB(['Videoaulas', 'video']) 
+        },
+        { 
+          icon: Headphones, 
+          title: 'Áudio-aulas', 
+          function: getFunctionFromDB(['Áudio-aulas', 'audio']) 
+        },
+        { 
+          icon: Download, 
+          title: 'Downloads', 
+          function: getFunctionFromDB(['Downloads', 'download']) 
+        },
+        { 
+          icon: Newspaper, 
+          title: 'Notícias Jurídicas', 
+          function: getFunctionFromDB(['Notícias Jurídicas', 'noticias']) 
+        },
         { icon: FileText, title: 'Anotações', function: 'Anotações' },
       ]
     }
@@ -62,10 +101,27 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
 
   const handleItemClick = (functionName: string | null) => {
     console.log('DesktopSidebar - Clicando no item:', functionName);
+    console.log('Funções disponíveis:', functions?.map(f => f.funcao));
+    
     if (functionName) {
       setCurrentFunction(functionName);
     }
   };
+
+  // Mostrar loading se ainda estamos carregando as funções
+  if (loading) {
+    return (
+      <div className={`fixed left-0 top-0 h-full glass-effect-legal border-r border-border/30 z-40 transition-all duration-500 ${
+        collapsed ? 'w-16' : 'w-72'
+      }`}>
+        <div className="p-4 border-b border-border/30">
+          <div className="flex items-center justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-400"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`fixed left-0 top-0 h-full glass-effect-legal border-r border-border/30 z-40 transition-all duration-500 animate-slide-in-legal ${
@@ -111,14 +167,17 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
               <div className="space-y-1">
                 {section.items.map((item, itemIndex) => {
                   const Icon = item.icon;
+                  const isClickable = item.function !== null;
+                  
                   return (
                     <Button
                       key={item.title}
                       variant="ghost"
                       onClick={() => handleItemClick(item.function)}
+                      disabled={!isClickable}
                       className={`w-full justify-start gap-3 h-10 hover:bg-secondary/80 hover-glow-legal group transition-all duration-500 animate-bounce-in-legal hover:animate-legal-float ${
                         collapsed ? 'px-0 justify-center' : 'px-3'
-                      }`}
+                      } ${!isClickable ? 'opacity-50 cursor-not-allowed' : ''}`}
                       style={{ animationDelay: `${(sectionIndex * section.items.length + itemIndex) * 0.05}s` }}
                     >
                       <div className="relative">
