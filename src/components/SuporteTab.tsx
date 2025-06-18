@@ -12,6 +12,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 
 interface SuporteFormData {
+  nome: string;
+  email: string;
   assunto: string;
   descricao: string;
   imagem?: FileList;
@@ -56,7 +58,6 @@ export const SuporteTab = () => {
     try {
       console.log('Enviando dados para Supabase:', data);
       
-      // Criar uma tabela simples de suporte se não existir
       const { error } = await supabase
         .from('suporte_requests')
         .insert([data]);
@@ -97,6 +98,8 @@ export const SuporteTab = () => {
       }
 
       const submitData = {
+        nome: data.nome || 'Não informado',
+        email: data.email || 'Não informado',
         assunto: data.assunto || 'Não informado',
         descricao: data.descricao || '',
         imagem_url: imageUrl,
@@ -181,8 +184,56 @@ export const SuporteTab = () => {
           <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                {/* Campos Nome e Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Campo Assunto */}
+                  <FormField
+                    control={form.control}
+                    name="nome"
+                    rules={{ required: "Por favor, informe seu nome" }}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-slate-200 text-base">Nome Completo</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Digite seu nome completo"
+                            className="bg-slate-800 border-slate-600 text-slate-200 placeholder:text-slate-400 h-12"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    rules={{ 
+                      required: "Por favor, informe seu email",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "Email inválido"
+                      }
+                    }}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-slate-200 text-base">Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            placeholder="Digite seu email"
+                            className="bg-slate-800 border-slate-600 text-slate-200 placeholder:text-slate-400 h-12"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* Campos Assunto e Upload */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField
                     control={form.control}
                     name="assunto"
@@ -208,7 +259,6 @@ export const SuporteTab = () => {
                     )}
                   />
 
-                  {/* Campo Upload de Imagem */}
                   <FormField
                     control={form.control}
                     name="imagem"

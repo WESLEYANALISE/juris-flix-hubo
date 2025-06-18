@@ -2382,6 +2382,42 @@ export type Database = {
         }
         Relationships: []
       }
+      suporte_requests: {
+        Row: {
+          assunto: string
+          created_at: string
+          data_envio: string
+          descricao: string
+          email: string
+          id: string
+          imagem_url: string | null
+          nome: string
+          status: string
+        }
+        Insert: {
+          assunto: string
+          created_at?: string
+          data_envio?: string
+          descricao: string
+          email: string
+          id?: string
+          imagem_url?: string | null
+          nome: string
+          status?: string
+        }
+        Update: {
+          assunto?: string
+          created_at?: string
+          data_envio?: string
+          descricao?: string
+          email?: string
+          id?: string
+          imagem_url?: string | null
+          nome?: string
+          status?: string
+        }
+        Relationships: []
+      }
       tarefas_cronograma: {
         Row: {
           concluida: boolean | null
