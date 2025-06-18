@@ -1,6 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+
 const desktopImages = [{
   id: 1,
   url: "https://i.imgur.com/zeUZfy9.png",
@@ -47,13 +49,16 @@ const desktopImages = [{
   title: "Ferramentas Especializadas",
   description: "Recursos exclusivos para profissionais"
 }];
+
 export const DesktopPlatformCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     setIsLoaded(true);
   }, []);
+
   useEffect(() => {
     if (!isAutoPlaying) return;
     const interval = setInterval(() => {
@@ -61,14 +66,19 @@ export const DesktopPlatformCarousel = () => {
     }, 4000);
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
+
   const nextSlide = () => {
     setCurrentSlide(prev => (prev + 1) % desktopImages.length);
   };
+
   const prevSlide = () => {
     setCurrentSlide(prev => (prev - 1 + desktopImages.length) % desktopImages.length);
   };
+
   const currentItem = desktopImages[currentSlide];
-  return <div className="relative">
+
+  return (
+    <div className="relative">
       {/* Header com texto persuasivo */}
       <div className="text-center mb-8 animate-fade-in">
         <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4">
@@ -85,10 +95,20 @@ export const DesktopPlatformCarousel = () => {
       </div>
 
       {/* Carrossel de imagens */}
-      <div className={`relative h-[600px] w-full overflow-hidden rounded-2xl bg-card border border-border transition-all duration-1000 ${isLoaded ? 'opacity-100 transform-none' : 'opacity-0 translate-y-8'}`} onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
+      <div 
+        className={`relative h-[600px] w-full overflow-hidden rounded-2xl bg-card border border-border transition-all duration-1000 ${
+          isLoaded ? 'opacity-100 transform-none' : 'opacity-0 translate-y-8'
+        }`}
+        onMouseEnter={() => setIsAutoPlaying(false)}
+        onMouseLeave={() => setIsAutoPlaying(true)}
+      >
         {/* Imagem principal */}
         <div className="absolute inset-0 flex items-center justify-center transition-all duration-700 ease-in-out">
-          <img src={currentItem.url} alt={currentItem.title} className="max-w-full max-h-full object-contain transition-all duration-700 hover:scale-105" />
+          <img 
+            src={currentItem.url} 
+            alt={currentItem.title} 
+            className="max-w-full max-h-full object-contain transition-all duration-700 hover:scale-105" 
+          />
         </div>
 
         {/* Overlay para informações */}
@@ -97,31 +117,50 @@ export const DesktopPlatformCarousel = () => {
             <h3 className="text-2xl sm:text-3xl font-bold mb-2 text-foreground animate-fade-in-up">
               {currentItem.title}
             </h3>
-            <p className="text-lg text-muted-foreground animate-fade-in-up" style={{
-            animationDelay: '0.2s'
-          }}>
+            <p className="text-lg text-muted-foreground animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               {currentItem.description}
             </p>
             
             {/* Barra de progresso animada */}
-            <div className="mt-4 w-24 h-1 bg-gradient-to-r from-primary to-accent-legal rounded-full animate-fade-in-up" style={{
-            animationDelay: '0.4s'
-          }} />
+            <div 
+              className="mt-4 w-24 h-1 bg-gradient-to-r from-primary to-accent-legal rounded-full animate-fade-in-up" 
+              style={{ animationDelay: '0.4s' }} 
+            />
           </div>
         </div>
 
         {/* Navegação */}
-        <Button variant="ghost" size="sm" onClick={prevSlide} className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-background/20 hover:bg-background/40 text-foreground border border-border rounded-full w-12 h-12 p-0 transition-all duration-300 hover:scale-110 backdrop-blur-sm">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={prevSlide} 
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-background/20 hover:bg-background/40 text-foreground border border-border rounded-full w-12 h-12 p-0 transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+        >
           <ChevronLeft className="h-6 w-6" />
         </Button>
 
-        <Button variant="ghost" size="sm" onClick={nextSlide} className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-background/20 hover:bg-background/40 text-foreground border border-border rounded-full w-12 h-12 p-0 transition-all duration-300 hover:scale-110 backdrop-blur-sm">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={nextSlide} 
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-background/20 hover:bg-background/40 text-foreground border border-border rounded-full w-12 h-12 p-0 transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+        >
           <ChevronRight className="h-6 w-6" />
         </Button>
 
         {/* Indicadores */}
         <div className="absolute bottom-20 left-6 sm:left-8 flex gap-2 z-20">
-          {desktopImages.map((_, index) => {})}
+          {desktopImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentSlide
+                  ? 'bg-primary scale-125'
+                  : 'bg-background/40 hover:bg-background/60'
+              }`}
+            />
+          ))}
         </div>
 
         {/* Contador */}
@@ -131,9 +170,7 @@ export const DesktopPlatformCarousel = () => {
       </div>
 
       {/* Call to action abaixo do carrossel */}
-      <div className="text-center mt-8 animate-fade-in-up" style={{
-      animationDelay: '0.6s'
-    }}>
+      <div className="text-center mt-8 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
         <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border py-[20px]">
           <h3 className="text-xl font-bold mb-2 gradient-text-legal">
             🚀 Pronto para começar?
@@ -147,13 +184,12 @@ export const DesktopPlatformCarousel = () => {
               <span>Acesso imediato</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{
-              animationDelay: '0.5s'
-            }}></div>
+              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
               <span>Link por email</span>
             </div>
           </div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
