@@ -178,7 +178,7 @@ export const SuporteTab = () => {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3 py-[6px]">
         <Card className="text-center">
           <CardContent className="pt-6">
             <MessageCircle className="h-8 w-8 mx-auto mb-2 text-blue-500" />
