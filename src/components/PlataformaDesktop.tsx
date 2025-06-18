@@ -151,7 +151,7 @@ export const PlataformaDesktop = () => {
             Acesse a Versão Desktop Completa
           </CardTitle>
           <CardDescription className="text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed text-muted-foreground">
-            Preencha os dados abaixo e receba o <strong className="text-primary">link de download da plataforma desktop</strong> diretamente no seu email. 
+            Preencha os dados abaixo e receba o <strong className="text-primary">link da plataforma desktop</strong> diretamente no seu email. 
             Acesso completo a todas as funcionalidades profissionais!
           </CardDescription>
           
