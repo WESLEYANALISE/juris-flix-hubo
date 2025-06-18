@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
 import { useAppFunctions } from '@/hooks/useAppFunctions';
+import { useDeviceDetection } from '@/hooks/useDeviceDetection';
 import { 
   ChevronLeft,
   ChevronRight,
@@ -53,7 +54,7 @@ const availableIcons = [
 ];
 
 // Get first 8 functions in the specified order
-const getMostUsedFunctions = (functions: any[]) => {
+const getMostUsedFunctions = (functions: any[], isDesktop: boolean) => {
   const orderedFunctionNames = [
     'Vade Mecum',
     'Assistente IA',
@@ -69,6 +70,11 @@ const getMostUsedFunctions = (functions: any[]) => {
   
   // Add functions in the specified order
   orderedFunctionNames.forEach(name => {
+    // Skip "Acesso Desktop" on desktop version
+    if (isDesktop && name === 'Acesso Desktop') {
+      return;
+    }
+    
     const func = functions.find(f => 
       f.funcao.toLowerCase().includes(name.toLowerCase()) ||
       (name === 'Assistente IA' && f.funcao.toLowerCase().includes('assistente') && f.funcao.toLowerCase().includes('ia')) ||
@@ -120,6 +126,7 @@ const getUniqueIconForFunction = (funcao: string, index: number) => {
 export const QuickAccessSection = () => {
   const { setCurrentFunction } = useNavigation();
   const { functions, loading } = useAppFunctions();
+  const { isDesktop } = useDeviceDetection();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleQuickAccess = (funcao: string) => {
@@ -138,7 +145,7 @@ export const QuickAccessSection = () => {
     }
   };
 
-  const quickAccessFunctions = getMostUsedFunctions(functions);
+  const quickAccessFunctions = getMostUsedFunctions(functions, isDesktop);
 
   if (loading || quickAccessFunctions.length === 0) {
     return null;

@@ -1,48 +1,58 @@
 
 import { 
   Scale, Bot, Library, Headphones, Brain, Monitor, 
-  ChevronLeft, ChevronRight, Home, Star, Play 
+  ChevronLeft, ChevronRight, Home, Star, Play, FileText, Newspaper, Download 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useAppFunctions } from '@/hooks/useAppFunctions';
 
 interface DesktopSidebarProps {
   collapsed: boolean;
   onToggle: () => void;
 }
 
-const menuSections = [
-  {
-    title: 'Principal',
-    items: [
-      { icon: Home, title: 'Dashboard', function: null },
-      { icon: Star, title: 'Favoritos', function: null },
-    ]
-  },
-  {
-    title: 'Ferramentas Jurídicas',
-    items: [
-      { icon: Scale, title: 'Vade Mecum Digital', function: 'Vade Mecum' },
-      { icon: Bot, title: 'Assistente IA Jurídica', function: 'IA Jurídica' },
-      { icon: Library, title: 'Biblioteca Jurídica', function: 'Biblioteca' },
-      { icon: Brain, title: 'Mapas Mentais', function: 'Mapas Mentais' },
-    ]
-  },
-  {
-    title: 'Estudos e Preparação',
-    items: [
-      { icon: Brain, title: 'Flashcards', function: 'Flashcards' },
-      { icon: Play, title: 'Videoaulas', function: 'Videoaulas' },
-      { icon: Headphones, title: 'Áudio-aulas', function: 'Áudio-aulas' },
-      { icon: Library, title: 'Downloads', function: 'Downloads' },
-      { icon: Scale, title: 'Notícias Jurídicas', function: 'Notícias Jurídicas' },
-    ]
-  }
-];
-
 export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => {
   const { setCurrentFunction } = useNavigation();
+  const { functions } = useAppFunctions();
+
+  // Helper function to find functions
+  const findFunction = (searchTerm: string) => {
+    return functions.find(func => 
+      func.funcao.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
+
+  const menuSections = [
+    {
+      title: 'Principal',
+      items: [
+        { icon: Home, title: 'Dashboard', function: null },
+        { icon: Star, title: 'Favoritos', function: null },
+      ]
+    },
+    {
+      title: 'Ferramentas Jurídicas',
+      items: [
+        { icon: Scale, title: 'Vade Mecum Digital', function: findFunction('vade')?.funcao || 'Vade Mecum' },
+        { icon: Bot, title: 'Assistente IA Jurídica', function: findFunction('assistente')?.funcao || 'Assistente IA' },
+        { icon: Library, title: 'Biblioteca Jurídica', function: findFunction('biblioteca')?.funcao || 'Biblioteca' },
+        { icon: Brain, title: 'Mapas Mentais', function: 'Mapas Mentais' },
+      ]
+    },
+    {
+      title: 'Estudos e Preparação',
+      items: [
+        { icon: Brain, title: 'Flashcards', function: 'Flashcards' },
+        { icon: Play, title: 'Videoaulas', function: findFunction('video')?.funcao || 'Videoaulas' },
+        { icon: Headphones, title: 'Áudio-aulas', function: findFunction('audio')?.funcao || findFunction('áudio')?.funcao || 'Áudio-aulas' },
+        { icon: Download, title: 'Downloads', function: findFunction('downloads')?.funcao || 'Downloads' },
+        { icon: Newspaper, title: 'Notícias Jurídicas', function: findFunction('noticias')?.funcao || findFunction('notícias')?.funcao || 'Notícias Jurídicas' },
+        { icon: FileText, title: 'Anotações', function: 'Anotações' },
+      ]
+    }
+  ];
 
   const handleItemClick = (functionName: string | null) => {
     setCurrentFunction(functionName);

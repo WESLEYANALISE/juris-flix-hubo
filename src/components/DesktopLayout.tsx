@@ -2,6 +2,7 @@
 import { ReactNode, useState } from 'react';
 import { DesktopSidebar } from '@/components/DesktopSidebar';
 import { DesktopHeader } from '@/components/DesktopHeader';
+import { FooterMenu } from '@/components/FooterMenu';
 
 interface DesktopLayoutProps {
   children: ReactNode;
@@ -23,8 +24,15 @@ export const DesktopLayout = ({ children }: DesktopLayoutProps) => {
         {/* Desktop Header */}
         <DesktopHeader />
         
+        {/* Desktop Top Menu (adapted from Footer Menu) */}
+        <div className="pt-20 px-4">
+          <div className="max-w-7xl mx-auto mb-4">
+            <FooterMenu isVisible={true} />
+          </div>
+        </div>
+        
         {/* Main Content */}
-        <main className="pt-20">
+        <main className="pt-4">
           {children}
         </main>
       </div>
