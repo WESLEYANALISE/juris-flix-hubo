@@ -1,21 +1,19 @@
-
 import { Scale, Search, Bell, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { MobileSidebar } from './MobileSidebar';
-
 interface MobileHeaderProps {
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
 }
-
-export const MobileHeader = ({ sidebarOpen, setSidebarOpen }: MobileHeaderProps) => {
+export const MobileHeader = ({
+  sidebarOpen,
+  setSidebarOpen
+}: MobileHeaderProps) => {
   const [hasNotifications] = useState(true);
-
-  return (
-    <>
+  return <>
       <header className="fixed top-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-xl border-b border-border/20 safe-area-pt">
-        <div className="px-4 py-3">
+        <div className="px-4 py-3 bg-zinc-950">
           <div className="flex items-center justify-between">
             {/* Logo and Title */}
             <div className="flex items-center gap-3">
@@ -30,31 +28,16 @@ export const MobileHeader = ({ sidebarOpen, setSidebarOpen }: MobileHeaderProps)
             
             {/* Action Buttons */}
             <div className="flex items-center gap-2">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-10 w-10 rounded-full hover:bg-primary/10"
-              >
+              <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full hover:bg-primary/10">
                 <Search className="h-5 w-5 text-amber-400" />
               </Button>
               
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-10 w-10 rounded-full hover:bg-primary/10 relative"
-              >
+              <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full hover:bg-primary/10 relative">
                 <Bell className="h-5 w-5 text-amber-400" />
-                {hasNotifications && (
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-                )}
+                {hasNotifications && <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse" />}
               </Button>
 
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-10 w-10 rounded-full hover:bg-slate-800/50 bg-slate-700 transition-all duration-300 border border-slate-600"
-                onClick={() => setSidebarOpen(true)}
-              >
+              <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full hover:bg-primary/10 transition-all duration-300" onClick={() => setSidebarOpen(true)}>
                 <Menu className={`h-5 w-5 text-amber-400 transition-transform duration-300 ${sidebarOpen ? 'rotate-90' : 'rotate-0'}`} />
               </Button>
             </div>
@@ -63,6 +46,5 @@ export const MobileHeader = ({ sidebarOpen, setSidebarOpen }: MobileHeaderProps)
       </header>
 
       <MobileSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-    </>
-  );
+    </>;
 };
