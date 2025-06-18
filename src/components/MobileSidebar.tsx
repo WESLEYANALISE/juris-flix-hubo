@@ -10,7 +10,7 @@ import { X, Home, Scale, Headphones, Library, Bot, User, Settings, HelpCircle,
          DollarSign, Euro, PoundSterling, CreditCard, ShoppingCart, Package,
          Truck, Map, MapPin, Navigation, Compass, Route, Car,
          Plane, Ship, Train, Bus, Bike, Footprints, Clock3, Timer,
-         Watch, AlarmClock, Calendar as CalendarIcon, CalendarDays, Hammer } from 'lucide-react';
+         Watch, AlarmClock, Calendar as CalendarIcon, CalendarDays, Hammer, Support } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigation } from '@/context/NavigationContext';
 import { useAppFunctions } from '@/hooks/useAppFunctions';
@@ -31,7 +31,7 @@ const availableIcons = [
   Mail, MessageCircle, Bell, Flag, Tag, Hash, AtSign, Percent, 
   DollarSign, Euro, PoundSterling, CreditCard, ShoppingCart, Package, Truck, 
   Map, MapPin, Navigation, Compass, Route, Car, Plane, Ship, Train, 
-  Bus, Bike, Footprints, Clock3, Timer, Watch, AlarmClock, CalendarIcon, CalendarDays, Hammer
+  Bus, Bike, Footprints, Clock3, Timer, Watch, AlarmClock, CalendarIcon, CalendarDays, Hammer, Support
 ];
 
 const getUniqueIconForFunction = (funcao: string, index: number) => {
@@ -44,13 +44,13 @@ const getUniqueIconForFunction = (funcao: string, index: number) => {
   if (name.includes('audio') || name.includes('áudio')) return Headphones;
   if (name.includes('mapa') && name.includes('mental')) return Brain;
   if (name.includes('plataforma') && name.includes('desktop')) return Monitor;
-  if (name.includes('flashcard') || name.includes('flash card')) return Brain; // Alterado para cérebro
+  if (name.includes('flashcard') || name.includes('flash card')) return Brain;
   if (name.includes('resumo') || name.includes('codigo') || name.includes('código')) return BookOpen;
   if (name.includes('video') || name.includes('vídeo') || name.includes('aula')) return Play;
   if (name.includes('petições') || name.includes('peticoes') || name.includes('petição')) return Folder;
   if (name.includes('noticia') || name.includes('notícia') || name.includes('juridica')) return Newspaper;
   if (name.includes('juriflix') || name.includes('filme') || name.includes('cinema')) return Film;
-  if (name.includes('simulado') || name.includes('prova') || name.includes('oab')) return Hammer; // Alterado para martelo
+  if (name.includes('simulado') || name.includes('prova') || name.includes('oab')) return Hammer;
   if (name.includes('calendario') || name.includes('agenda')) return Calendar;
   if (name.includes('curso') || name.includes('aula')) return GraduationCap;
   if (name.includes('pesquisa') || name.includes('busca')) return Search;
@@ -68,8 +68,9 @@ const getUniqueIconForFunction = (funcao: string, index: number) => {
   if (name.includes('arquivo') || name.includes('file')) return Archive;
   if (name.includes('código') || name.includes('programação')) return Code;
   if (name.includes('banco') || name.includes('dados')) return Database;
-  if (name.includes('questões') || name.includes('questao') || name.includes('questão')) return Target; // Alterado para alvo
-  if (name.includes('dicionário') || name.includes('dicionario')) return Search; // Alterado para lupa
+  if (name.includes('questões') || name.includes('questao') || name.includes('questão')) return Target;
+  if (name.includes('dicionário') || name.includes('dicionario')) return Search;
+  if (name.includes('suporte') || name.includes('help')) return Support;
   
   // Se não encontrar correspondência específica, usa um ícone único baseado no índice
   return availableIcons[index % availableIcons.length] || Scale;
@@ -103,11 +104,15 @@ export const MobileSidebar = ({ isOpen, onClose }: MobileSidebarProps) => {
         {/* Enhanced Header with animations */}
         <div className="flex items-center justify-between p-6 border-b border-border/20 animate-fade-in">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 gradient-legal rounded-xl flex items-center justify-center shadow-lg animate-legal-shimmer">
-              <Scale className="h-6 w-6 text-amber-400" />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
+              <img 
+                src="https://imgur.com/M5Qu1m8.png" 
+                alt="Direito Premium" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
-              <h2 className="text-xl font-bold gradient-text animate-legal-text-glow">Menu</h2>
+              <h2 className="text-xl font-bold gradient-text">Menu</h2>
               <p className="text-sm text-muted-foreground">Todas as funções</p>
             </div>
           </div>

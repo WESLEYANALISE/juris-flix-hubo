@@ -47,12 +47,12 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
                 <img 
                   src="https://imgur.com/M5Qu1m8.png" 
-                  alt="LegalStudy Pro" 
+                  alt="Direito Premium" 
                   className="w-full h-full object-contain"
                 />
               </div>
               <div>
-                <h2 className="text-lg sm:text-xl font-bold gradient-text">LegalStudy Pro</h2>
+                <h2 className="text-lg sm:text-xl font-bold gradient-text">Direito Premium</h2>
                 <p className="text-sm text-muted-foreground">Plataforma Jurídica</p>
               </div>
             </div>

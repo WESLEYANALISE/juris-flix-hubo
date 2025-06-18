@@ -1,254 +1,166 @@
 
-import { useRef } from 'react';
+import { Scale, Bot, Play, FileText, Brain, Download, Newspaper, Target, Hammer, Search, Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { useNavigation } from '@/context/NavigationContext';
-import { useAppFunctions } from '@/hooks/useAppFunctions';
-import { useDeviceDetection } from '@/hooks/useDeviceDetection';
-import { 
-  ChevronLeft,
-  ChevronRight,
-  GitBranch,
-  Scale,
-  Bot,
-  Headphones,
-  Library,
-  Monitor,
-  Play,
-  Folder,
-  Newspaper,
-  Film,
-  Brain,
-  BookOpen,
-  FileText,
-  Search,
-  GraduationCap,
-  Calendar,
-  Clock,
-  Award,
-  Target,
-  Bookmark,
-  Download,
-  Upload,
-  Share,
-  Heart,
-  Star,
-  Zap,
-  Shield,
-  Globe,
-  Camera,
-  Music,
-  Video,
-  Image,
-  File,
-  Archive,
-  Code,
-  Database,
-  Hammer,
-  Edit
-} from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
-// Array expandido de ícones únicos
-const availableIcons = [
-  Scale, Bot, Library, Headphones, GitBranch, Monitor, Play, Folder, 
-  Newspaper, Film, Brain, BookOpen, FileText, Search, GraduationCap, 
-  Calendar, Clock, Award, Target, Bookmark, Download, Upload, Share, 
-  Heart, Star, Zap, Shield, Globe, Camera, Music, Video, Image, 
-  File, Archive, Code, Database, Hammer, Edit
+const quickAccessItems = [
+  { 
+    icon: Scale, 
+    title: 'Vade Mecum', 
+    description: 'Digital atualizado',
+    color: 'bg-gradient-to-br from-red-500/10 to-red-600/10 hover:from-red-500/20 hover:to-red-600/20',
+    iconColor: 'text-red-400',
+    function: 'Vade Mecum Digital',
+    badge: 'Popular'
+  },
+  { 
+    icon: Bot, 
+    title: 'IA Jurídica', 
+    description: 'Assistente inteligente',
+    color: 'bg-gradient-to-br from-blue-500/10 to-blue-600/10 hover:from-blue-500/20 hover:to-blue-600/20',
+    iconColor: 'text-blue-400',
+    function: 'Assistente IA Jurídica',
+    badge: 'Novo'
+  },
+  { 
+    icon: Play, 
+    title: 'Videoaulas', 
+    description: 'Conteúdo premium',
+    color: 'bg-gradient-to-br from-purple-500/10 to-purple-600/10 hover:from-purple-500/20 hover:to-purple-600/20',
+    iconColor: 'text-purple-400',
+    function: 'Videoaulas'
+  },
+  { 
+    icon: Target, 
+    title: 'Banco de Questões', 
+    description: 'Pratique e teste',
+    color: 'bg-gradient-to-br from-green-500/10 to-green-600/10 hover:from-green-500/20 hover:to-green-600/20',
+    iconColor: 'text-green-400',
+    function: 'Banco de Questões'
+  },
+  { 
+    icon: Hammer, 
+    title: 'Simulado OAB', 
+    description: 'Prepare-se aqui',
+    color: 'bg-gradient-to-br from-amber-500/10 to-amber-600/10 hover:from-amber-500/20 hover:to-amber-600/20',
+    iconColor: 'text-amber-400',
+    function: 'Simulado OAB',
+    badge: 'Premium'
+  },
+  { 
+    icon: Brain, 
+    title: 'Flashcards', 
+    description: 'Memorização ativa',
+    color: 'bg-gradient-to-br from-pink-500/10 to-pink-600/10 hover:from-pink-500/20 hover:to-pink-600/20',
+    iconColor: 'text-pink-400',
+    function: 'Flashcards'
+  },
+  { 
+    icon: Brain, 
+    title: 'Mapas Mentais', 
+    description: 'Visualize conceitos',
+    color: 'bg-gradient-to-br from-indigo-500/10 to-indigo-600/10 hover:from-indigo-500/20 hover:to-indigo-600/20',
+    iconColor: 'text-indigo-400',
+    function: 'Mapas Mentais'
+  },
+  { 
+    icon: Search, 
+    title: 'Dicionário Jurídico', 
+    description: 'Terminologia especializada',
+    color: 'bg-gradient-to-br from-cyan-500/10 to-cyan-600/10 hover:from-cyan-500/20 hover:to-cyan-600/20',
+    iconColor: 'text-cyan-400',
+    function: 'Dicionário Jurídico'
+  },
+  { 
+    icon: Edit, 
+    title: 'Editar Favoritos', 
+    description: 'Personalize seu acesso',
+    color: 'bg-gradient-to-br from-orange-500/10 to-orange-600/10 hover:from-orange-500/20 hover:to-orange-600/20',
+    iconColor: 'text-orange-400',
+    function: null // Função especial para edição
+  }
 ];
-
-// Get first 8 functions in the specified order
-const getMostUsedFunctions = (functions: any[], isDesktop: boolean) => {
-  const orderedFunctionNames = [
-    'Vade Mecum',
-    'Assistente IA',
-    'Downloads', 
-    'Acesso Desktop',
-    'Audio-aulas',
-    'Biblioteca juridica',
-    'resumos jurídicos',
-    'Editar'
-  ];
-  
-  const orderedFunctions: any[] = [];
-  
-  // Add functions in the specified order
-  orderedFunctionNames.forEach(name => {
-    // Skip "Acesso Desktop" on desktop version
-    if (isDesktop && name === 'Acesso Desktop') {
-      return;
-    }
-    
-    // Handle "Editar" as a special case
-    if (name === 'Editar') {
-      orderedFunctions.push({
-        id: 'editar-custom',
-        funcao: 'Editar Favoritos',
-        isCustom: true
-      });
-      return;
-    }
-    
-    const func = functions.find(f => 
-      f.funcao.toLowerCase().includes(name.toLowerCase()) ||
-      (name === 'Assistente IA' && f.funcao.toLowerCase().includes('assistente') && f.funcao.toLowerCase().includes('ia')) ||
-      (name === 'Acesso Desktop' && f.funcao.toLowerCase().includes('plataforma') && f.funcao.toLowerCase().includes('desktop')) ||
-      (name === 'Audio-aulas' && (f.funcao.toLowerCase().includes('audio') || f.funcao.toLowerCase().includes('áudio'))) ||
-      (name === 'Biblioteca juridica' && f.funcao.toLowerCase().includes('biblioteca')) ||
-      (name === 'resumos jurídicos' && f.funcao.toLowerCase().includes('resumo')) ||
-      (name === 'video aulas' && f.funcao.toLowerCase().includes('video'))
-    );
-    if (func && !orderedFunctions.includes(func)) {
-      orderedFunctions.push(func);
-    }
-  });
-  
-  return orderedFunctions.slice(0, 8);
-};
-
-const getColorForIndex = (index: number) => {
-  const colors = [
-    'gradient-legal',     // Gold for legal content
-    'gradient-ai',        // Cyan for AI/tech
-    'gradient-study',     // Blue for study materials
-    'gradient-media',     // Purple for media content
-    'gradient-docs',      // Green for documents
-    'gradient-legal',     // Back to gold
-    'gradient-ai',        // Cyan
-    'gradient-study'      // Blue
-  ];
-  return colors[index % colors.length];
-};
-
-const getUniqueIconForFunction = (funcao: string, index: number) => {
-  const name = funcao.toLowerCase();
-  
-  // Mapeamento específico para funções principais na ordem especificada
-  if (name.includes('vade') || name.includes('mecum')) return Scale;
-  if (name.includes('assistente') && name.includes('ia')) return Bot;
-  if (name.includes('downloads') || name.includes('download')) return Download;
-  if (name.includes('plataforma') && name.includes('desktop')) return Monitor;
-  if (name.includes('audio') || name.includes('áudio')) return Headphones;
-  if (name.includes('biblioteca')) return Library;
-  if (name.includes('resumo') || name.includes('codigo') || name.includes('código')) return BookOpen;
-  if (name.includes('video') || name.includes('vídeo') || name.includes('aula')) return Play;
-  if (name.includes('editar') || name.includes('favoritos')) return Edit;
-  
-  // Se não encontrar correspondência específica, usa um ícone único baseado no índice
-  return availableIcons[index % availableIcons.length] || Scale;
-};
 
 export const QuickAccessSection = () => {
   const { setCurrentFunction } = useNavigation();
-  const { functions, loading } = useAppFunctions();
-  const { isDesktop } = useDeviceDetection();
-  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const handleQuickAccess = (funcao: string) => {
-    if (funcao === 'Editar Favoritos') {
-      // Implementar lógica de edição de favoritos no futuro
-      console.log('Abrir editor de favoritos');
+  const handleItemClick = (functionName: string | null) => {
+    if (functionName === null) {
+      // Implementar funcionalidade de edição de favoritos no futuro
+      console.log('Editar favoritos - funcionalidade em desenvolvimento');
       return;
     }
-    setCurrentFunction(funcao);
+    setCurrentFunction(functionName);
   };
-
-  const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -160, behavior: 'smooth' });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 160, behavior: 'smooth' });
-    }
-  };
-
-  const quickAccessFunctions = getMostUsedFunctions(functions, isDesktop);
-
-  if (loading || quickAccessFunctions.length === 0) {
-    return null;
-  }
 
   return (
-    <section className="py-6 sm:py-8 px-4 md:px-8 bg-gradient-to-b from-background/50 to-background animate-slide-up-legal">
+    <section className="py-6 sm:py-8 px-3 sm:px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-4 sm:mb-6 animate-fade-in-legal">
-          <h2 className="text-lg sm:text-xl font-bold mb-2 gradient-text-legal animate-legal-text-glow">
-            Acesso Rápido
-          </h2>
-          <p className="text-muted-foreground text-sm max-w-lg mx-auto">
-            Funcionalidades mais utilizadas por profissionais do Direito
-          </p>
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold gradient-text mb-1 sm:mb-2">
+              Acesso Rápido
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground">
+              Suas ferramentas mais utilizadas em um clique
+            </p>
+          </div>
+          
+          {/* Enhanced branding */}
+          <div className="hidden md:flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
+              <img 
+                src="https://imgur.com/M5Qu1m8.png" 
+                alt="Direito Premium" 
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="text-right">
+              <h3 className="text-lg font-bold gradient-text">Direito Premium</h3>
+              <p className="text-xs text-muted-foreground">Plataforma Jurídica Completa</p>
+            </div>
+          </div>
         </div>
 
-        <div className="relative">
-          {/* Enhanced navigation buttons with legal styling and animations */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={scrollLeft}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 glass-effect-legal hover:bg-background border border-border/50 shadow-lg h-8 w-8 hidden sm:flex hover-glow-legal animate-legal-float"
-          >
-            <ChevronLeft className="h-4 w-4 animate-legal-icon-float" />
-          </Button>
-          
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={scrollRight}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 glass-effect-legal hover:bg-background border border-border/50 shadow-lg h-8 w-8 hidden sm:flex hover-glow-legal animate-legal-float"
-          >
-            <ChevronRight className="h-4 w-4 animate-legal-icon-float" />
-          </Button>
-
-          {/* Enhanced carousel container with legal animations */}
-          <div 
-            ref={scrollRef}
-            className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-hide py-2 px-2 sm:px-8"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {quickAccessFunctions.map((func, index) => {
-              const colorClass = getColorForIndex(index);
-              const Icon = getUniqueIconForFunction(func.funcao, index);
-              
-              return (
-                <div
-                  key={func.id}
-                  className="flex-shrink-0 group cursor-pointer animate-bounce-in-legal"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                  onClick={() => handleQuickAccess(func.funcao)}
-                >
-                  <div className="flex flex-col items-center gap-2">
-                    {/* Enhanced circular button with legal styling and animations */}
-                    <div className={`
-                      w-14 h-14 sm:w-16 sm:h-16 rounded-full ${colorClass}
-                      flex items-center justify-center card-depth-2 hover-lift-legal
-                      group-hover:scale-110 transition-all duration-500 
-                      border border-white/20 group-hover:border-white/50
-                      relative overflow-hidden animate-legal-shimmer
-                    `}>
-                      {/* Enhanced background glow effect */}
-                      <div className="absolute inset-0 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-legal-glow" />
-                      
-                      <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-amber-400 drop-shadow-lg relative z-10 group-hover:animate-legal-icon-glow" />
-                      
-                      {/* Professional glow ring with animation */}
-                      <div className="absolute inset-0 rounded-full border-2 border-white/0 group-hover:border-white/40 transition-all duration-500 animate-legal-ring" />
-                      
-                      {/* Legal sparkle effect */}
-                      <div className="absolute top-1 right-1 w-2 h-2 bg-white/60 rounded-full opacity-0 group-hover:opacity-100 animate-legal-sparkle transition-opacity duration-500" />
-                    </div>
-                    
-                    {/* Enhanced label with legal typography and animations */}
-                    <span className="text-xs font-medium text-center text-foreground group-hover:text-primary transition-all duration-500 max-w-[4rem] sm:max-w-[5rem] line-clamp-2-fade group-hover:animate-legal-text-glow group-hover:scale-105">
-                      {func.funcao.split(' ').slice(0, 2).join(' ')}
-                    </span>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
+          {quickAccessItems.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <Card 
+                key={item.title}
+                className={`group relative overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer border-border/30 hover:border-red-500/30 animate-fade-in-up ${item.color}`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+                onClick={() => handleItemClick(item.function)}
+              >
+                {item.badge && (
+                  <Badge 
+                    variant="secondary" 
+                    className="absolute top-2 right-2 z-10 text-xs bg-red-500/90 text-white hover:bg-red-600/90"
+                  >
+                    {item.badge}
+                  </Badge>
+                )}
+                
+                <CardContent className="p-3 sm:p-4 text-center relative">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 rounded-xl flex items-center justify-center bg-background/50 backdrop-blur-sm group-hover:scale-110 transition-all duration-500 shadow-lg">
+                    <Icon className={`h-6 w-6 sm:h-8 sm:w-8 ${item.iconColor} group-hover:animate-pulse`} />
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                  
+                  <h3 className="font-semibold text-sm sm:text-base text-foreground mb-1 group-hover:text-red-300 transition-colors duration-300">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground group-hover:text-muted-foreground/80 transition-colors duration-300">
+                    {item.description}
+                  </p>
+
+                  {/* Hover glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/5 to-red-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg" />
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </section>
