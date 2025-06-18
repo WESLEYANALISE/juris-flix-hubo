@@ -58,9 +58,9 @@ export const SuporteTab = () => {
     try {
       console.log('Enviando dados para Google Sheets:', data);
       
-      // URL da sua planilha Google Sheets
       const SHEET_URL = 'https://sheetdb.io/api/v1/ekjnh0u3gmc8q';
       
+      // Formato correto para SheetDB - objeto direto sem array "data"
       const response = await fetch(SHEET_URL, {
         method: 'POST',
         headers: {
@@ -68,20 +68,18 @@ export const SuporteTab = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          data: [{
-            nome: data.nome,
-            email: data.email,
-            assunto: data.assunto,
-            descricao: data.descricao,
-            imagem_url: data.imagem_url || '',
-            data_envio: data.data_envio,
-            status: data.status
-          }]
+          Nome: data.nome,
+          email: data.email,
+          assunto: data.assunto,
+          imagem: data.imagem_url || '',
+          descricao: data.descricao
         }),
       });
 
       if (!response.ok) {
-        throw new Error(`Erro HTTP: ${response.status}`);
+        const errorText = await response.text();
+        console.error('Erro HTTP:', response.status, errorText);
+        throw new Error(`Erro HTTP: ${response.status} - ${errorText}`);
       }
 
       const result = await response.json();
