@@ -2877,6 +2877,27 @@ export type Database = {
         }
         Relationships: []
       }
+      VIDEOS: {
+        Row: {
+          area: string | null
+          id: number
+          link: string | null
+          nome: string | null
+        }
+        Insert: {
+          area?: string | null
+          id?: number
+          link?: string | null
+          nome?: string | null
+        }
+        Update: {
+          area?: string | null
+          id?: number
+          link?: string | null
+          nome?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       user_rankings: {
