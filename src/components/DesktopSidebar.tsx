@@ -135,12 +135,12 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
               <div className="w-10 h-10 rounded-xl flex items-center justify-center card-depth-2 animate-legal-shimmer hover:animate-legal-glow overflow-hidden">
                 <img 
                   src="https://imgur.com/M5Qu1m8.png" 
-                  alt="Direito Premium" 
-                  className="w-full h-full object-cover rounded-xl animate-legal-icon-float"
+                  alt="LegalStudy Pro" 
+                  className="w-full h-full object-contain"
                 />
               </div>
               <div>
-                <h2 className="text-lg font-bold gradient-text-legal animate-legal-text-glow">Direito Premium</h2>
+                <h2 className="text-lg font-bold gradient-text-legal animate-legal-text-glow">LegalStudy Pro</h2>
                 <p className="text-xs text-muted-foreground animate-fade-in-legal" style={{ animationDelay: '0.2s' }}>Plataforma Jurídica</p>
               </div>
             </div>

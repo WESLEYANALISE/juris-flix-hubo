@@ -43,7 +43,8 @@ import {
   Archive,
   Code,
   Database,
-  HelpCircle
+  Hammer,
+  Edit
 } from 'lucide-react';
 
 // Array expandido de ícones únicos
@@ -52,7 +53,7 @@ const availableIcons = [
   Newspaper, Film, Brain, BookOpen, FileText, Search, GraduationCap, 
   Calendar, Clock, Award, Target, Bookmark, Download, Upload, Share, 
   Heart, Star, Zap, Shield, Globe, Camera, Music, Video, Image, 
-  File, Archive, Code, Database, HelpCircle
+  File, Archive, Code, Database, Hammer, Edit
 ];
 
 // Get first 8 functions in the specified order
@@ -65,7 +66,7 @@ const getMostUsedFunctions = (functions: any[], isDesktop: boolean) => {
     'Audio-aulas',
     'Biblioteca juridica',
     'resumos jurídicos',
-    'video aulas'
+    'Editar'
   ];
   
   const orderedFunctions: any[] = [];
@@ -74,6 +75,16 @@ const getMostUsedFunctions = (functions: any[], isDesktop: boolean) => {
   orderedFunctionNames.forEach(name => {
     // Skip "Acesso Desktop" on desktop version
     if (isDesktop && name === 'Acesso Desktop') {
+      return;
+    }
+    
+    // Handle "Editar" as a special case
+    if (name === 'Editar') {
+      orderedFunctions.push({
+        id: 'editar-custom',
+        funcao: 'Editar Favoritos',
+        isCustom: true
+      });
       return;
     }
     
@@ -120,8 +131,7 @@ const getUniqueIconForFunction = (funcao: string, index: number) => {
   if (name.includes('biblioteca')) return Library;
   if (name.includes('resumo') || name.includes('codigo') || name.includes('código')) return BookOpen;
   if (name.includes('video') || name.includes('vídeo') || name.includes('aula')) return Play;
-  if (name.includes('suporte')) return HelpCircle;
-  if (name.includes('banco') && name.includes('questões')) return Target;
+  if (name.includes('editar') || name.includes('favoritos')) return Edit;
   
   // Se não encontrar correspondência específica, usa um ícone único baseado no índice
   return availableIcons[index % availableIcons.length] || Scale;
@@ -134,6 +144,11 @@ export const QuickAccessSection = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleQuickAccess = (funcao: string) => {
+    if (funcao === 'Editar Favoritos') {
+      // Implementar lógica de edição de favoritos no futuro
+      console.log('Abrir editor de favoritos');
+      return;
+    }
     setCurrentFunction(funcao);
   };
 
