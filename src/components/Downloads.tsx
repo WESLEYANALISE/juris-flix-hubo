@@ -95,7 +95,7 @@ export const Downloads = () => {
       </div>;
   }
   return <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 px-[10px] py-[33px]">
         {/* Header */}
         <motion.div initial={{
         opacity: 0,
