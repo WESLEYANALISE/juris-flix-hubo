@@ -40,14 +40,29 @@ const desktopImages = [{
   description: "Visualização de conceitos jurídicos"
 }, {
   id: 8,
-  url: "https://i.imgur.com/u7fTR5K.png",
-  title: "Relatórios Avançados",
-  description: "Análises detalhadas e estatísticas"
+  url: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop",
+  title: "Downloads Jurídicos",
+  description: "Modelos, petições e documentos atualizados"
 }, {
   id: 9,
   url: "https://i.imgur.com/XKCvzsj.png",
   title: "Ferramentas Especializadas",
   description: "Recursos exclusivos para profissionais"
+}, {
+  id: 10,
+  url: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=800&h=600&fit=crop",
+  title: "Contratos Digitais",
+  description: "Gestão completa de contratos e acordos"
+}, {
+  id: 11,
+  url: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=600&fit=crop",
+  title: "Workflow Jurídico",
+  description: "Automação de processos e fluxos de trabalho"
+}, {
+  id: 12,
+  url: "https://i.imgur.com/u7fTR5K.png",
+  title: "Relatórios Avançados",
+  description: "Análises detalhadas e estatísticas"
 }];
 
 export const DesktopPlatformCarousel = () => {
