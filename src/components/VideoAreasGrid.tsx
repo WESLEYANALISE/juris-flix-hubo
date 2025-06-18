@@ -17,9 +17,9 @@ export const VideoAreasGrid = () => {
 
   const { playlist, loading: playlistLoading } = useYouTube(selectedPlaylistUrl);
 
-  // Agrupar vídeos por área com primeira thumbnail
+  // Agrupar vídeos por área com primeira thumbnail real
   const videoAreas = useMemo(() => {
-    const areas: { [key: string]: { videos: typeof videos; firstVideo: any } } = {};
+    const areas: { [key: string]: { videos: typeof videos; firstVideo: any; thumbnail?: string } } = {};
     
     videos.forEach(video => {
       if (!areas[video.area]) {
@@ -141,7 +141,7 @@ export const VideoAreasGrid = () => {
       </div>
 
       {!selectedArea ? (
-        // Grid de áreas com visual de videoaulas
+        // Grid de áreas com thumbnails reais
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Object.entries(filteredAreas).map(([area, data]) => (
             <Card 
@@ -149,17 +149,32 @@ export const VideoAreasGrid = () => {
               className="group hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden border-2 hover:border-accent-legal/30 bg-gradient-to-br from-slate-900 to-slate-800"
               onClick={() => handleAreaSelect(area)}
             >
-              <div className="relative aspect-video bg-gradient-to-br from-red-900/40 via-amber-900/20 to-orange-900/40 overflow-hidden">
-                {/* Fundo com padrão de videoaula */}
+              <div className="relative aspect-video bg-slate-800 overflow-hidden">
+                {/* Thumbnail do primeiro vídeo ou placeholder */}
+                <div className="absolute inset-0">
+                  {data.firstVideo?.link && (
+                    <img 
+                      src={`https://img.youtube.com/vi/${data.firstVideo.link.match(/(?:list=)?([a-zA-Z0-9_-]{11})/)?.[1] || 'placeholder'}/maxresdefault.jpg`}
+                      alt={area}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                      }}
+                    />
+                  )}
+                </div>
+                
+                {/* Overlay escuro */}
                 <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-300" />
                 
                 {/* Overlay decorativo */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-red-600/20 via-transparent to-amber-600/20" />
                 
-                {/* Ícones flutuantes */}
+                {/* Badge VÍDEO */}
                 <div className="absolute top-3 left-3 flex gap-2">
-                  <div className="bg-red-600/80 text-white px-2 py-1 rounded-full text-xs font-medium">
-                    VÍDEO
+                  <div className="bg-red-600/90 text-white px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm">
+                    📹 PLAYLIST
                   </div>
                 </div>
                 
@@ -169,8 +184,8 @@ export const VideoAreasGrid = () => {
                       <Video className="h-16 w-16 mx-auto text-amber-400 drop-shadow-lg" />
                       <PlayCircle className="h-8 w-8 absolute -bottom-2 -right-2 text-red-500 animate-pulse" />
                     </div>
-                    <div className="bg-black/70 px-4 py-2 rounded-full text-sm font-medium">
-                      {data.videos.length} playlist{data.videos.length !== 1 ? 's' : ''}
+                    <div className="bg-black/70 px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm">
+                      {data.videos.length} videoaula{data.videos.length !== 1 ? 's' : ''}
                     </div>
                   </div>
                 </div>
@@ -180,10 +195,10 @@ export const VideoAreasGrid = () => {
               </div>
               
               <CardContent className="p-4 bg-gradient-to-b from-slate-800 to-slate-900">
-                <h3 className="font-semibold text-lg mb-2 group-hover:text-amber-400 transition-colors text-center">
-                  📹 {area}
+                <h3 className="font-semibold text-lg mb-2 group-hover:text-amber-400 transition-colors text-center text-white">
+                  📚 {area}
                 </h3>
-                <p className="text-sm text-muted-foreground text-center">
+                <p className="text-sm text-slate-400 text-center">
                   Videoaulas completas desta área
                 </p>
               </CardContent>
