@@ -1,4 +1,3 @@
-
 import { 
   Scale, Bot, Library, Headphones, Brain, Monitor, 
   ChevronLeft, ChevronRight, Home, Star, Play, FileText, Newspaper, Download 
@@ -26,7 +25,6 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
     }
     
     console.log('DesktopSidebar - Buscando função para termos:', searchTerms);
-    console.log('DesktopSidebar - Funções disponíveis:', functions.map(f => f.funcao));
     
     // Primeiro, tentativa de correspondência exata
     for (const term of searchTerms) {
@@ -63,8 +61,8 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
       {
         title: 'Principal',
         items: [
-          { icon: Home, title: 'Dashboard', function: null, alwaysClickable: true },
-          { icon: Star, title: 'Favoritos', function: null, alwaysClickable: true },
+          { icon: Home, title: 'Dashboard', function: 'Dashboard', alwaysClickable: true },
+          { icon: Star, title: 'Favoritos', function: 'Favoritos', alwaysClickable: true },
         ]
       },
       {
@@ -73,26 +71,26 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
           { 
             icon: Scale, 
             title: 'Vade Mecum Digital', 
-            function: getFunctionFromDB(['Vade Mecum Digital']),
-            alwaysClickable: false
+            function: getFunctionFromDB(['Vade Mecum Digital']) || 'Vade Mecum Digital',
+            alwaysClickable: true
           },
           { 
             icon: Bot, 
             title: 'Assistente IA Jurídica', 
-            function: getFunctionFromDB(['Assistente IA Jurídica', 'Assistente IA']),
-            alwaysClickable: false
+            function: getFunctionFromDB(['Assistente IA Jurídica', 'Assistente IA']) || 'Assistente IA Jurídica',
+            alwaysClickable: true
           },
           { 
             icon: Library, 
             title: 'Biblioteca Jurídica', 
-            function: getFunctionFromDB(['Biblioteca Jurídica']),
-            alwaysClickable: false
+            function: getFunctionFromDB(['Biblioteca Jurídica']) || 'Biblioteca Jurídica',
+            alwaysClickable: true
           },
           { 
             icon: Brain, 
             title: 'Mapas Mentais', 
-            function: getFunctionFromDB(['Mapas Mentais']),
-            alwaysClickable: false
+            function: getFunctionFromDB(['Mapas Mentais']) || 'Mapas Mentais',
+            alwaysClickable: true
           },
         ]
       },
@@ -102,37 +100,37 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
           { 
             icon: Brain, 
             title: 'Flashcards', 
-            function: getFunctionFromDB(['Flashcards']),
-            alwaysClickable: false
+            function: getFunctionFromDB(['Flashcards']) || 'Flashcards',
+            alwaysClickable: true
           },
           { 
             icon: Play, 
             title: 'Videoaulas', 
-            function: 'Videoaulas', // Função sempre clicável
+            function: 'Videoaulas',
             alwaysClickable: true
           },
           { 
             icon: Headphones, 
             title: 'Áudio-aulas', 
-            function: getFunctionFromDB(['Áudio-aulas']),
-            alwaysClickable: false
+            function: getFunctionFromDB(['Áudio-aulas']) || 'Áudio-aulas',
+            alwaysClickable: true
           },
           { 
             icon: Download, 
             title: 'Downloads', 
-            function: 'Downloads', // Função sempre clicável
+            function: 'Downloads',
             alwaysClickable: true
           },
           { 
             icon: Newspaper, 
             title: 'Notícias Jurídicas', 
-            function: 'Notícias Jurídicas', // Função sempre clicável
+            function: 'Notícias Jurídicas',
             alwaysClickable: true
           },
           { 
             icon: FileText, 
             title: 'Anotações', 
-            function: 'Anotações', // Função sempre clicável
+            function: 'Anotações',
             alwaysClickable: true
           },
         ]
@@ -140,15 +138,18 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
     ];
   }, [functions, loading, getFunctionFromDB]);
 
-  // Função de clique otimizada com useCallback
-  const handleItemClick = useCallback((functionName: string | null, isClickable: boolean) => {
-    console.log('DesktopSidebar - Clicando no item:', functionName, 'isClickable:', isClickable);
+  // Função de clique otimizada - SEMPRE clicável agora
+  const handleItemClick = useCallback((functionName: string | null, title: string) => {
+    // Se não tem função definida, usar o título como função
+    const targetFunction = functionName || title;
     
-    if (isClickable && functionName) {
-      console.log('DesktopSidebar - Navegando para função:', functionName);
-      setCurrentFunction(functionName);
+    console.log('DesktopSidebar - Clicando no item:', title, 'targetFunction:', targetFunction);
+    
+    if (targetFunction) {
+      console.log('DesktopSidebar - Navegando para função:', targetFunction);
+      setCurrentFunction(targetFunction);
     } else {
-      console.log('DesktopSidebar - Item não clicável ou função nula');
+      console.log('DesktopSidebar - Erro: função não definida para', title);
     }
   }, [setCurrentFunction]);
 
@@ -201,7 +202,7 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
         </div>
       </div>
 
-      {/* Enhanced menu content with professional styling and animations */}
+      {/* Enhanced menu content - TODOS os itens agora são clicáveis */}
       <ScrollArea className="flex-1 px-3 py-4">
         <div className="space-y-6">
           {menuSections.map((section, sectionIndex) => (
@@ -215,55 +216,39 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
               <div className="space-y-1">
                 {section.items.map((item, itemIndex) => {
                   const Icon = item.icon;
-                  const isClickable = item.alwaysClickable || item.function !== null;
                   
-                  console.log(`DesktopSidebar - Renderizando item ${item.title}: isClickable=${isClickable}, function=${item.function}, alwaysClickable=${item.alwaysClickable}`);
+                  console.log(`DesktopSidebar - Renderizando item ${item.title}: function=${item.function}`);
                   
                   return (
                     <Button
                       key={item.title}
                       variant="ghost"
-                      onClick={() => handleItemClick(item.function, isClickable)}
-                      disabled={!isClickable}
-                      className={`w-full justify-start gap-3 h-10 hover:bg-secondary/80 hover-glow-legal group transition-all duration-500 animate-bounce-in-legal hover:animate-legal-float ${
+                      onClick={() => handleItemClick(item.function, item.title)}
+                      className={`w-full justify-start gap-3 h-10 hover:bg-secondary/80 hover-glow-legal group transition-all duration-500 animate-bounce-in-legal hover:animate-legal-float cursor-pointer hover:scale-105 ${
                         collapsed ? 'px-0 justify-center' : 'px-3'
-                      } ${isClickable ? 'cursor-pointer hover:scale-105 pointer-events-auto' : 'opacity-50 cursor-not-allowed pointer-events-none'}`}
+                      }`}
                       style={{ 
                         animationDelay: `${(sectionIndex * section.items.length + itemIndex) * 0.05}s`
                       }}
                     >
                       <div className="relative">
-                        <Icon className={`h-5 w-5 transition-colors duration-500 ${
-                          isClickable 
-                            ? 'text-amber-400 group-hover:text-amber-300 group-hover:animate-legal-icon-glow' 
-                            : 'text-muted-foreground/50'
-                        }`} />
+                        <Icon className="h-5 w-5 text-amber-400 group-hover:text-amber-300 group-hover:animate-legal-icon-glow transition-colors duration-500" />
                         
-                        {/* Legal sparkle effect on icon for clickable items */}
-                        {isClickable && (
-                          <div className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-amber-400/60 rounded-full opacity-0 group-hover:opacity-100 animate-legal-sparkle transition-opacity duration-500" />
-                        )}
+                        {/* Legal sparkle effect on icon */}
+                        <div className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-amber-400/60 rounded-full opacity-0 group-hover:opacity-100 animate-legal-sparkle transition-opacity duration-500" />
                       </div>
                       
                       {!collapsed && (
-                        <span className={`text-sm font-medium transition-all duration-500 ${
-                          isClickable 
-                            ? 'group-hover:text-primary group-hover:animate-legal-text-glow group-hover:scale-105' 
-                            : 'text-muted-foreground/50'
-                        }`}>
+                        <span className="text-sm font-medium group-hover:text-primary group-hover:animate-legal-text-glow group-hover:scale-105 transition-all duration-500">
                           {item.title}
                         </span>
                       )}
                       
-                      {/* Enhanced hover indicator with animation for clickable items */}
-                      {isClickable && (
-                        <div className="absolute right-2 w-1 h-6 bg-primary/0 group-hover:bg-primary/60 rounded-full transition-all duration-500 animate-legal-accent" />
-                      )}
+                      {/* Enhanced hover indicator with animation */}
+                      <div className="absolute right-2 w-1 h-6 bg-primary/0 group-hover:bg-primary/60 rounded-full transition-all duration-500 animate-legal-accent" />
                       
-                      {/* Legal profession ripple effect for clickable items */}
-                      {isClickable && (
-                        <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 rounded-lg transition-all duration-500 animate-legal-ripple" />
-                      )}
+                      {/* Legal profession ripple effect */}
+                      <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 rounded-lg transition-all duration-500 animate-legal-ripple" />
                     </Button>
                   );
                 })}
