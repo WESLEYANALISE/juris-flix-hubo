@@ -103,8 +103,12 @@ export const MobileSidebar = ({ isOpen, onClose }: MobileSidebarProps) => {
         {/* Enhanced Header with animations */}
         <div className="flex items-center justify-between p-6 border-b border-border/20 animate-fade-in">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 gradient-legal rounded-xl flex items-center justify-center shadow-lg animate-legal-shimmer">
-              <Scale className="h-6 w-6 text-amber-400" />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg animate-legal-shimmer overflow-hidden">
+              <img 
+                src="https://imgur.com/M5Qu1m8.png" 
+                alt="Direito Premium" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
               <h2 className="text-xl font-bold gradient-text animate-legal-text-glow">Menu</h2>
