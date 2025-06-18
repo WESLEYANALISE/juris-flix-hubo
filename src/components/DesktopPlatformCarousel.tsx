@@ -95,7 +95,7 @@ export const DesktopPlatformCarousel = () => {
           <Play className="w-4 h-4" />
           <span>Versão Completa Desktop</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold mb-4 gradient-text">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 gradient-text-legal">
           Acesse a Plataforma Desktop Completa
         </h2>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
@@ -106,33 +106,28 @@ export const DesktopPlatformCarousel = () => {
 
       {/* Carrossel de imagens */}
       <div 
-        className={`relative h-[400px] sm:h-[500px] w-full overflow-hidden rounded-2xl shadow-2xl transition-all duration-1000 ${
+        className={`relative h-[600px] w-full overflow-hidden rounded-2xl bg-card border border-border transition-all duration-1000 ${
           isLoaded ? 'opacity-100 transform-none' : 'opacity-0 translate-y-8'
         }`}
         onMouseEnter={() => setIsAutoPlaying(false)} 
         onMouseLeave={() => setIsAutoPlaying(true)}
       >
-        {/* Imagem principal */}
-        <div className="absolute inset-0 transition-all duration-700 ease-in-out">
+        {/* Imagem principal - sem fundo, respeitando tamanho original */}
+        <div className="absolute inset-0 flex items-center justify-center transition-all duration-700 ease-in-out">
           <img 
             src={currentItem.url}
             alt={currentItem.title}
-            className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-            style={{ filter: 'brightness(0.9) contrast(1.1)' }}
+            className="max-w-full max-h-full object-contain transition-all duration-700 hover:scale-105"
           />
         </div>
 
-        {/* Overlay com gradiente */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-accent-legal/20" />
-
-        {/* Conteúdo sobre a imagem */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 text-white">
+        {/* Overlay para informações */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/95 via-background/50 to-transparent p-6 sm:p-8">
           <div className="max-w-2xl">
-            <h3 className="text-2xl sm:text-3xl font-bold mb-2 animate-fade-in-up">
+            <h3 className="text-2xl sm:text-3xl font-bold mb-2 text-foreground animate-fade-in-up">
               {currentItem.title}
             </h3>
-            <p className="text-lg text-gray-200 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <p className="text-lg text-muted-foreground animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               {currentItem.description}
             </p>
             
@@ -147,7 +142,7 @@ export const DesktopPlatformCarousel = () => {
           variant="ghost"
           size="sm"
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white border-0 rounded-full w-12 h-12 p-0 transition-all duration-300 hover:scale-110"
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-background/20 hover:bg-background/40 text-foreground border border-border rounded-full w-12 h-12 p-0 transition-all duration-300 hover:scale-110 backdrop-blur-sm"
         >
           <ChevronLeft className="h-6 w-6" />
         </Button>
@@ -156,7 +151,7 @@ export const DesktopPlatformCarousel = () => {
           variant="ghost"
           size="sm"
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white border-0 rounded-full w-12 h-12 p-0 transition-all duration-300 hover:scale-110"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-background/20 hover:bg-background/40 text-foreground border border-border rounded-full w-12 h-12 p-0 transition-all duration-300 hover:scale-110 backdrop-blur-sm"
         >
           <ChevronRight className="h-6 w-6" />
         </Button>
@@ -169,23 +164,23 @@ export const DesktopPlatformCarousel = () => {
               onClick={() => setCurrentSlide(index)}
               className={`h-2 rounded-full transition-all duration-300 ${
                 index === currentSlide
-                  ? 'bg-white w-8'
-                  : 'bg-white/50 hover:bg-white/80 w-2'
+                  ? 'bg-primary w-8'
+                  : 'bg-muted-foreground hover:bg-primary/60 w-2'
               }`}
             />
           ))}
         </div>
 
         {/* Contador */}
-        <div className="absolute top-6 right-6 bg-black/50 text-white px-3 py-1 rounded-full text-sm font-medium">
+        <div className="absolute top-6 right-6 bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-full text-sm font-medium border border-border">
           {currentSlide + 1} / {desktopImages.length}
         </div>
       </div>
 
       {/* Call to action abaixo do carrossel */}
       <div className="text-center mt-8 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-        <div className="bg-gradient-to-r from-primary/10 to-accent-legal/10 rounded-2xl p-6 border border-primary/20">
-          <h3 className="text-xl font-bold mb-2 gradient-text">
+        <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border">
+          <h3 className="text-xl font-bold mb-2 gradient-text-legal">
             🚀 Pronto para começar?
           </h3>
           <p className="text-muted-foreground mb-4">

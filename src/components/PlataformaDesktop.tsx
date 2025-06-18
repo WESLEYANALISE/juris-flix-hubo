@@ -88,12 +88,12 @@ export const PlataformaDesktop = () => {
   if (isSuccess) {
     return (
       <div className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
-        <Card className="text-center shadow-2xl border-0 bg-gradient-to-br from-green-50 to-emerald-50">
+        <Card className="text-center border-0 bg-card/50 backdrop-blur-sm shadow-2xl">
           <CardHeader className="pb-4">
             <div className="mx-auto w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mb-6 animate-scale-in">
               <CheckCircle className="w-10 h-10 text-white" />
             </div>
-            <CardTitle className="gradient-text text-3xl mb-2">
+            <CardTitle className="gradient-text-legal text-3xl mb-2">
               🎉 Cadastro Realizado com Sucesso!
             </CardTitle>
             <CardDescription className="text-lg text-muted-foreground">
@@ -101,20 +101,20 @@ export const PlataformaDesktop = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="bg-white/70 rounded-lg p-6 mb-6">
-              <h3 className="font-bold text-lg mb-4 text-green-700">📧 Próximos passos:</h3>
+            <div className="bg-card/70 rounded-lg p-6 mb-6 border border-border">
+              <h3 className="font-bold text-lg mb-4 text-green-400">📧 Próximos passos:</h3>
               <div className="space-y-3 text-left">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-sm">1</div>
-                  <p className="text-sm">Verifique sua caixa de entrada (e spam) nos próximos minutos</p>
+                  <div className="w-8 h-8 bg-blue-500/20 border border-blue-500/30 rounded-full flex items-center justify-center text-blue-400 font-bold text-sm">1</div>
+                  <p className="text-sm text-muted-foreground">Verifique sua caixa de entrada (e spam) nos próximos minutos</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 font-bold text-sm">2</div>
-                  <p className="text-sm">Clique no link de acesso que você receberá por email</p>
+                  <div className="w-8 h-8 bg-purple-500/20 border border-purple-500/30 rounded-full flex items-center justify-center text-purple-400 font-bold text-sm">2</div>
+                  <p className="text-sm text-muted-foreground">Clique no link de acesso que você receberá por email</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold text-sm">3</div>
-                  <p className="text-sm">Faça o download e comece a usar a plataforma completa!</p>
+                  <div className="w-8 h-8 bg-green-500/20 border border-green-500/30 rounded-full flex items-center justify-center text-green-400 font-bold text-sm">3</div>
+                  <p className="text-sm text-muted-foreground">Faça o download e comece a usar a plataforma completa!</p>
                 </div>
               </div>
             </div>
@@ -123,7 +123,7 @@ export const PlataformaDesktop = () => {
               <Button 
                 onClick={() => setIsSuccess(false)} 
                 variant="outline"
-                className="border-green-500/30 text-green-600 hover:bg-green-50"
+                className="border-green-500/30 text-green-400 hover:bg-green-500/10 hover:border-green-500/50"
               >
                 Fazer novo cadastro
               </Button>
@@ -143,44 +143,44 @@ export const PlataformaDesktop = () => {
 
       {/* Seção de benefícios */}
       <div className="grid md:grid-cols-3 gap-6 mb-12">
-        <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 animate-fade-in-up">
+        <div className="text-center p-6 bg-card/30 backdrop-blur-sm rounded-2xl border border-border animate-fade-in-up">
           <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Download className="w-8 h-8 text-white" />
           </div>
-          <h3 className="font-bold text-lg mb-2 text-blue-700">Download Direto</h3>
-          <p className="text-sm text-blue-600">Receba o link de download por email e instale em segundos</p>
+          <h3 className="font-bold text-lg mb-2 text-blue-400">Download Direto</h3>
+          <p className="text-sm text-muted-foreground">Receba o link de download por email e instale em segundos</p>
         </div>
 
-        <div className="text-center p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl border border-purple-100 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+        <div className="text-center p-6 bg-card/30 backdrop-blur-sm rounded-2xl border border-border animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
           <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Zap className="w-8 h-8 text-white" />
           </div>
-          <h3 className="font-bold text-lg mb-2 text-purple-700">Acesso Imediato</h3>
-          <p className="text-sm text-purple-600">Sem espera! Comece a usar assim que fizer o download</p>
+          <h3 className="font-bold text-lg mb-2 text-purple-400">Acesso Imediato</h3>
+          <p className="text-sm text-muted-foreground">Sem espera! Comece a usar assim que fizer o download</p>
         </div>
 
-        <div className="text-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border border-green-100 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+        <div className="text-center p-6 bg-card/30 backdrop-blur-sm rounded-2xl border border-border animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
           <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Shield className="w-8 h-8 text-white" />
           </div>
-          <h3 className="font-bold text-lg mb-2 text-green-700">100% Seguro</h3>
-          <p className="text-sm text-green-600">Plataforma confiável e dados protegidos</p>
+          <h3 className="font-bold text-lg mb-2 text-green-400">100% Seguro</h3>
+          <p className="text-sm text-muted-foreground">Plataforma confiável e dados protegidos</p>
         </div>
       </div>
 
       {/* Formulário de cadastro */}
-      <Card className="shadow-2xl border-0 bg-gradient-to-br from-white to-gray-50">
+      <Card className="border-0 bg-card/50 backdrop-blur-sm shadow-2xl">
         <CardHeader className="text-center pb-6">
-          <CardTitle className="gradient-text text-3xl sm:text-4xl mb-4">
+          <CardTitle className="gradient-text-legal text-3xl sm:text-4xl mb-4">
             Acesse a Versão Desktop Completa
           </CardTitle>
-          <CardDescription className="text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
-            Preencha os dados abaixo e receba o <strong>link de download da plataforma desktop</strong> diretamente no seu email. 
+          <CardDescription className="text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed text-muted-foreground">
+            Preencha os dados abaixo e receba o <strong className="text-primary">link de download da plataforma desktop</strong> diretamente no seu email. 
             Acesso completo a todas as funcionalidades profissionais!
           </CardDescription>
           
           {/* Banner explicativo */}
-          <div className="mt-6 p-4 bg-gradient-to-r from-primary/10 to-accent-legal/10 rounded-xl border border-primary/20">
+          <div className="mt-6 p-4 bg-primary/10 backdrop-blur-sm rounded-xl border border-primary/20">
             <p className="text-sm font-medium text-primary flex items-center justify-center gap-2">
               <Mail className="w-4 h-4" />
               Você receberá um email com o link de download da plataforma
@@ -205,7 +205,7 @@ export const PlataformaDesktop = () => {
                         <Input 
                           placeholder="Digite seu nome completo" 
                           {...field}
-                          className="h-14 text-base border-2 border-gray-200 focus:border-primary transition-all duration-300"
+                          className="h-14 text-base bg-background/50 backdrop-blur-sm border-border focus:border-primary transition-all duration-300"
                           disabled={isLoading}
                         />
                       </FormControl>
@@ -228,7 +228,7 @@ export const PlataformaDesktop = () => {
                           type="email"
                           placeholder="Digite seu melhor e-mail" 
                           {...field}
-                          className="h-14 text-base border-2 border-gray-200 focus:border-primary transition-all duration-300"
+                          className="h-14 text-base bg-background/50 backdrop-blur-sm border-border focus:border-primary transition-all duration-300"
                           disabled={isLoading}
                         />
                       </FormControl>
@@ -258,7 +258,7 @@ export const PlataformaDesktop = () => {
             </form>
           </Form>
 
-          <div className="mt-8 p-6 bg-muted/30 rounded-xl border border-muted">
+          <div className="mt-8 p-6 bg-muted/20 backdrop-blur-sm rounded-xl border border-border">
             <div className="text-center space-y-2">
               <p className="text-sm text-muted-foreground">
                 ✅ Ao se cadastrar, você receberá o link de acesso por email
