@@ -1,43 +1,36 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MessageCircle, Monitor, Play, X, Brain, Zap, ArrowRight } from 'lucide-react';
 import { useAppFunctions } from '@/hooks/useAppFunctions';
 import { useNavigation } from '@/context/NavigationContext';
-
 export const AssistenteIA = () => {
-  const { functions } = useAppFunctions();
-  const { setCurrentFunction } = useNavigation();
+  const {
+    functions
+  } = useAppFunctions();
+  const {
+    setCurrentFunction
+  } = useNavigation();
   const [showVideo, setShowVideo] = useState(false);
-  
-  // Encontrar o link do Assistente IA na tabela
-  const assistenteIAFunction = functions.find(func => 
-    func.funcao.toLowerCase().includes('assistente') && 
-    func.funcao.toLowerCase().includes('ia')
-  );
 
+  // Encontrar o link do Assistente IA na tabela
+  const assistenteIAFunction = functions.find(func => func.funcao.toLowerCase().includes('assistente') && func.funcao.toLowerCase().includes('ia'));
   const handleWhatsAppClick = () => {
     window.open('https://api.whatsapp.com/send/?phone=5511940432865&text=Ol%C3%A1%2C+Evelyn%21+Poderia+me+ajudar?&type=phone_number&app_absent=0', '_blank');
   };
-
   const handleAppClick = () => {
     if (assistenteIAFunction?.link) {
       // Abrir no app via webview usando o sistema de navegação
       setCurrentFunction('Assistente IA Premium');
     }
   };
-
   const handleVideoClick = () => {
     setShowVideo(true);
   };
-
   const closeVideo = () => {
     setShowVideo(false);
   };
-
-  return (
-    <div className="min-h-screen bg-background p-3 sm:p-4 md:p-6 lg:p-8">
+  return <div className="min-h-screen bg-background p-3 sm:p-4 md:p-6 lg:p-8">
       <div className="max-w-4xl mx-auto">
         {/* Header minimalista */}
         <div className="mb-6 sm:mb-8 text-center">
@@ -56,12 +49,7 @@ export const AssistenteIA = () => {
 
         {/* Video Demo Button */}
         <div className="mb-6 sm:mb-8 text-center">
-          <Button 
-            onClick={handleVideoClick}
-            variant="outline"
-            className="flex items-center gap-2 mx-auto border-red-500/30 text-red-500 hover:bg-red-500/10 text-sm sm:text-base"
-            size="sm"
-          >
+          <Button onClick={handleVideoClick} variant="outline" className="flex items-center gap-2 mx-auto border-red-500/30 text-red-500 hover:bg-red-500/10 text-sm sm:text-base" size="sm">
             <Play className="h-3 w-3 sm:h-4 sm:w-4" />
             Ver Demonstração
           </Button>
@@ -165,28 +153,19 @@ export const AssistenteIA = () => {
         </Card>
 
         {/* Video Modal */}
-        {showVideo && (
-          <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-3 sm:p-4">
+        {showVideo && <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-3 sm:p-4">
             <div className="bg-background rounded-lg w-full max-w-4xl h-[70vh] relative">
-              <div className="flex items-center justify-between p-3 sm:p-4 border-b">
+              <div className="flex items-center justify-between p-3 sm:p-4 border-b py-[7px] px-[10px]">
                 <h3 className="text-base sm:text-lg font-semibold">Demonstração da IA Jurídica</h3>
                 <Button variant="ghost" size="icon" onClick={closeVideo}>
                   <X className="h-3 w-3 sm:h-4 sm:w-4" />
                 </Button>
               </div>
-              <div className="p-3 sm:p-4 h-full">
-                <iframe 
-                  src="https://www.youtube.com/embed/HlE9u1c_MPQ" 
-                  className="w-full h-full rounded"
-                  title="Demonstração da IA Jurídica"
-                  frameBorder="0"
-                  allowFullScreen
-                />
+              <div className="p-3 sm:p-4 h-full px-0 py-[3px]">
+                <iframe src="https://www.youtube.com/embed/HlE9u1c_MPQ" className="w-full h-full rounded" title="Demonstração da IA Jurídica" frameBorder="0" allowFullScreen />
               </div>
             </div>
-          </div>
-        )}
+          </div>}
       </div>
-    </div>
-  );
+    </div>;
 };
