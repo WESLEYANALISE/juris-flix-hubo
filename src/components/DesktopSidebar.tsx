@@ -132,8 +132,12 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
         <div className="flex items-center justify-between">
           {!collapsed && (
             <div className="flex items-center gap-3 animate-slide-in-legal">
-              <div className="w-10 h-10 gradient-legal rounded-xl flex items-center justify-center card-depth-2 animate-legal-shimmer hover:animate-legal-glow">
-                <Scale className="h-6 w-6 text-amber-400 animate-legal-icon-float" />
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center card-depth-2 animate-legal-shimmer hover:animate-legal-glow overflow-hidden">
+                <img 
+                  src="https://imgur.com/M5Qu1m8.png" 
+                  alt="LegalStudy Pro" 
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <h2 className="text-lg font-bold gradient-text-legal animate-legal-text-glow">LegalStudy Pro</h2>
