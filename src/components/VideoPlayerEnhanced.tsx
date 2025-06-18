@@ -101,7 +101,7 @@ export const VideoPlayerEnhanced = ({
         </Card>
       </div>;
   }
-  return <div className="max-w-7xl mx-auto p-4 sm:p-6 md:p-8">
+  return <div className="max-w-7xl mx-auto p-4 sm:p-6 md:p-8 px-0">
       {/* Header otimizado */}
       <div className="flex items-center gap-4 mb-6">
         <Button variant="outline" onClick={onBack} size="sm">
