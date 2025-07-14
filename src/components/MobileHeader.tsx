@@ -12,17 +12,17 @@ export const MobileHeader = ({
 }: MobileHeaderProps) => {
   const [hasNotifications] = useState(true);
   return <>
-      <header className="fixed top-0 left-0 right-0 z-40 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-800 border-b border-blue-500/20 safe-area-pt">
-        <div className="px-4 py-3">
+      <header className="fixed top-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-xl border-b border-border/20 safe-area-pt">
+        <div className="px-4 py-3 bg-zinc-950">
           <div className="flex items-center justify-between">
             {/* Logo and Title */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
-                <img src="https://imgur.com/M5Qu1m8.png" alt="I Love Direito" className="w-full h-full object-contain" />
+                <img src="https://imgur.com/M5Qu1m8.png" alt="Direito Premium" className="w-full h-full object-contain" />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-white">I Love Direito</h1>
-                <p className="text-xs text-amber-400">Livraria Jurídica Especializada</p>
+                <h1 className="text-lg font-bold gradient-text">Direito Premium</h1>
+                <p className="text-xs text-muted-foreground">Sua plataforma jurídica</p>
               </div>
             </div>
             

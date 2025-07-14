@@ -77,18 +77,14 @@ export const SuporteTab = () => {
   const submitToSupabase = async (data: any) => {
     try {
       console.log('Enviando dados para Supabase:', data);
-      // Por enquanto vamos salvar localmente já que a tabela suporte_requests não existe
-      // Quando a tabela for criada, descomente a linha abaixo:
-      // const { error } = await supabase.from('suporte_requests').insert([data]);
-      
-      // Simulando sucesso por enquanto
-      console.log('Dados salvos com sucesso no Supabase (simulado)');
-      
-      // Salvando localmente como fallback
-      const existingRequests = JSON.parse(localStorage.getItem('suporte_requests') || '[]');
-      existingRequests.push({ ...data, id: Date.now() });
-      localStorage.setItem('suporte_requests', JSON.stringify(existingRequests));
-      
+      const {
+        error
+      } = await supabase.from('suporte_requests').insert([data]);
+      if (error) {
+        console.error('Erro ao inserir no Supabase:', error);
+        throw error;
+      }
+      console.log('Dados salvos com sucesso no Supabase');
     } catch (error) {
       console.error('Erro detalhado ao enviar para Supabase:', error);
       throw error;

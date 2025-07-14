@@ -2,7 +2,6 @@
 import { FeaturesCarousel } from '@/components/FeaturesCarousel';
 import { FeaturesGrid } from '@/components/FeaturesGrid';
 import { QuickAccessSection } from '@/components/QuickAccessSection';
-import { AudioAulasSection } from '@/components/AudioAulasSection';
 import { AppFunction } from '@/components/AppFunction';
 import { MobileLayout } from '@/components/MobileLayout';
 import { DesktopLayout } from '@/components/DesktopLayout';
@@ -32,9 +31,6 @@ const Index = () => {
 
       {/* Quick Access Section */}
       <QuickAccessSection />
-
-      {/* Audio-aulas Section */}
-      <AudioAulasSection />
 
       {/* Features Grid */}
       <FeaturesGrid />

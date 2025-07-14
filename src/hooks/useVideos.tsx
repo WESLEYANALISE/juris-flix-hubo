@@ -17,31 +17,15 @@ export const useVideos = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        // A tabela VIDEOS não existe no schema atual
-        // Por enquanto, vamos retornar dados mockados
-        setVideos([
-          {
-            id: 1,
-            area: 'Direito Civil',
-            nome: 'Introdução ao Direito Civil',
-            link: 'https://www.youtube.com/watch?v=example1'
-          },
-          {
-            id: 2,
-            area: 'Direito Penal',
-            nome: 'Conceitos Básicos de Direito Penal',
-            link: 'https://www.youtube.com/watch?v=example2'
-          },
-          {
-            id: 3,
-            area: 'Direito Constitucional',
-            nome: 'Princípios Constitucionais',
-            link: 'https://www.youtube.com/watch?v=example3'
-          }
-        ]);
+        const { data, error } = await supabase
+          .from('VIDEOS')
+          .select('id, area, nome, link')
+          .order('area', { ascending: true });
+
+        if (error) throw error;
+        setVideos(data || []);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Erro ao carregar vídeos');
-        console.error('Erro ao buscar vídeos:', err);
       } finally {
         setLoading(false);
       }

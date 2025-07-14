@@ -56,40 +56,53 @@ const availableIcons = [
   File, Archive, Code, Database, Hammer, Edit
 ];
 
-// Quick access functions exactly as shown in the reference image
-const getQuickAccessFunctions = () => {
-  return [
-    {
-      id: 'vade-mecum',
-      funcao: 'Vade Mecum',
-      icon: Scale,
-      color: 'gradient-legal'
-    },
-    {
-      id: 'assistente-ia',
-      funcao: 'Assistente IA',
-      icon: Bot,
-      color: 'gradient-ai'
-    },
-    {
-      id: 'plataforma-desktop',
-      funcao: 'Plataforma Desktop',
-      icon: Monitor,
-      color: 'gradient-study'
-    },
-    {
-      id: 'audio-aulas',
-      funcao: 'Áudio-aulas',
-      icon: Headphones,
-      color: 'gradient-media'
-    },
-    {
-      id: 'bibliografia-juridica',
-      funcao: 'Bibliografia Jurídica',
-      icon: Library,
-      color: 'gradient-docs'
-    }
+// Get first 8 functions in the specified order
+const getMostUsedFunctions = (functions: any[], isDesktop: boolean) => {
+  const orderedFunctionNames = [
+    'Vade Mecum',
+    'Assistente IA',
+    'Downloads', 
+    'Acesso Desktop',
+    'Audio-aulas',
+    'Biblioteca juridica',
+    'resumos jurídicos',
+    'Editar'
   ];
+  
+  const orderedFunctions: any[] = [];
+  
+  // Add functions in the specified order
+  orderedFunctionNames.forEach(name => {
+    // Skip "Acesso Desktop" on desktop version
+    if (isDesktop && name === 'Acesso Desktop') {
+      return;
+    }
+    
+    // Handle "Editar" as a special case
+    if (name === 'Editar') {
+      orderedFunctions.push({
+        id: 'editar-custom',
+        funcao: 'Editar Favoritos',
+        isCustom: true
+      });
+      return;
+    }
+    
+    const func = functions.find(f => 
+      f.funcao.toLowerCase().includes(name.toLowerCase()) ||
+      (name === 'Assistente IA' && f.funcao.toLowerCase().includes('assistente') && f.funcao.toLowerCase().includes('ia')) ||
+      (name === 'Acesso Desktop' && f.funcao.toLowerCase().includes('plataforma') && f.funcao.toLowerCase().includes('desktop')) ||
+      (name === 'Audio-aulas' && (f.funcao.toLowerCase().includes('audio') || f.funcao.toLowerCase().includes('áudio'))) ||
+      (name === 'Biblioteca juridica' && f.funcao.toLowerCase().includes('biblioteca')) ||
+      (name === 'resumos jurídicos' && f.funcao.toLowerCase().includes('resumo')) ||
+      (name === 'video aulas' && f.funcao.toLowerCase().includes('video'))
+    );
+    if (func && !orderedFunctions.includes(func)) {
+      orderedFunctions.push(func);
+    }
+  });
+  
+  return orderedFunctions.slice(0, 8);
 };
 
 const getColorForIndex = (index: number) => {
@@ -131,17 +144,12 @@ export const QuickAccessSection = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleQuickAccess = (funcao: string) => {
-    if (funcao === 'Vade Mecum') {
-      setCurrentFunction('Vade Mecum');
-    } else if (funcao === 'Assistente IA') {
-      setCurrentFunction('Assistente IA');
-    } else if (funcao === 'Plataforma Desktop') {
-      setCurrentFunction('Plataforma Desktop');
-    } else if (funcao === 'Áudio-aulas') {
-      setCurrentFunction('Áudio-aulas');
-    } else if (funcao === 'Bibliografia Jurídica') {
-      setCurrentFunction('Biblioteca jurídica');
+    if (funcao === 'Editar Favoritos') {
+      // Implementar lógica de edição de favoritos no futuro
+      console.log('Abrir editor de favoritos');
+      return;
     }
+    setCurrentFunction(funcao);
   };
 
   const scrollLeft = () => {
@@ -156,9 +164,9 @@ export const QuickAccessSection = () => {
     }
   };
 
-  const quickAccessFunctions = getQuickAccessFunctions();
+  const quickAccessFunctions = getMostUsedFunctions(functions, isDesktop);
 
-  if (quickAccessFunctions.length === 0) {
+  if (loading || quickAccessFunctions.length === 0) {
     return null;
   }
 
@@ -201,7 +209,8 @@ export const QuickAccessSection = () => {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {quickAccessFunctions.map((func, index) => {
-              const Icon = func.icon;
+              const colorClass = getColorForIndex(index);
+              const Icon = getUniqueIconForFunction(func.funcao, index);
               
               return (
                 <div
@@ -213,7 +222,7 @@ export const QuickAccessSection = () => {
                   <div className="flex flex-col items-center gap-2">
                     {/* Enhanced circular button with legal styling and animations */}
                     <div className={`
-                      w-14 h-14 sm:w-16 sm:h-16 rounded-full ${func.color}
+                      w-14 h-14 sm:w-16 sm:h-16 rounded-full ${colorClass}
                       flex items-center justify-center card-depth-2 hover-lift-legal
                       group-hover:scale-110 transition-all duration-500 
                       border border-white/20 group-hover:border-white/50
