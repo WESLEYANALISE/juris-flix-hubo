@@ -106,7 +106,7 @@ export const MobileSidebar = ({ isOpen, onClose }: MobileSidebarProps) => {
             <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg animate-legal-shimmer overflow-hidden">
               <img 
                 src="https://imgur.com/M5Qu1m8.png" 
-                alt="Direito Premium" 
+                alt="Direito" 
                 className="w-full h-full object-contain"
               />
             </div>

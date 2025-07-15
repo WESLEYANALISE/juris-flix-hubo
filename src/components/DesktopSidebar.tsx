@@ -158,12 +158,12 @@ export const DesktopSidebar = ({ collapsed, onToggle }: DesktopSidebarProps) => 
               <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                 <img 
                   src="https://imgur.com/M5Qu1m8.png" 
-                  alt="Direito Premium" 
+                  alt="Direito" 
                   className="w-full h-full object-contain"
                 />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-primary">Direito Premium</h2>
+                <h2 className="text-lg font-bold text-primary">Direito</h2>
                 <p className="text-xs text-muted-foreground">Plataforma Jurídica</p>
               </div>
             </div>
